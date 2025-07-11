@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: https://gitea.k8s.cloufish.xyz/Cloufish/k8s-home-ops.git
+  url: https://github.com/Cloufish/k8s-home-ops.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
