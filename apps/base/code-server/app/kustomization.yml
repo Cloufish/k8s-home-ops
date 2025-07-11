@@ -1,0 +1,3 @@
+resources:
+  - ./release.yml
+  - ./repository.yml

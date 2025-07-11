@@ -1,0 +1,24 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata: 
+  name: ${appName}
+spec:
+  interval: 5m
+  chart:
+    spec: 
+      chart: ${appName}
+      sourceRef: 
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      valuesFiles:
+        - values.yml
+      interval: 1m
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${appName}
+  labels:
+    name: ${appName}
