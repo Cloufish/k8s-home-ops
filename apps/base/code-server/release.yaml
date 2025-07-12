@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata: 
-  name: ${appName}
-  namespace: ${appName}
+  name: ${code_server_app_name}
+  namespace: ${code_server_app_name}
 spec:
-  releaseName: ${appName}
+  releaseName: ${code_server_app_name}
   interval: 5m
   chart:
     spec: 
-      chart: ${appName}
+      chart: ${code_server_app_name}
       sourceRef: 
         kind: HelmRepository
         name: bjw-s-charts
@@ -21,6 +21,6 @@ spec:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${appName}
+  name: ${code_server_app_name}
   labels:
-    name: ${appName}
+    name: ${code_server_app_name}
