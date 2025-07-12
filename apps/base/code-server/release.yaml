@@ -3,18 +3,16 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: bjw-s-charts
+  name: nicholaswilde 
   namespace: ${code_server_app_name}
 spec:
   interval: 12h
-  url: https://bjw-s-labs.github.io/helm-charts/
+  url: https://nicholaswilde.github.io/helm-charts/
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: ${code_server_app_name}
-  labels:
-    name: ${code_server_app_name}
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -29,9 +27,14 @@ spec:
       version: 4.1.x
       sourceRef: 
         kind: HelmRepository
-        name: bjw-s-charts
+        name: nicholaswilde
         namespace: ${code_server_app_name}
-      valuesFiles:
-        - values.yml
       interval: 1m
+      values:
+        image:
+          repository: ghcr.io/linuxserver/code-server
+          pullPolicy: IfNotPresent
+          tag: "4.101.2"
+        ingress: 
+          enabled: true
 
