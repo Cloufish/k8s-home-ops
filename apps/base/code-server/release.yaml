@@ -3,11 +3,11 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: bjw-s-helm-charts
+  name: bjw-s-charts
   namespace: flux-system
 spec:
   interval: 12h
-  url: oci://ghcr.io/bjw-s/helm/
+  url: https://bjw-s-labs.github.io/helm-charts/
 ---
 apiVersion: v1
 kind: Namespace
