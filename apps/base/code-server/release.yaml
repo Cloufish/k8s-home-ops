@@ -22,7 +22,6 @@ metadata:
   name: ${code_server_app_name}
   namespace: ${code_server_app_name}
 spec:
-  releaseName: ${code_server_app_name}
   interval: 5m
   chart:
     spec: 
