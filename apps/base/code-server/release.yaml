@@ -24,17 +24,16 @@ spec:
   chart:
     spec: 
       chart: ${code_server_app_name}
-      version: 4.1.x
       sourceRef: 
         kind: HelmRepository
         name: nicholaswilde
         namespace: ${code_server_app_name}
       interval: 1m
-      values:
-        image:
-          repository: ghcr.io/linuxserver/code-server
-          pullPolicy: IfNotPresent
-          tag: "4.101.2"
-        ingress: 
-          enabled: true
+    values:
+      image:
+        repository: ghcr.io/linuxserver/code-server
+        pullPolicy: IfNotPresent
+        tag: "4.101.2"
+      ingress: 
+        enabled: true
 
