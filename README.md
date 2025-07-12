@@ -1,16 +1,18 @@
-# flux2-kustomize-helm-example
+<div align="center">
 
-[![test](https://github.com/fluxcd/flux2-kustomize-helm-example/workflows/test/badge.svg)](https://github.com/fluxcd/flux2-kustomize-helm-example/actions)
-[![e2e](https://github.com/fluxcd/flux2-kustomize-helm-example/workflows/e2e/badge.svg)](https://github.com/fluxcd/flux2-kustomize-helm-example/actions)
-[![license](https://img.shields.io/github/license/fluxcd/flux2-kustomize-helm-example.svg)](https://github.com/fluxcd/flux2-kustomize-helm-example/blob/main/LICENSE)
+<img src="https://github.com/bjw-s/bjw-s/blob/main/_assets/images/logo.jpg?raw=true" width="144px" height="144px"/>
 
-For this example we assume a scenario with two clusters: staging and production.
-The end goal is to leverage Flux and Kustomize to manage both clusters while minimizing duplicated declarations.
+## My Home Operations repository
 
-We will configure Flux to install, test and upgrade a demo app using
-`HelmRepository` and `HelmRelease` custom resources.
-Flux will monitor the Helm repository, and it will automatically
-upgrade the Helm releases to their latest chart version based on semver ranges.
+_... managed by Flux, and GitHub Actions_ :robot:
+
+
+</div>
+<br>
+This repository is meant for me to configure and manage my cluster.
+And to learn more K8s concepts and GitOps, DevOps 
+I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
+
 ## STEPS TO DEPLOY NEW APPLICATION
 1. In define ${APP_app_name} variable in `clusters/production/apps.yaml` in `postBuild.substitute`
 2. Copy the existing application implementation in `apps/base/APP` and `apps/base/production` (OR `apps/base/staging`)
