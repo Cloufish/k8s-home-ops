@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname code-server # Change this
+  name: &appname code-server
   namespace: flux-system
 spec:
   targetNamespace: *appname
@@ -12,7 +12,7 @@ spec:
   interval: 30m
   timeout: 5m
   prune: true 
-  path: "./kubernetes/apps/programming/code-server/app" # Change this
+  path: "./apps/base/programming/code-server/app"
   sourceRef:
     kind: GitRepository
     name: flux-system
