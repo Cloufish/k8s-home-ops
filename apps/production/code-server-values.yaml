@@ -10,7 +10,7 @@ spec:
   values:
     ingress:
       hosts:
-        - host: *appname.k8s.cloufish.xyz
+        - host: code-server.k8s.cloufish.xyz
           paths:
             - path: /
               pathType: ImplementationSpecific
