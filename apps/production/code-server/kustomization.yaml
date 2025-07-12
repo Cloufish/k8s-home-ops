@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base/code-server
+  - ../../base/code-server/app
 patches:
   - path: code-server-values.yaml
     target:
