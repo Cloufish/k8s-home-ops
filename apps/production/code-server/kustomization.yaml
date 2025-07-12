@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - ../../base/code-server
 patches:
-  - path: podinfo-values.yaml
+  - path: code-server-values.yml
     target:
       kind: HelmRelease
