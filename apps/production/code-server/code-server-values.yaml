@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &appname code-server
-  namespace: *appname
+  name: ${code_server_app_name}
+  namespace: ${code_server_app_name}
 spec:
   chart:
     spec:
