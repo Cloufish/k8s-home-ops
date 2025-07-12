@@ -17,9 +17,9 @@ upgrade the Helm releases to their latest chart version based on semver ranges.
 3. Change name of variables inside `release.yaml` by highlighting APP keyword and using shortcut Ctrl + Shift + L 
 
 > [!IMPORTANT]
-> When deploying infrastructure app there's no distinction between production and staging. 
-> You define your HelmRelease inside `infrastructure/controllers/release.yaml`
-> You need to add a resource to your release.yml inside `infrastructure/controllers/kustomization.yaml`
+> When deploying infrastructure app there's no distinction between production and staging.  
+> You define your HelmRelease inside `infrastructure/controllers/release.yaml`  
+> You need to add a resource to your release.yml inside `infrastructure/controllers/kustomization.yaml`  
 > Additional Resources need to be inside `infrastructure/configs/` and also need to be added to `infrastructure/configs/kustomization.yaml`
 
 ## Prerequisites
