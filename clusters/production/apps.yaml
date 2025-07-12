@@ -29,7 +29,7 @@ spec:
   interval: 30m
   timeout: 5m
   prune: true 
-  path: "./apps/base/programming/code-server/app"
+  path: "./apps/base/code-server"
   sourceRef:
     kind: GitRepository
     name: flux-system
