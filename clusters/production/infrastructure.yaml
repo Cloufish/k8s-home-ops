@@ -43,3 +43,7 @@ spec:
     substitute:
       app_k8s_domain_name: k8s.cloufish.xyz
       default_k8s_cert_name: wildcard-k8s-cert-prod
+  decryption:
+    provider: sops
+    secretRef: 
+      name: sops-age
