@@ -38,4 +38,8 @@ spec:
           value: https://acme-v02.api.letsencrypt.org/directory
       target:
         kind: ClusterIssuer
-        name: letsencrypt
+        name: cloudflare-clusterissuer
+  postBuild:
+    substitute:
+      app_k8s_domain_name: k8s.cloufish.xyz
+      default_k8s_cert_name: wildcard-k8s-cert-prod
