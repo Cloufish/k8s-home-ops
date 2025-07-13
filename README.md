@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="https://github.com/bjw-s/bjw-s/blob/main/_assets/images/logo.jpg?raw=true" width="144px" height="144px"/>
-
 ## My Home Operations repository
 
 _... managed by Flux, and GitHub Actions_ :robot:
