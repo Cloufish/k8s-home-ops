@@ -9,7 +9,7 @@ _... managed by Flux, and GitHub Actions_ :robot:
 <br>
 This repository is meant for me to configure and manage my cluster.
 And to learn more K8s concepts and GitOps, DevOps 
-I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
+I'll try to create my own (Helm Charts)[https://github.com/Cloufish/helm-charts]
 
 ## STEPS TO DEPLOY NEW APPLICATION
 1. In define ${APP_app_name} variable in `clusters/production/apps.yaml` in `postBuild.substitute`
