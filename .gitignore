@@ -1,2 +1,5 @@
 # GitHub actions binaries
 bin/
+*.decrypted~*
+**/*.tmp.yaml
+**/*.tmp.yml
