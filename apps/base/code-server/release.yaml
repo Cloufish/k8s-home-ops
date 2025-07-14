@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 12h
-  url: https://nicholaswilde.github.io/helm-charts/
+  url: https://bjw-s-labs.github.io/helm-charts/
 ---
 apiVersion: v1
 kind: Namespace
