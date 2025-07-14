@@ -14,14 +14,53 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Flux
         uses: fluxcd/flux2/action@main
-      - name: Setup Kubernetes
-        uses: helm/kind-action@v1.7.0
+      - name: Set up Kind cluster
+        uses: helm/kind-action@v1.8.0
         with:
+          version: v0.20.0
           cluster_name: flux
-      - name: Install MetalLB LoadBalancer 
-        run: | 
-          kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
-          kubectl apply -f https://raw.githubusercontent.com/Cloufish/k8s-home-ops/refs/heads/main/metallb-ip-pool.yaml
+          config: |
+            kind: Cluster
+            apiVersion: kind.x-k8s.io/v1alpha4
+            networking:
+              ipFamily: ipv4
+            nodes:
+              - role: control-plane
+            kubeadmConfigPatches:
+              - |
+                kind: InitConfiguration
+                nodeRegistration:
+                  kubeletExtraArgs:
+                    node-labels: "ingress-ready=true"
+
+      - name: Install MetalLB
+        run: |
+          # Apply MetalLB manifests
+          kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
+          
+          # Wait for MetalLB controller to be ready
+          kubectl wait --namespace metallb-system \
+            --for=condition=ready pod \
+            --selector=app=controller \
+            --timeout=20s
+
+          # Configure MetalLB address pool
+          cat <<EOF | kubectl apply -f -
+          apiVersion: metallb.io/v1beta1
+          kind: IPAddressPool
+          metadata:
+            namespace: metallb-system
+            name: default-address-pool
+          spec:
+            addresses:
+              - 192.168.1.240-192.168.1.250
+          ---
+          apiVersion: metallb.io/v1beta1
+          kind: L2Advertisement
+          metadata:
+            namespace: metallb-system
+            name: default-l2-advert
+          EOF
       - name: Install Flux in Kubernetes Kind
         run: flux install
       - name: Setup cluster reconciliation
