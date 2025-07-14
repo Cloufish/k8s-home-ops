@@ -21,11 +21,6 @@ jobs:
       - name: Install MetalLB LoadBalancer 
         run: | 
           kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
-          kubectl wait --namespace metallb \
-              --for=condition=ready pod \
-              --selector=app=controller \
-              --timeout=10s
-
           kubectl apply -f https://raw.githubusercontent.com/Cloufish/k8s-home-ops/refs/heads/main/metallb-ip-pool.yaml
       - name: Install Flux in Kubernetes Kind
         run: flux install
