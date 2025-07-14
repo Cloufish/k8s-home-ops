@@ -18,6 +18,10 @@ jobs:
         uses: helm/kind-action@v1.7.0
         with:
           cluster_name: flux
+      - name: Install MetalLB LoadBalancer 
+        run: | 
+          kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+          kubectl apply -f https://raw.githubusercontent.com/Cloufish/k8s-home-ops/refs/heads/main/metallb-ip-pool.yaml
       - name: Install Flux in Kubernetes Kind
         run: flux install
       - name: Setup cluster reconciliation
@@ -31,6 +35,10 @@ jobs:
           flux create kustomization flux-system \
           --source=flux-system \
           --path=./clusters/staging
+      - name: Verify cluster reconciliation
+        run: |
+          kubectl -n flux-system wait kustomization/infra-controllers --for=condition=ready --timeout=5m
+          kubectl -n flux-system wait kustomization/apps --for=condition=ready --timeout=5m
       - name: Verify helm reconciliation
         run: |
           kubectl -n podinfo wait helmrelease/podinfo --for=condition=ready --timeout=5m
