@@ -5,7 +5,8 @@ metadata:
   namespace: ${code_server_app_name}
 spec:
   chart:
-    spec: {}
+    spec:
+      version: ">=1.0.0"
   values:
     ingress:
       hosts:
