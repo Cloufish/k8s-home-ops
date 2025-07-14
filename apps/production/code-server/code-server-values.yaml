@@ -5,7 +5,7 @@ metadata:
   namespace: ${code_server_app_name}
 spec:
   chart:
-    spec: []
+    spec: {}
   values:
     ingress:
       hosts:
