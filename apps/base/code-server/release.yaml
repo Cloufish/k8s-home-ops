@@ -51,7 +51,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
     controllers:
-      code-server:
+      ${code_server_app_name}:
         annotations:
           reloader.stakater.com/auto: "true"
 
@@ -92,7 +92,7 @@ spec:
 
     service:
       app:
-        controller: code-server
+        controller: ${code_server_app_name}
         type: ClusterIP
         ports:
           http:

@@ -9,7 +9,7 @@ spec:
       version: ">=1.0.0"
   values:
     ingress:
-      code-server:
+      app:
         hosts:
           - host: "${code_server_app_name}.${app_k8s_domain_name}"
             paths:
