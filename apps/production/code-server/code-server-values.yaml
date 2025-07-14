@@ -10,9 +10,10 @@ spec:
   values:
     ingress:
       hosts:
-        host: ${code_server_app_name}.${app_k8s_domain_name}
-        paths:
-          path: /
-          pathType: ImplementationSpecific
+          host: "${code_server_app_name}.${app_k8s_domain_name}"
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
       tls:
-        secretName: ${default_k8s_cert_name}
+        - hosts: "${code_server_app_name}.${app_k8s_domain_name}"
+          secretName: ${default_k8s_cert_name}
