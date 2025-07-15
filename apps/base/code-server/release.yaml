@@ -77,7 +77,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: main
+        controller: app
         type: ClusterIP
         ports:
           http:
