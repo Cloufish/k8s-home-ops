@@ -18,5 +18,5 @@ spec:
         tls:
           - hosts:
               - "${code_server_app_name}.${app_k8s_domain_name}"
-            secretName: ${default_k8s_cert_name}
+            secretName: ${code_server_app_name}-${default_k8s_cert_name}
 
