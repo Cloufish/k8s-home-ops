@@ -29,6 +29,9 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: ${dashy_app_name}
+  install:
+    remediation:
+      retries: 3
   values:
     controllers:
       ${dashy_app_name}:
@@ -89,5 +92,5 @@ spec:
         name: dashy-configmap
         globalMounts:
           - path: /app/user-data/conf.yml
-            subPath: conf.yaml
+            subPath: config.yaml
             readOnly: true

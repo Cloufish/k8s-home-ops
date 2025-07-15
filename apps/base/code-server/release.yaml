@@ -29,6 +29,9 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: ${code_server_app_name}
+  install:
+    remediation:
+      retries: 3
   values:
     controllers:
       ${code_server_app_name}:
