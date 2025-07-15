@@ -103,7 +103,7 @@ spec:
       app:
         className: nginx
         annotations:
-          cert-manager.io/cluster-issuer: cloudflare-clusterissuer
+          cert-manager.io/cluster-issuer: letsencrypt-production
           kubernetes.io/tls-acme: "true"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
