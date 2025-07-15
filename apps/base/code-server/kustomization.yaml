@@ -3,3 +3,5 @@ kind: Kustomization
 namespace: code-server
 resources:
   - ./release.yaml
+  - ./namespace.yaml
+  - ./repository.yaml
