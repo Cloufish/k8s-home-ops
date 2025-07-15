@@ -46,12 +46,12 @@ spec:
               - --disable-telemetry
               - --disable-update-check
               - --user-data-dir
-              - /config/.code-server
+              - /home/coder/.code-server
               - --extensions-dir
-              - /config/.code-server
+              - /home/coder/.code-server
               - --port
               - "8080"
-              - /config
+              - /home/coder/
 
             securityContext:
               allowPrivilegeEscalation: false
@@ -92,3 +92,12 @@ spec:
           kubernetes.io/tls-acme: "true"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        globalMounts:
+          - path: /home/coder
