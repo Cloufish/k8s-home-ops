@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base/${dashy_app_name}
+  - ../../base/dashy
 patches:
-  - path: ${dashy_app_name}-values.yaml
+  - path: dashy-values.yaml
     target:
       kind: HelmRelease

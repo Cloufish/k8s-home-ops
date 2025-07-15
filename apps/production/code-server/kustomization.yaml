@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base/${code_server_app_name}
+  - ../../base/code-server
 patches:
-  - path: ${code_server_app_name}-values.yaml
+  - path: code-server-values.yaml
     target:
       kind: HelmRelease
