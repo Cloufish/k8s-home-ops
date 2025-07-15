@@ -18,8 +18,10 @@ spec:
   postBuild:
     substitute:
       app_k8s_domain_name: k8s.cloufish.xyz
+      app_swarm_domain_name: swarm.cloufish.xyz
       default_k8s_cert_name: wildcard-k8s-cert-prod
       code_server_app_name: code-server
+      dashy_app_name: dashy
   decryption:
     provider: sops
     secretRef: 

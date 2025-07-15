@@ -1,0 +1,324 @@
+# trunk-ignore-all(prettier)
+pageInfo:
+  title: Home Lab
+appConfig:
+  statusCheck: true
+  statusCheckInterval: 60
+  theme: one-dark
+  fontAwesomeKey: c94dc2b452
+  customCss: ".clock p.time { font-size: 3rem !important; }"
+  layout: horizontal
+  iconSize: big
+sections:
+# An array of sections
+- name: Search Browser
+  widgets:
+  - type: custom-search
+    options:
+      placeholder: Search for something using the buttons below
+      engines:
+      - title: SearXNG
+        url: https://searxng.${app_swarm_domain_name}/?q=
+
+- name: Infrastructure/Networking
+  items:
+  - title: Proxmox on NAS
+    statusCheckHeaders: { "rejectUnauthorized": false }
+    description: RAM 32GB, Storage 128GB, 12 vCPUs
+    icon: https://f6.allesedv.com/16/proxmox.com
+    url: https://192.168.1.6:8006
+    statusCheckAllowInsecure: true
+  - title: Proxmox on MiniPC-1
+    statusCheckHeaders: { "rejectUnauthorized": false }
+    description: RAM 8GB, Storage 512GB, 4 vCPUs
+    icon: https://f6.allesedv.com/16/proxmox.com
+    url: https://192.168.1.5:8006
+    statusCheckAllowInsecure: true
+  - title: Proxmox on MiniPC-2
+    statusCheckHeaders: { "rejectUnauthorized": false }
+    description: RAM 32GB, Storage 512GB, 6 vCPUs
+    icon: https://f6.allesedv.com/16/proxmox.com
+    url: https://192.168.1.7:8006
+    statusCheckAllowInsecure: true
+  - title: Proxmox on MiniPC-3
+    statusCheckHeaders: { "rejectUnauthorized": false }
+    description: RAM 16GB, Storage 512GB, 4 vCPUs
+    icon: https://f6.allesedv.com/16/proxmox.com
+    url: https://192.168.1.8:8006
+    statusCheckAllowInsecure: true
+  - title: PiHole-1
+    icon: hl-pihole
+    description: On Raspberry Pi Zero
+    url: http://192.168.1.2/admin
+  - title: PiHole-2
+    icon: hl-pihole
+    description: On Raspberry Pi Zero
+    url: http://192.168.1.3/admin
+  - title: Traefik-Swarm
+    icon: https://traefik.io/favicon.svg
+    url: https://traefik.${app_swarm_domain_name}
+    description: Traefik for Docker Swarm
+    statusCheck: false
+  - title: Portainer-Swarm
+    icon: https://www.portainer.io/hubfs/crane-icon.svg
+    url: https://portainer.${app_swarm_domain_name}
+    description: For quick container troubleshooting :)
+  - title: Traefik-K8s
+    icon: https://traefik.io/favicon.svg
+    url: https://traefik.{{app_k8s_domain_name}}
+    description: Traefik for K8s
+  - title: HAProxy Stats
+    icon: https://traefik.io/favicon.svg
+    url: http://192.168.1.160:8443/stats
+    description: Statistics, Monitoring for HAPRoxy
+    statusCheck: false
+  - title: Portainer-K8s
+    icon: https://www.portainer.io/hubfs/crane-icon.svg
+    url: https://portainer.{{app_k8s_domain_name}}
+  - title: Portainer-K8s
+    icon: hl-cert-manager
+    url: https://cert-manager.{{app_k8s_domain_name}}
+    description: For quick troubleshooting :)
+  - title: Whats Up Docker
+    description: Service that monitors newest Docker images version
+    icon: https://whatsupdocker.${app_swarm_domain_name}/img/icons/android-chrome-192x192.png
+    url: https://whatsupdocker.${app_swarm_domain_name}
+  - title: TrueNAS
+    description: As Virtual Machine on my NAS Server
+    icon: https://www.truenas.com/wp-content/uploads/2020/08/cropped-TN-favicon-100x100.png
+    url: https://truenas.home
+    statusCheckAllowInsecure: true
+  - title: Duplicati-Swarm
+    icon: https://duplicati.${app_swarm_domain_name}/img/logo.png
+    url: https://duplicati.${app_swarm_domain_name}/
+    description: For doing Backups
+  - title: Duplicati-K8s
+    icon: https://duplicati.${app_swarm_domain_name}/img/logo.png
+    url: https://duplicati.${app_swarm_domain_name}/
+- name: Monitoring
+  items:
+  - title: Grafana Swarm
+    icon: hl-grafana
+    url: https://grafana.${app_swarm_domain_name}
+    description: Monitoring in Docker Swarm
+  - title: Grafana Alloy Swarm
+    icon: hl-grafana
+    url: https://grafana.${app_swarm_domain_name}
+    description: OpenTelemetry Collector distribution with built-in Prometheus pipelines and support for metrics, logs, traces, and profiles.
+  - title: Loki Swarm
+    icon: hl-grafana
+    url: https://loki.${app_swarm_domain_name}/loki/api/v1/push
+    description: like Prometheus, but for logs.
+    statusCheckAcceptCodes: "405"
+  - title: Prometheus Swarm
+    icon: hl-prometheus
+    url: https://prometheus.${app_swarm_domain_name}
+    description: collects metrics from configured targets at given intervals, evaluates rule expressions, displays the results, and can trigger alerts when specified conditions are observed.
+  - title: Alert Manager Swarm
+    icon: hl-alertmanager
+    url: https://alertmanager.${app_swarm_domain_name}
+    description: For managing Prometheus Alerts
+  - title: Karma Alert Dashboard
+    icon: https://karma.swarm.cloufish.xyz/favicon.ico
+    url: https://karma.${app_swarm_domain_name}
+    description: Dashboard for Prometheus Alerts
+  - title: Grafana & Loki K8s
+    icon: https://grafana.${app_swarm_domain_name}/public/img/grafana_icon.svg
+    url: https://grafana.{{app_k8s_domain_name}}
+  - title: Prometheus K8s
+    icon: https://prometheus.io/assets/favicons/favicon.ico
+    url: https://prometheus.{{app_k8s_domain_name}}
+  - title: Zabbix
+    # - title: Uptime-Kuma
+    #   url: https://kuma.${app_swarm_domain_name}
+    #   icon: https://uptime.kuma.pet/img/icon.svg
+    #   description: Monitor the uptime of API's, endpoints
+    description: Work in Progress
+    icon: https://assets.zabbix.com/img/favicon.ico
+    url: https://zabbix.${app_swarm_domain_name}
+  - title: ELK Stack
+    description: Work in Progress
+    icon: favicon
+    url: https://kibana.${app_swarm_domain_name}
+- name: Dev/Programming
+  items:
+  - title: VSCodium
+    icon: hl-code
+    url: https://gitea.${app_k8s_domain_name}
+    description: For programming environment
+  - title: Gitea
+    icon: hl-gitea
+    url: https://gitea.${app_swarm_domain_name}
+    description: Self-Hosted GitHub/GitLab
+  - title: Composerize
+    icon: hl-docker-compose
+    description: Turn your docker commands into docker-compose format!
+    url: https://composerize.${app_swarm_domain_name}
+  - title: DSOMM
+    description: DevSecOps Maturity Model for measuring and improving IT Security
+    icon: https://owasp.org/www--site-theme/favicon.ico
+    url: https://dsomm.${app_swarm_domain_name}
+- name: Documentation
+  items:
+  - title: Devdocs
+    icon: hl-mkdocs
+    url: https://devdocs.${app_swarm_domain_name}
+    description: Self-Hosted Devdocs
+  - title: Proxmox Docs
+    icon: hl-proxmox
+    url: https://192.168.1.6:8006/pve-docs/index.html
+    statusCheckHeaders: { "rejectUnauthorized": false }
+    statusCheckAllowInsecure: true
+    description: Self-Hosted Proxmox Docs
+  - title: K8s Docs
+    icon: hl-kubernetes
+    url: https://k8s-docs.${app_swarm_domain_name}
+    description: Self-Hosted K8s Docs
+  - title: K3s Docs WIP
+    icon: hl-kubernetes
+    url: https://k3s-docs.${app_swarm_domain_name}
+    description: Self-Hosted K3s Docs
+  - title: Traefik Docs
+    icon: hl-traefik
+    url: https://traefik-docs.${app_swarm_domain_name}
+    description: Self-Hosted Traefik Docs
+  # - title: Rust Async Book
+  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
+  #   url: https://rust-async.${app_swarm_domain_name}
+  # - title: Rust Book
+  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
+  #   url: https://rust-book.${app_swarm_domain_name}
+  # - title: Rust Discovery
+  #   description: Introductory course on microcontroller-based embedded systems that uses Rust
+  #   url: https://rust-discovery.${app_swarm_domain_name}
+  # - title: Rust Embedded
+  #   description: An introductory book about using the Rust Programming Language on "Bare Metal" embedded systems
+  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
+  #   url: https://rust-embedded.${app_swarm_domain_name}
+  # - title: Rust ESP
+  #   description: Introductory course on ESP microcontroller-based embedded systems that uses Rust
+  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
+  #   url: https://rust-esp.${app_swarm_domain_name}
+  # - title: Rust By Example
+  #   description: A collection of runnable examples that illustrate various Rust concepts and standard libraries.
+  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
+  #   url: https://rust-example.${app_swarm_domain_name}
+  # - title: The Rustonomicon
+  #   description: The Rustonomicon digs into all the awful details that you need to understand when writing Unsafe Rust programs.
+  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
+  #   url: https://rust-nomicon.${app_swarm_domain_name}
+  # - title: Writing an OS in Rust
+  #   description: This blog series creates a small operating system in the Rust programming language
+  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
+  #   url: https://rust-os.${app_swarm_domain_name}
+- name: Media
+  items:
+  # An array of items
+  - title: Jellyfin
+    description: For all Movies, TV Series
+    icon: hl-jellyfin
+    url: https://jellyfin.${app_swarm_domain_name}/
+  - title: Audiobookshelf
+    description: For all Audiobooks, Podcasts
+    icon: hl-audiobookshelf
+    url: https://audiobookshelf.${app_swarm_domain_name}/
+  - title: Syncthing
+    description: Service to synchronize Music, Musicals, Podcasts, Photos with Phone's SD Card
+    icon: hl-syncthing
+    url: https://syncthing.${app_swarm_domain_name}
+  - title: Podgrab-DE
+    description: Service to download newest German Podcast episodes
+    icon: hl-google-podcasts
+    url: https://podgrab-de.${app_swarm_domain_name}
+- name: Other
+  items:
+  - title: ChatGPT
+    description: Self-Hosted Frontend for ChatGPT
+    icon: hl-chatgpt
+    url: https://chatgpt.${app_swarm_domain_name}
+  - title: Vaultwarden
+    description: Self-Hosted Bitwarden
+    icon: hl-bitwarden
+    url: https://vaultwarden.${app_swarm_domain_name}
+  # - title: FireflyIII
+  #   description: WebApp to control and monitor your Finances
+  #   icon: hl-firefly
+  #   url: https://fireflyiii.${app_swarm_domain_name}
+  # - title: FireflyIII-Importer
+  #   description: WebApp to control and monitor your Finances
+  #   icon: hl-firefly
+  #   url: https://fireflyiii-importer.${app_swarm_domain_name}
+  # - title: FireflyIII-Pico
+  #   description: WebApp to control and monitor your Finances
+  #   icon: hl-firefly
+  #   url: https://fireflyiii-pico.${app_swarm_domain_name}
+  - title: Kiwix
+    description: Offline Wikipedia, StackOverflow Viewer in .zim format
+    icon: hl-kiwix
+    url: https://kiwix.${app_swarm_domain_name}
+  - title: languagetool
+    description: Grammarly, but for multiple languages and free
+    icon: https://languagetool.org/images/logo_color.svg?6b4c3eb171397ee0e2ba758a9e106891
+    url: https://languagetool.${app_swarm_domain_name}/v2/languages
+    StatusCheckHeaders: { Accept: application/json }
+  - title: Tandoor Recipes
+    description: Application to plan and create dish recipes
+    icon: hl-tandoor
+    url: https://tandoor.${app_swarm_domain_name}
+  - title: Anki Server
+    description: Anki Server for Syncing Flashcards without Internet
+    icon: https://ankiweb.net/logo.png
+    url: https://anki-server.${app_swarm_domain_name}/sync/meta
+    statusCheckAcceptCodes: "405"
+  widgets:
+  - type: joke
+    options:
+      safeMode: true
+      language: pl
+      category: Programming
+  - type: github-trending-repos
+    options:
+      limit: 8
+      since: monthly
+- name: Arr
+  items:
+  - title: qBittorrent
+    description: For downloading Linux ISO images (only that!!!)
+    icon: hl-qbittorrent
+    url: https://qbittorrent.${app_swarm_domain_name}/
+  - title: Sonarr
+    description: For tracking New Releases of TV Series
+    icon: hl-sonarr
+    url: https://sonarr.${app_swarm_domain_name}/
+  - title: Radarr
+    description: For tracking New Releases of Movies
+    icon: hl-radarr
+    url: https://radarr.${app_swarm_domain_name}/
+  - title: Lidarr
+    description: For tracking New Releases of Music
+    icon: hl-lidarr
+    url: https://lidarr.${app_swarm_domain_name}/
+  - title: Lidify
+    description: Get new Music, Artists recomendations based on lidarr artists
+    icon: https://lidify.swarm.cloufish.xyz/static/lidarr.svg
+    url: https://lidify.${app_swarm_domain_name}/
+  - title: Beets
+    description: For finding music metadata, organizing and tagging
+    icon: hl-beets
+    url: https://beets.${app_swarm_domain_name}/
+  - title: Bazarr
+    description: For downloading subtitles
+    icon: hl-bazarr
+    url: https://bazarr.${app_swarm_domain_name}/
+  - title: Jellyseerr
+    description: For requesting new content
+    icon: hl-jellyseerr
+    url: https://jellyseerr.${app_swarm_domain_name}/
+  - title: Prowlarr
+    description: For managing Torrent, Usenet Trackers
+    icon: hl-prowlarr
+    url: https://prowlarr.${app_swarm_domain_name}/
+  - title: Flaresolverr
+    description: For bypassing Cloudflare Protection and Captchas
+    icon: hl-flaresolverr
+    url: https://flaresolverr.${app_swarm_domain_name}/

@@ -41,6 +41,7 @@ spec:
         name: letsencrypt-production
   postBuild:
     substitute:
+      app_swarm_domain_name: swarm.cloufish.xyz
       app_k8s_domain_name: k8s.cloufish.xyz
       default_k8s_cert_name: wildcard-k8s-cert-prod
   decryption:

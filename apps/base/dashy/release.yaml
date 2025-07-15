@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: bjw-s-charts
-  namespace: ${code_server_app_name}
+  namespace: ${dashy_app_name}
 spec:
   interval: 12h
   url: https://bjw-s-labs.github.io/helm-charts/
@@ -11,14 +11,14 @@ spec:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${code_server_app_name}
+  name: ${dashy_app_name}
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ${code_server_app_name}
-  namespace: ${code_server_app_name}
+  name: ${dashy_app_name}
+  namespace: ${dashy_app_name}
 spec:
   interval: 30m
   chart:
@@ -28,35 +28,21 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
-        namespace: ${code_server_app_name}
+        namespace: ${dashy_app_name}
   values:
     controllers:
-      ${code_server_app_name}:
+      ${dashy_app_name}:
         annotations:
           reloader.stakater.com/auto: "true"
-
         containers:
           app:
             image:
-              repository: ghcr.io/coder/code-server
-              tag: 4.101.2@sha256:5f654c1137f8d87c8cf44253318bf94b85f6f9129e426a9956da46eb602dcc5a
+              repository: ghcr.io/lissy93/dashy
+              tag: 3.1.0@sha256:e0e4d344f9be6d6f0061bb4f5368efd5034e8f2cec886d8afefc89a76be830d4
             env: 
               TZ: Europe/Warsaw
               UID: 1000
               GID: 1000
-            args:
-              - --auth
-              - none
-              - --disable-telemetry
-              - --disable-update-check
-              - --user-data-dir
-              - /home/coder/.code-server
-              - --extensions-dir
-              - /home/coder/.code-server
-              - --port
-              - "8080"
-              - /home/coder/
-
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
@@ -81,7 +67,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: ${code_server_app_name}
+        controller: ${dashy_app_name}
         type: ClusterIP
         ports:
           http:
@@ -98,10 +84,10 @@ spec:
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
     
     persistence:
-      config:
-        enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 10Gi
+      config-file:
+        type: configMap
+        name: dashy-configmap
         globalMounts:
-          - path: /home/coder
+          - path: /app/user-data/conf.yml
+            subPath: conf.yaml
+            readOnly: true
