@@ -87,5 +87,5 @@ spec:
         name: dashy-configmap
         globalMounts:
           - path: /app/user-data/conf.yml
-            subPath: config.yaml
+            subPath: config.yaml # Needs to match configMapGenerator.files in kustomization.yaml
             readOnly: true
