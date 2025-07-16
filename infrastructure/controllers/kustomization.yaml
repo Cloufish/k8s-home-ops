@@ -5,3 +5,5 @@ resources:
   - ingress-nginx.yaml
   - cloudnative-pg.yaml
   - prometheus-operator.yaml
+  - k8up-crd-4-8-4.yaml
+  - k8up.yaml
