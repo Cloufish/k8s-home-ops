@@ -33,10 +33,6 @@ spec:
       interval: 12h 
   values: 
     grafana: 
-      adminPassword:             
-        apiTokenSecretRef:
-          name: grafana-secret
-          key: grafana-password
       ingress: 
         enabled: true 
         ingressClassName: nginx
