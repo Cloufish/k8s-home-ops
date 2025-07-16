@@ -104,7 +104,7 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
+        accessMode: ReadWriteMany
         size: 10Gi
         globalMounts:
           - path: /home/coder

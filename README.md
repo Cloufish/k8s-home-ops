@@ -11,6 +11,55 @@ This repository is meant for me to configure and manage my cluster.
 And to learn more K8s concepts and GitOps, DevOps 
 I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 
+### INFRASTRUCTURE 
+<table>
+    <tr>
+        <th>Logo</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/cert-manager.svg"></td>
+        <td><a href="https://cert-manager.io/">Cert Manager</a></td>
+        <td>X.509 certificate management for Kubernetes.</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://raw.githubusercontent.com/flannel-io/flannel/refs/heads/master/logos/flannel-glyph-color.png"></td>
+        <td><a href="https://github.com/flannel-io/flannel">Flannel</a></td>
+        <td>My CNI of choice, used on all clusters</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/cloudflare-zero-trust.png"></td>
+        <td><a href="https://developers.cloudflare.com/cloudflare-one/">Cloudflare Zero Trust</a></td>
+        <td>Used for private tunnels to expose public services (without requiring a public IP).</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/postgresql.svg"></td>
+        <td><a href="https://cloudnative-pg.io/">CloudNativePG</a></td>
+        <td>Database operator for running PostgreSQL clusters</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://getsops.io/favicons/favicon.ico"></td>
+        <td><a href="https://getsops.io/">SOPS and AGE Encryption</a></td>
+        <td>Used to encrypt secrets used by this repository</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/flux-cd.svg"></td>
+        <td><a href="https://fluxcd.io/">Flux CD</a></td>
+        <td>My GitOps solution of choice. For K8s Administrator it's better than ArgoCD.</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://prometheus-operator.dev/favicon.svg"></td>
+        <td><a href="https://prometheus-operator.dev/">Prometheus Operator</a></td>
+        <td>Manages deploying Prometheus, Grafana, AlertManager in my cluster</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://www.svgrepo.com/download/374041/renovate.svg"></td>
+        <td><a href="https://github.com/renovatebot/renovate">Renovate</a></td>
+        <td>Automated dependency updates.</td>
+    </tr>
+</table>
+
 ### STEPS TO DEPLOY NEW APPLICATION
 1. Define `${APP_app_name}` variable in `clusters/production/apps.yaml` in `postBuild.substitute`
 2. Copy the existing application implementation in `apps/base/APP` and `apps/base/production` (OR `apps/base/staging`)
