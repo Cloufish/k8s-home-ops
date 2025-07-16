@@ -144,12 +144,8 @@ sections:
   items:
   - title: VSCodium
     icon: hl-code
-    url: https://gitea.${app_k8s_domain_name}
+    url: https://code-server.${app_k8s_domain_name}
     description: For programming environment
-  - title: Gitea
-    icon: hl-gitea
-    url: https://gitea.${app_swarm_domain_name}
-    description: Self-Hosted GitHub/GitLab
   - title: Composerize
     icon: hl-docker-compose
     description: Turn your docker commands into docker-compose format!
@@ -218,10 +214,6 @@ sections:
     description: For all Movies, TV Series
     icon: hl-jellyfin
     url: https://jellyfin.${app_swarm_domain_name}/
-  - title: Audiobookshelf
-    description: For all Audiobooks, Podcasts
-    icon: hl-audiobookshelf
-    url: https://audiobookshelf.${app_swarm_domain_name}/
   - title: Syncthing
     description: Service to synchronize Music, Musicals, Podcasts, Photos with Phone's SD Card
     icon: hl-syncthing

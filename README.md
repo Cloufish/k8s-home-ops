@@ -31,3 +31,25 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 4. In your `$HOME/.bashrc` set `export SOPS_AGE_KEY_FILE="/home/cloufish/.config/sops/age/age.agekey"` 
 5. Use `sops decrypt secrets.yaml --output=secrets.yaml` or `sops encrypt secrets.yaml --output=secrets.yaml`
 6. However, **even better option** is to use VSCode Extension to automatically (This is tricky in Windows environment)
+
+### TODO: 
+- [ ] Vaultwarden 
+- [ ] Uptime Kuma
+- [ ] Grafana
+- [ ] Prometheus 
+- [ ] Loki 
+- [ ] OAuth 2.0 for Code Server 
+- [ ] MFA with Authelia for Code Server
+- [ ] languagetool 
+- [ ] Blocky DNS Server
+- [ ] Searxng 
+- [ ] Compozerize 
+- [ ] DSOMM 
+- [ ] Devdocs
+- [ ] Home Assistant
+- [ ] n8n
+- [ ] pgadmin
+- [ ] commafeed
+- [ ] ReadLater
+- [ ] ChatGPT Frontend
+- [ ] Lidify

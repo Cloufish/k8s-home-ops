@@ -4,7 +4,7 @@
 # Flux custom resources and the kustomize overlays using kubeconform.
 # This script is meant to be run locally and in CI before the changes
 # are merged on the main branch that's synced by Flux.
-# Test
+
 # Copyright 2023 The Flux authors. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
