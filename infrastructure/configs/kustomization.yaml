@@ -4,3 +4,4 @@ resources:
   - ./cluster-issuers.yaml
   - ./cloudflare-secret.yaml
   - ./grafana-secret.yaml
+  - ./aws-s3-secret.yaml
