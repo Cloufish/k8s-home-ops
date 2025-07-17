@@ -114,7 +114,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [X] Alert Manager
 - [ ] Loki with Grafana-Operator
 - [ ] **OAuth 2.0 for Code Server** 
-- [ ] **MFA with Authelia for Code Server**
 - [ ] languagetool 
 - [ ] Blocky DNS Server
 - [ ] Searxng 
