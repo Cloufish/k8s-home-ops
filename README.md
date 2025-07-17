@@ -88,16 +88,15 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 
 ### TODO: 
 - [ ] **Renovate**
-- [ ] **Rook-Ceph**
-- [ ] **Volsync** (For Backup)
+ -[X] longhorn
 - [ ] Vaultwarden 
 - [ ] Uptime Kuma
 - [X] Grafana
 - [X] Prometheus 
 - [X] Alert Manager
-- [ ] Loki 
-- [ ] OAuth 2.0 for Code Server 
-- [ ] MFA with Authelia for Code Server
+- [ ] Loki with Grafana-Operator
+- [ ] **OAuth 2.0 for Code Server** 
+- [ ] **MFA with Authelia for Code Server**
 - [ ] languagetool 
 - [ ] Blocky DNS Server
 - [ ] Searxng 
