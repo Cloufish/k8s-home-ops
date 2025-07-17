@@ -39,6 +39,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <td>Database operator for running PostgreSQL clusters</td>
     </tr>
     <tr>
+        <td><img width="32" src="https://oauth2-proxy.github.io/oauth2-proxy/img/logos/OAuth2_Proxy_icon.svg"></td>
+        <td><a href="https://oauth2-proxy.github.io/oauth2-proxy">OAuth2-Proxy</a></td>
+        <td>Simple Middleware that provides authentication using Identity Providers like Google, GitHub</td>
+    </tr>
+    <tr>
         <td><img width="32" src="https://getsops.io/favicons/favicon.ico"></td>
         <td><a href="https://getsops.io/">SOPS and AGE Encryption</a></td>
         <td>Used to encrypt secrets used by this repository</td>
@@ -56,7 +61,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     <tr>
         <td><img width="32" src="https://www.svgrepo.com/download/374041/renovate.svg"></td>
         <td><a href="https://github.com/renovatebot/renovate">Renovate</a></td>
-        <td>Automated dependency updates.</td>
+        <td>Automated dependency updates through pull requests on GitHub</td>
     </tr>
     <tr>
         <td><img width="32" src="https://github.com/longhorn/website/blob/master/static/favicon.png"></td>
@@ -71,7 +76,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     <tr>
         <td><img width="32" src="https://www.truenas.com/wp-content/uploads/2020/08/cropped-TN-favicon-100x100.png"></td>
         <td><a href="https://www.truenas.com/">TrueNAS Core</a></td>
-        <td>For Storing Backups on-premise with NFS Protocol</td>
+        <td>For Storing Backups on-premise with NFSv4 Protocol</td>
     </tr>
 </table>
 
