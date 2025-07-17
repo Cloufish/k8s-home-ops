@@ -7,3 +7,5 @@ configMapGenerator:
   - name: dashy-configmap
     files:
       - config.yaml=./resources/config.yaml
+generatorOptions:
+  disableNameSuffixHash: true
