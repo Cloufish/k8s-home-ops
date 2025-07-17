@@ -42,8 +42,11 @@ spec:
         cert-manager.io/cluster-issuer: letsencrypt-production
         kubernetes.io/tls-acme: "true"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/ssl-redirect: "true"        
---- 
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"     
+    defaultBackupStore: 
+      backupTarget: s3://cloufish-k8s-at-home@eu-north-1/
+      backupTargetCredentialSecret: aws-s3-secret
+---   
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:

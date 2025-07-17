@@ -59,7 +59,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <td>Automated dependency updates.</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://github.com/longhorn/website/blob/master/static/img/logos/longhorn-stacked-color.png"></td>
+        <td><img width="32" src="https://github.com/longhorn/website/blob/master/static/favicon.png"></td>
         <td><a href="https://longhorn.io/">Longhorn</a></td>
         <td>A distributed block storage system for Kubernetes with built-in Backups and Snapshots mechanism</td>
     </tr>
@@ -87,8 +87,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 6. However, **even better option** is to use VSCode Extension to automatically (This is tricky in Windows environment)
 
 ### TODO: 
-- [ ] **Renovate**
- -[X] longhorn
+- [X] **Renovate**
+- [X] longhorn
+- [ ] Backups 
+    - [ ] To S3 Bucket
+    - [ ] To NFS Storage 
 - [ ] Vaultwarden 
 - [ ] Uptime Kuma
 - [X] Grafana
