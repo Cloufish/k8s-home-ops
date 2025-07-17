@@ -1,540 +1,2102 @@
-# Default values for longhorn.
+# Default values for prometheus-operator.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-global:
-  # -- Toleration for nodes allowed to run user-deployed components such as Longhorn Manager, Longhorn UI, and Longhorn Driver Deployer.
-  tolerations: []
-  # -- Node selector for nodes allowed to run user-deployed components such as Longhorn Manager, Longhorn UI, and Longhorn Driver Deployer.
-  nodeSelector: {}
-  cattle:
-    # -- Default system registry.
-    systemDefaultRegistry: ""
-    windowsCluster:
-      # -- Setting that allows Longhorn to run on a Rancher Windows cluster.
-      enabled: false
-      # -- Toleration for Linux nodes that can run user-deployed Longhorn components.
-      tolerations:
-        - key: "cattle.io/os"
-          value: "linux"
-          effect: "NoSchedule"
-          operator: "Equal"
-      # -- Node selector for Linux nodes that can run user-deployed Longhorn components.
-      nodeSelector:
-        kubernetes.io/os: "linux"
-      defaultSetting:
-        # -- Toleration for system-managed Longhorn components.
-        taintToleration: cattle.io/os=linux:NoSchedule
-        # -- Node selector for system-managed Longhorn components.
-        systemManagedComponentsNodeSelector: kubernetes.io/os:linux
-networkPolicies:
-  # -- Setting that allows you to enable network policies that control access to Longhorn pods.
-  enabled: false
-  # -- Distribution that determines the policy for allowing access for an ingress. (Options: "k3s", "rke2", "rke1")
-  type: "k3s"
-image:
-  longhorn:
-    engine:
-      # -- Repository for the Longhorn Engine image.
-      repository: longhornio/longhorn-engine
-      # -- Tag for the Longhorn Engine image.
-      tag: v1.9.0
-    manager:
-      # -- Repository for the Longhorn Manager image.
-      repository: longhornio/longhorn-manager
-      # -- Tag for the Longhorn Manager image.
-      tag: v1.9.0
-    ui:
-      # -- Repository for the Longhorn UI image.
-      repository: longhornio/longhorn-ui
-      # -- Tag for the Longhorn UI image.
-      tag: v1.9.0
-    instanceManager:
-      # -- Repository for the Longhorn Instance Manager image.
-      repository: longhornio/longhorn-instance-manager
-      # -- Tag for the Longhorn Instance Manager image.
-      tag: v1.9.0
-    shareManager:
-      # -- Repository for the Longhorn Share Manager image.
-      repository: longhornio/longhorn-share-manager
-      # -- Tag for the Longhorn Share Manager image.
-      tag: v1.9.0
-    backingImageManager:
-      # -- Repository for the Backing Image Manager image. When unspecified, Longhorn uses the default value.
-      repository: longhornio/backing-image-manager
-      # -- Tag for the Backing Image Manager image. When unspecified, Longhorn uses the default value.
-      tag: v1.9.0
-    supportBundleKit:
-      # -- Repository for the Longhorn Support Bundle Manager image.
-      repository: longhornio/support-bundle-kit
-      # -- Tag for the Longhorn Support Bundle Manager image.
-      tag: v0.0.55
-  csi:
-    attacher:
-      # -- Repository for the CSI attacher image. When unspecified, Longhorn uses the default value.
-      repository: longhornio/csi-attacher
-      # -- Tag for the CSI attacher image. When unspecified, Longhorn uses the default value.
-      tag: v4.8.1
-    provisioner:
-      # -- Repository for the CSI Provisioner image. When unspecified, Longhorn uses the default value.
-      repository: longhornio/csi-provisioner
-      # -- Tag for the CSI Provisioner image. When unspecified, Longhorn uses the default value.
-      tag: v5.2.0
-    nodeDriverRegistrar:
-      # -- Repository for the CSI Node Driver Registrar image. When unspecified, Longhorn uses the default value.
-      repository: longhornio/csi-node-driver-registrar
-      # -- Tag for the CSI Node Driver Registrar image. When unspecified, Longhorn uses the default value.
-      tag: v2.13.0
-    resizer:
-      # -- Repository for the CSI Resizer image. When unspecified, Longhorn uses the default value.
-      repository: longhornio/csi-resizer
-      # -- Tag for the CSI Resizer image. When unspecified, Longhorn uses the default value.
-      tag: v1.13.2
-    snapshotter:
-      # -- Repository for the CSI Snapshotter image. When unspecified, Longhorn uses the default value.
-      repository: longhornio/csi-snapshotter
-      # -- Tag for the CSI Snapshotter image. When unspecified, Longhorn uses the default value.
-      tag: v8.2.0
-    livenessProbe:
-      # -- Repository for the CSI liveness probe image. When unspecified, Longhorn uses the default value.
-      repository: longhornio/livenessprobe
-      # -- Tag for the CSI liveness probe image. When unspecified, Longhorn uses the default value.
-      tag: v2.15.0
-  openshift:
-    oauthProxy:
-      # -- Repository for the OAuth Proxy image. Specify the upstream image (for example, "quay.io/openshift/origin-oauth-proxy"). This setting applies only to OpenShift users.
-      repository: ""
-      # -- Tag for the OAuth Proxy image. Specify OCP/OKD version 4.1 or later (including version 4.15, which is available at quay.io/openshift/origin-oauth-proxy:4.15). This setting applies only to OpenShift users.
-      tag: ""
-  # -- Image pull policy that applies to all user-deployed Longhorn components, such as Longhorn Manager, Longhorn driver, and Longhorn UI.
-  pullPolicy: IfNotPresent
-service:
-  ui:
-    # -- Service type for Longhorn UI. (Options: "ClusterIP", "NodePort", "LoadBalancer", "Rancher-Proxy")
-    type: ClusterIP
-    # -- NodePort port number for Longhorn UI. When unspecified, Longhorn selects a free port between 30000 and 32767.
-    nodePort: null
-  manager:
-    # -- Service type for Longhorn Manager.
-    type: ClusterIP
-    # -- NodePort port number for Longhorn Manager. When unspecified, Longhorn selects a free port between 30000 and 32767.
-    nodePort: ""
-persistence:
-  # -- Setting that allows you to specify the default Longhorn StorageClass.
-  defaultClass: true
-  # -- Filesystem type of the default Longhorn StorageClass.
-  defaultFsType: ext4
-  # -- mkfs parameters of the default Longhorn StorageClass.
-  defaultMkfsParams: ""
-  # -- Replica count of the default Longhorn StorageClass.
-  defaultClassReplicaCount: 3
-  # -- Data locality of the default Longhorn StorageClass. (Options: "disabled", "best-effort")
-  defaultDataLocality: disabled
-  # -- Reclaim policy that provides instructions for handling of a volume after its claim is released. (Options: "Retain", "Delete")
-  reclaimPolicy: Delete
-  # -- VolumeBindingMode controls when volume binding and dynamic provisioning should occur. (Options: "Immediate", "WaitForFirstConsumer") (Defaults to "Immediate")
-  volumeBindingMode: "Immediate"
-  # -- Setting that allows you to enable live migration of a Longhorn volume from one node to another.
-  migratable: false
-  # -- Setting that disables the revision counter and thereby prevents Longhorn from tracking all write operations to a volume. When salvaging a volume, Longhorn uses properties of the volume-head-xxx.img file (the last file size and the last time the file was modified) to select the replica to be used for volume recovery.
-  disableRevisionCounter: "true"
-  # -- Set NFS mount options for Longhorn StorageClass for RWX volumes
-  nfsOptions: ""
-  recurringJobSelector:
-    # -- Setting that allows you to enable the recurring job selector for a Longhorn StorageClass.
-    enable: false
-    # -- Recurring job selector for a Longhorn StorageClass. Ensure that quotes are used correctly when specifying job parameters. (Example: `[{"name":"backup", "isGroup":true}]`)
-    jobList: []
-  backingImage:
-    # -- Setting that allows you to use a backing image in a Longhorn StorageClass.
-    enable: false
-    # -- Backing image to be used for creating and restoring volumes in a Longhorn StorageClass. When no backing images are available, specify the data source type and parameters that Longhorn can use to create a backing image.
-    name: ~
-    # -- Data source type of a backing image used in a Longhorn StorageClass.
-    # If the backing image exists in the cluster, Longhorn uses this setting to verify the image.
-    # If the backing image does not exist, Longhorn creates one using the specified data source type.
-    dataSourceType: ~
-    # -- Data source parameters of a backing image used in a Longhorn StorageClass.
-    # You can specify a JSON string of a map. (Example: `'{\"url\":\"https://backing-image-example.s3-region.amazonaws.com/test-backing-image\"}'`)
-    dataSourceParameters: ~
-    # -- Expected SHA-512 checksum of a backing image used in a Longhorn StorageClass.
-    expectedChecksum: ~
-  defaultDiskSelector:
-    # -- Setting that allows you to enable the disk selector for the default Longhorn StorageClass.
-    enable: false
-    # -- Disk selector for the default Longhorn StorageClass. Longhorn uses only disks with the specified tags for storing volume data. (Examples: "nvme,sata")
-    selector: ""
-  defaultNodeSelector:
-    # -- Setting that allows you to enable the node selector for the default Longhorn StorageClass.
-    enable: false
-    # -- Node selector for the default Longhorn StorageClass. Longhorn uses only nodes with the specified tags for storing volume data. (Examples: "storage,fast")
-    selector: ""
-  # -- Setting that allows you to enable automatic snapshot removal during filesystem trim for a Longhorn StorageClass. (Options: "ignored", "enabled", "disabled")
-  removeSnapshotsDuringFilesystemTrim: ignored
-  # -- Setting that allows you to specify the data engine version for the default Longhorn StorageClass. (Options: "v1", "v2")
-  dataEngine: v1
-  # -- Setting that allows you to specify the backup target for the default Longhorn StorageClass.
-  backupTargetName: default
-preUpgradeChecker:
-  # -- Setting that allows Longhorn to perform pre-upgrade checks. Disable this setting when installing Longhorn using Argo CD or other GitOps solutions.
-  jobEnabled: true
-  # -- Setting that allows Longhorn to perform upgrade version checks after starting the Longhorn Manager DaemonSet Pods. Disabling this setting also disables `preUpgradeChecker.jobEnabled`. Longhorn recommends keeping this setting enabled.
-  upgradeVersionCheck: true
-csi:
-  # -- kubelet root directory. When unspecified, Longhorn uses the default value.
-  kubeletRootDir: ~
-  # -- Replica count of the CSI Attacher. When unspecified, Longhorn uses the default value ("3").
-  attacherReplicaCount: ~
-  # -- Replica count of the CSI Provisioner. When unspecified, Longhorn uses the default value ("3").
-  provisionerReplicaCount: ~
-  # -- Replica count of the CSI Resizer. When unspecified, Longhorn uses the default value ("3").
-  resizerReplicaCount: ~
-  # -- Replica count of the CSI Snapshotter. When unspecified, Longhorn uses the default value ("3").
-  snapshotterReplicaCount: ~
-defaultSettings:
-  # -- Setting that allows Longhorn to automatically attach a volume and create snapshots or backups when recurring jobs are run.
-  allowRecurringJobWhileVolumeDetached: ~
-  # -- Setting that allows Longhorn to automatically create a default disk only on nodes with the label "node.longhorn.io/create-default-disk=true" (if no other disks exist). When this setting is disabled, Longhorn creates a default disk on each node that is added to the cluster.
-  createDefaultDiskLabeledNodes: ~
-  # -- Default path for storing data on a host. The default value is "/var/lib/longhorn/".
-  defaultDataPath: ~
-  # -- Default data locality. A Longhorn volume has data locality if a local replica of the volume exists on the same node as the pod that is using the volume.
-  defaultDataLocality: ~
-  # -- Setting that allows scheduling on nodes with healthy replicas of the same volume. This setting is disabled by default.
-  replicaSoftAntiAffinity: ~
-  # -- Setting that automatically rebalances replicas when an available node is discovered.
-  replicaAutoBalance: ~
-  # -- Percentage of storage that can be allocated relative to hard drive capacity. The default value is "100".
-  storageOverProvisioningPercentage: ~
-  # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
-  storageMinimalAvailablePercentage: ~
-  # -- Percentage of disk space that is not allocated to the default disk on each new Longhorn node.
-  storageReservedPercentageForDefaultDisk: ~
-  # -- Upgrade Checker that periodically checks for new Longhorn versions. When a new version is available, a notification appears on the Longhorn UI. This setting is enabled by default
-  upgradeChecker: ~
-  # -- The Upgrade Responder sends a notification whenever a new Longhorn version that you can upgrade to becomes available. The default value is https://longhorn-upgrade-responder.rancher.io/v1/checkupgrade.
-  upgradeResponderURL: ~
-  # -- Default number of replicas for volumes created using the Longhorn UI. For Kubernetes configuration, modify the `numberOfReplicas` field in the StorageClass. The default value is "3".
-  defaultReplicaCount: ~
-  # -- Default name of Longhorn static StorageClass. "storageClassName" is assigned to PVs and PVCs that are created for an existing Longhorn volume. "storageClassName" can also be used as a label, so it is possible to use a Longhorn StorageClass to bind a workload to an existing PV without creating a Kubernetes StorageClass object. "storageClassName" needs to be an existing StorageClass. The default value is "longhorn-static".
-  defaultLonghornStaticStorageClass: ~
-  # -- Number of minutes that Longhorn keeps a failed backup resource. When the value is "0", automatic deletion is disabled.
-  failedBackupTTL: ~
-  # -- Number of minutes that Longhorn allows for the backup execution. The default value is "1".
-  backupExecutionTimeout: ~
-  # -- Setting that restores recurring jobs from a backup volume on a backup target and creates recurring jobs if none exist during backup restoration.
-  restoreVolumeRecurringJobs: ~
-  # -- Maximum number of successful recurring backup and snapshot jobs to be retained. When the value is "0", a history of successful recurring jobs is not retained.
-  recurringSuccessfulJobsHistoryLimit: ~
-  # -- Maximum number of failed recurring backup and snapshot jobs to be retained. When the value is "0", a history of failed recurring jobs is not retained.
-  recurringFailedJobsHistoryLimit: ~
-  # -- Maximum number of snapshots or backups to be retained.
-  recurringJobMaxRetention: ~
-  # -- Maximum number of failed support bundles that can exist in the cluster. When the value is "0", Longhorn automatically purges all failed support bundles.
-  supportBundleFailedHistoryLimit: ~
-  # -- Taint or toleration for system-managed Longhorn components.
-  # Specify values using a semicolon-separated list in `kubectl taint` syntax (Example: key1=value1:effect; key2=value2:effect).
-  taintToleration: ~
-  # -- Node selector for system-managed Longhorn components.
-  systemManagedComponentsNodeSelector: ~
-  # -- PriorityClass for system-managed Longhorn components.
-  # This setting can help prevent Longhorn components from being evicted under Node Pressure.
-  # Notice that this will be applied to Longhorn user-deployed components by default if there are no priority class values set yet, such as `longhornManager.priorityClass`.
-  priorityClass: &defaultPriorityClassNameRef "longhorn-critical"
-  # -- Setting that allows Longhorn to automatically salvage volumes when all replicas become faulty (for example, when the network connection is interrupted). Longhorn determines which replicas are usable and then uses these replicas for the volume. This setting is enabled by default.
-  autoSalvage: ~
-  # -- Setting that allows Longhorn to automatically delete a workload pod that is managed by a controller (for example, daemonset) whenever a Longhorn volume is detached unexpectedly (for example, during Kubernetes upgrades). After deletion, the controller restarts the pod and then Kubernetes handles volume reattachment and remounting.
-  autoDeletePodWhenVolumeDetachedUnexpectedly: ~
-  # -- Setting that prevents Longhorn Manager from scheduling replicas on a cordoned Kubernetes node. This setting is enabled by default.
-  disableSchedulingOnCordonedNode: ~
-  # -- Setting that allows Longhorn to schedule new replicas of a volume to nodes in the same zone as existing healthy replicas. Nodes that do not belong to any zone are treated as existing in the zone that contains healthy replicas. When identifying zones, Longhorn relies on the label "topology.kubernetes.io/zone=<Zone name of the node>" in the Kubernetes node object.
-  replicaZoneSoftAntiAffinity: ~
-  # -- Setting that allows scheduling on disks with existing healthy replicas of the same volume. This setting is enabled by default.
-  replicaDiskSoftAntiAffinity: ~
-  # -- Policy that defines the action Longhorn takes when a volume is stuck with a StatefulSet or Deployment pod on a node that failed.
-  nodeDownPodDeletionPolicy: ~
-  # -- Policy that defines the action Longhorn takes when a node with the last healthy replica of a volume is drained.
-  nodeDrainPolicy: ~
-  # -- Setting that allows automatic detaching of manually-attached volumes when a node is cordoned.
-  detachManuallyAttachedVolumesWhenCordoned: ~
-  # -- Number of seconds that Longhorn waits before reusing existing data on a failed replica instead of creating a new replica of a degraded volume.
-  replicaReplenishmentWaitInterval: ~
-  # -- Maximum number of replicas that can be concurrently rebuilt on each node.
-  concurrentReplicaRebuildPerNodeLimit: ~
-  # -- Maximum number of volumes that can be concurrently restored on each node using a backup. When the value is "0", restoration of volumes using a backup is disabled.
-  concurrentVolumeBackupRestorePerNodeLimit: ~
-  # -- Setting that disables the revision counter and thereby prevents Longhorn from tracking all write operations to a volume. When salvaging a volume, Longhorn uses properties of the "volume-head-xxx.img" file (the last file size and the last time the file was modified) to select the replica to be used for volume recovery. This setting applies only to volumes created using the Longhorn UI.
-  disableRevisionCounter: "true"
-  # -- Image pull policy for system-managed pods, such as Instance Manager, engine images, and CSI Driver. Changes to the image pull policy are applied only after the system-managed pods restart.
-  systemManagedPodsImagePullPolicy: ~
-  # -- Setting that allows you to create and attach a volume without having all replicas scheduled at the time of creation.
-  allowVolumeCreationWithDegradedAvailability: ~
-  # -- Setting that allows Longhorn to automatically clean up the system-generated snapshot after replica rebuilding is completed.
-  autoCleanupSystemGeneratedSnapshot: ~
-  # -- Setting that allows Longhorn to automatically clean up the snapshot generated by a recurring backup job.
-  autoCleanupRecurringJobBackupSnapshot: ~
-  # -- Maximum number of engines that are allowed to concurrently upgrade on each node after Longhorn Manager is upgraded. When the value is "0", Longhorn does not automatically upgrade volume engines to the new default engine image version.
-  concurrentAutomaticEngineUpgradePerNodeLimit: ~
-  # -- Number of minutes that Longhorn waits before cleaning up the backing image file when no replicas in the disk are using it.
-  backingImageCleanupWaitInterval: ~
-  # -- Number of seconds that Longhorn waits before downloading a backing image file again when the status of all image disk files changes to "failed" or "unknown".
-  backingImageRecoveryWaitInterval: ~
-  # -- Percentage of the total allocatable CPU resources on each node to be reserved for each instance manager pod when the V1 Data Engine is enabled. The default value is "12".
-  guaranteedInstanceManagerCPU: ~
-  # -- Setting that notifies Longhorn that the cluster is using the Kubernetes Cluster Autoscaler.
-  kubernetesClusterAutoscalerEnabled: ~
-  # -- Enables Longhorn to automatically delete orphaned resources and their associated data or processes (e.g., stale replicas). Orphaned resources on failed or unknown nodes are not automatically cleaned up. 
-  # You need to specify the resource types to be deleted using a semicolon-separated list (e.g., `replica-data;instance`). Available items are: `replica-data`, `instance`.
-  orphanResourceAutoDeletion: ~
-  # -- Specifies the wait time, in seconds, before Longhorn automatically deletes an orphaned Custom Resource (CR) and its associated resources.
-  # Note that if a user manually deletes an orphaned CR, the deletion occurs immediately and does not respect this grace period.
-  orphanResourceAutoDeletionGracePeriod: ~
-  # -- Storage network for in-cluster traffic. When unspecified, Longhorn uses the Kubernetes cluster network.
-  storageNetwork: ~
-  # -- Flag that prevents accidental uninstallation of Longhorn.
-  deletingConfirmationFlag: ~
-  # -- Timeout between the Longhorn Engine and replicas. Specify a value between "8" and "30" seconds. The default value is "8".
-  engineReplicaTimeout: ~
-  # -- Setting that allows you to enable and disable snapshot hashing and data integrity checks.
-  snapshotDataIntegrity: ~
-  # -- Setting that allows disabling of snapshot hashing after snapshot creation to minimize impact on system performance.
-  snapshotDataIntegrityImmediateCheckAfterSnapshotCreation: ~
-  # -- Setting that defines when Longhorn checks the integrity of data in snapshot disk files. You must use the Unix cron expression format.
-  snapshotDataIntegrityCronjob: ~
-  # -- Setting that allows Longhorn to automatically mark the latest snapshot and its parent files as removed during a filesystem trim. Longhorn does not remove snapshots containing multiple child files.
-  removeSnapshotsDuringFilesystemTrim: ~
-  # -- Setting that allows fast rebuilding of replicas using the checksum of snapshot disk files. Before enabling this setting, you must set the snapshot-data-integrity value to "enable" or "fast-check".
-  fastReplicaRebuildEnabled: ~
-  # -- Number of seconds that an HTTP client waits for a response from a File Sync server before considering the connection to have failed.
-  replicaFileSyncHttpClientTimeout: ~
-  # -- Number of seconds that Longhorn allows for the completion of replica rebuilding and snapshot cloning operations.
-  longGRPCTimeOut: ~
-  # -- Log levels that indicate the type and severity of logs in Longhorn Manager. The default value is "Info". (Options: "Panic", "Fatal", "Error", "Warn", "Info", "Debug", "Trace")
-  logLevel: ~
-  # -- Setting that allows you to specify a backup compression method.
-  backupCompressionMethod: ~
-  # -- Maximum number of worker threads that can concurrently run for each backup.
-  backupConcurrentLimit: ~
-  # -- Maximum number of worker threads that can concurrently run for each restore operation.
-  restoreConcurrentLimit: ~
-  # -- Setting that allows you to enable the V1 Data Engine.
-  v1DataEngine: ~
-  # -- Setting that allows you to enable the V2 Data Engine, which is based on the Storage Performance Development Kit (SPDK). The V2 Data Engine is an experimental feature and should not be used in production environments.
-  v2DataEngine: ~
-  # -- Setting that allows you to configure maximum huge page size (in MiB) for the V2 Data Engine.
-  v2DataEngineHugepageLimit: ~
-  # -- Number of millicpus on each node to be reserved for each Instance Manager pod when the V2 Data Engine is enabled. The default value is "1250".
-  v2DataEngineGuaranteedInstanceManagerCPU: ~
-  # -- CPU cores on which the Storage Performance Development Kit (SPDK) target daemon should run. The SPDK target daemon is located in each Instance Manager pod. Ensure that the number of cores is less than or equal to the guaranteed Instance Manager CPUs for the V2 Data Engine. The default value is "0x1".
-  v2DataEngineCPUMask: ~
-  # -- Setting that allows scheduling of empty node selector volumes to any node.
-  allowEmptyNodeSelectorVolume: ~
-  # -- Setting that allows scheduling of empty disk selector volumes to any disk.
-  allowEmptyDiskSelectorVolume: ~
-  # -- Setting that allows Longhorn to periodically collect anonymous usage data for product improvement purposes. Longhorn sends collected data to the [Upgrade Responder](https://github.com/longhorn/upgrade-responder) server, which is the data source of the Longhorn Public Metrics Dashboard (https://metrics.longhorn.io). The Upgrade Responder server does not store data that can be used to identify clients, including IP addresses.
-  allowCollectingLonghornUsageMetrics: ~
-  # -- Setting that temporarily prevents all attempts to purge volume snapshots.
-  disableSnapshotPurge: ~
-  # -- Maximum snapshot count for a volume. The value should be between 2 to 250
-  snapshotMaxCount: ~
-  # -- Setting that allows you to configure the log level of the SPDK target daemon (spdk_tgt) of the V2 Data Engine.
-  v2DataEngineLogLevel: ~
-  # -- Setting that allows you to configure the log flags of the SPDK target daemon (spdk_tgt) of the V2 Data Engine.
-  v2DataEngineLogFlags: ~
-  # -- Setting allows you to enable or disable snapshot hashing and data integrity checking for the V2 Data Engine.
-  v2DataEngineSnapshotDataIntegrity: ~
-  # -- Setting that freezes the filesystem on the root partition before a snapshot is created.
-  freezeFilesystemForSnapshot: ~
-  # -- Setting that automatically cleans up the snapshot when the backup is deleted.
-  autoCleanupSnapshotWhenDeleteBackup: ~
-  # -- Setting that automatically cleans up the snapshot after the on-demand backup is completed.
-  autoCleanupSnapshotAfterOnDemandBackupCompleted: ~
-  # -- Setting that allows Longhorn to detect node failure and immediately migrate affected RWX volumes.
-  rwxVolumeFastFailover: ~
-  # -- Enables automatic rebuilding of degraded replicas while the volume is detached. This setting only takes effect if the individual volume setting is set to `ignored` or `enabled`.
-  offlineRelicaRebuilding: ~
-# -- Setting that allows you to update the default backupstore.
-defaultBackupStore:
-  # -- Endpoint used to access the default backupstore. (Options: "NFS", "CIFS", "AWS", "GCP", "AZURE")
-  backupTarget: ~
-  # -- Name of the Kubernetes secret associated with the default backup target.
-  backupTargetCredentialSecret: ~
-  # -- Number of seconds that Longhorn waits before checking the default backupstore for new backups. The default value is "300". When the value is "0", polling is disabled.
-  pollInterval: ~
-privateRegistry:
-  # -- Setting that allows you to create a private registry secret.
-  createSecret: ~
-  # -- URL of a private registry. When unspecified, Longhorn uses the default system registry.
-  registryUrl: ~
-  # -- User account used for authenticating with a private registry.
-  registryUser: ~
-  # -- Password for authenticating with a private registry.
-  registryPasswd: ~
-  # -- Kubernetes secret that allows you to pull images from a private registry. This setting applies only when creation of private registry secrets is enabled. You must include the private registry name in the secret name.
-  registrySecret: ~
-longhornManager:
-  log:
-    # -- Format of Longhorn Manager logs. (Options: "plain", "json")
-    format: plain
-  # -- PriorityClass for Longhorn Manager.
-  priorityClass: *defaultPriorityClassNameRef
-  # -- Toleration for Longhorn Manager on nodes allowed to run Longhorn components.
-  tolerations: []
-  ## If you want to set tolerations for Longhorn Manager DaemonSet, delete the `[]` in the line above
-  ## and uncomment this example block
-  # - key: "key"
-  #   operator: "Equal"
-  #   value: "value"
-  #   effect: "NoSchedule"
-  # -- Node selector for Longhorn Manager. Specify the nodes allowed to run Longhorn Manager.
-  nodeSelector: {}
-  ## If you want to set node selector for Longhorn Manager DaemonSet, delete the `{}` in the line above
-  ## and uncomment this example block
-  #  label-key1: "label-value1"
-  #  label-key2: "label-value2"
-  # -- Annotation for the Longhorn Manager service.
-  serviceAnnotations: {}
-  ## If you want to set annotations for the Longhorn Manager service, delete the `{}` in the line above
-  ## and uncomment this example block
-  #  annotation-key1: "annotation-value1"
-  #  annotation-key2: "annotation-value2"
-longhornDriver:
-  log:
-    # -- Format of longhorn-driver logs. (Options: "plain", "json")
-    format: plain
-  # -- PriorityClass for Longhorn Driver.
-  priorityClass: *defaultPriorityClassNameRef
-  # -- Toleration for Longhorn Driver on nodes allowed to run Longhorn components.
-  tolerations: []
-  ## If you want to set tolerations for Longhorn Driver Deployer Deployment, delete the `[]` in the line above
-  ## and uncomment this example block
-  # - key: "key"
-  #   operator: "Equal"
-  #   value: "value"
-  #   effect: "NoSchedule"
-  # -- Node selector for Longhorn Driver. Specify the nodes allowed to run Longhorn Driver.
-  nodeSelector: {}
-  ## If you want to set node selector for Longhorn Driver Deployer Deployment, delete the `{}` in the line above
-  ## and uncomment this example block
-  #  label-key1: "label-value1"
-  #  label-key2: "label-value2"
-longhornUI:
-  # -- Replica count for Longhorn UI.
-  replicas: 2
-  # -- PriorityClass for Longhorn UI.
-  priorityClass: *defaultPriorityClassNameRef
-  # -- Affinity for Longhorn UI pods. Specify the affinity you want to use for Longhorn UI.
-  affinity:
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - longhorn-ui
-            topologyKey: kubernetes.io/hostname
-  # -- Toleration for Longhorn UI on nodes allowed to run Longhorn components.
-  tolerations: []
-  ## If you want to set tolerations for Longhorn UI Deployment, delete the `[]` in the line above
-  ## and uncomment this example block
-  # - key: "key"
-  #   operator: "Equal"
-  #   value: "value"
-  #   effect: "NoSchedule"
-  # -- Node selector for Longhorn UI. Specify the nodes allowed to run Longhorn UI.
-  nodeSelector: {}
-  ## If you want to set node selector for Longhorn UI Deployment, delete the `{}` in the line above
-  ## and uncomment this example block
-  #  label-key1: "label-value1"
-  #  label-key2: "label-value2"
-ingress:
-  # -- Setting that allows Longhorn to generate ingress records for the Longhorn UI service.
-  enabled: false
-  # -- IngressClass resource that contains ingress configuration, including the name of the Ingress controller.
-  # ingressClassName can replace the kubernetes.io/ingress.class annotation used in earlier Kubernetes releases.
-  ingressClassName: ~
-  # -- Hostname of the Layer 7 load balancer.
-  host: sslip.io
-  # -- Setting that allows you to enable TLS on ingress records.
-  tls: false
-  # -- Setting that allows you to enable secure connections to the Longhorn UI service via port 443.
-  secureBackends: false
-  # -- TLS secret that contains the private key and certificate to be used for TLS. This setting applies only when TLS is enabled on ingress records.
-  tlsSecret: longhorn.local-tls
-  # -- Default ingress path. You can access the Longhorn UI by following the full ingress path {{host}}+{{path}}.
-  path: /
-  # -- Ingress path type. To maintain backward compatibility, the default value is "ImplementationSpecific".
-  pathType: ImplementationSpecific
-  ## If you're using kube-lego, you will want to add:
-  ## kubernetes.io/tls-acme: true
-  ##
-  ## For a full list of possible ingress annotations, please see
-  ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/annotations.md
-  ##
-  ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
-  # -- Ingress annotations in the form of key-value pairs.
-  annotations:
-  #  kubernetes.io/ingress.class: nginx
-  #  kubernetes.io/tls-acme: true
 
-  # -- Secret that contains a TLS private key and certificate. Use secrets if you want to use your own certificates to secure ingresses.
-  secrets:
-  ## If you're providing your own certificates, please use this to add the certificates as secrets
-  ## key and certificate should start with -----BEGIN CERTIFICATE----- or
-  ## -----BEGIN RSA PRIVATE KEY-----
-  ##
-  ## name should line up with a tlsSecret set further up
-  ## If you're using kube-lego, this is unneeded, as it will create the secret for you if it is not set
-  ##
-  ## It is also possible to create and manage the certificates outside of this helm chart
-  ## Please see README.md for more information
-  # - name: longhorn.local-tls
-  #   key:
-  #   certificate:
-# -- Setting that allows you to enable pod security policies (PSPs) that allow privileged Longhorn pods to start. This setting applies only to clusters running Kubernetes 1.25 and earlier, and with the built-in Pod Security admission controller enabled.
-enablePSP: false
-# -- Specify override namespace, specifically this is useful for using longhorn as sub-chart and its release namespace is not the `longhorn-system`.
+## Provide a name in place of prometheus-operator for `app:` labels
+##
+nameOverride: ""
+
+## Override the deployment namespace
+##
 namespaceOverride: ""
-# -- Annotation for the Longhorn Manager DaemonSet pods. This setting is optional.
-annotations: {}
-serviceAccount:
-  # -- Annotations to add to the service account
+
+## Provide a k8s version to auto dashboard import script example: kubeTargetVersionOverride: 1.16.6
+##
+kubeTargetVersionOverride: ""
+
+## Provide a name to substitute for the full names of resources
+##
+fullnameOverride: ""
+
+## Labels to apply to all resources
+##
+commonLabels: {}
+# scmhash: abc123
+# myLabel: aakkmd
+
+## Create default rules for monitoring the cluster
+##
+defaultRules:
+  create: true
+  rules:
+    alertmanager: true
+    etcd: true
+    general: true
+    k8s: true
+    kubeApiserver: true
+    kubeApiserverAvailability: true
+    kubeApiserverError: true
+    kubeApiserverSlos: true
+    kubelet: true
+    kubePrometheusGeneral: true
+    kubePrometheusNodeAlerting: true
+    kubePrometheusNodeRecording: true
+    kubernetesAbsent: true
+    kubernetesApps: true
+    kubernetesResources: true
+    kubernetesStorage: true
+    kubernetesSystem: true
+    kubeScheduler: true
+    kubeStateMetrics: true
+    network: true
+    node: true
+    prometheus: true
+    prometheusOperator: true
+    time: true
+
+  ## Runbook url prefix for default rules
+  runbookUrl: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#
+  ## Reduce app namespace alert scope
+  appNamespacesTarget: ".*"
+
+  ## Labels for default rules
+  labels: {}
+  ## Annotations for default rules
   annotations: {}
-metrics:
-  serviceMonitor:
-    # -- Setting that allows the creation of a Prometheus ServiceMonitor resource for Longhorn Manager components.
-    enabled: false
-    # -- Additional labels for the Prometheus ServiceMonitor resource.
-    additionalLabels: {}
-    # -- Annotations for the Prometheus ServiceMonitor resource.
+
+## Provide custom recording or alerting rules to be deployed into the cluster.
+##
+additionalPrometheusRules: []
+#  - name: my-rule-file
+#    groups:
+#      - name: my_group
+#        rules:
+#        - record: my_record
+#          expr: 100 * my_record
+
+##
+global:
+  rbac:
+    create: true
+    pspEnabled: true
+    pspAnnotations: {}
+      ## Specify pod annotations
+      ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#apparmor
+      ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#seccomp
+      ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#sysctl
+      ##
+      # seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+      # seccomp.security.alpha.kubernetes.io/defaultProfileName: 'docker/default'
+      # apparmor.security.beta.kubernetes.io/defaultProfileName: 'runtime/default'
+
+  ## Reference to one or more secrets to be used when pulling images
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  imagePullSecrets: []
+  # - name: "image-pull-secret"
+
+## Configuration for alertmanager
+## ref: https://prometheus.io/docs/alerting/alertmanager/
+##
+alertmanager:
+
+  ## Deploy alertmanager
+  ##
+  enabled: true
+
+  ## Api that prometheus will use to communicate with alertmanager. Possible values are v1, v2
+  ##
+  apiVersion: v2
+
+  ## Service account for Alertmanager to use.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+  ##
+  serviceAccount:
+    create: true
+    name: ""
     annotations: {}
-    # -- Interval at which Prometheus scrapes the metrics from the target.
+
+  ## Configure pod disruption budgets for Alertmanager
+  ## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
+  ## This configuration is immutable once created and will require the PDB to be deleted to be changed
+  ## https://github.com/kubernetes/kubernetes/issues/45398
+  ##
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+    maxUnavailable: ""
+
+  ## Alertmanager configuration directives
+  ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
+  ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
+  ##
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ['job']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'null'
+      routes:
+      - match:
+          alertname: Watchdog
+        receiver: 'null'
+    receivers:
+    - name: 'null'
+
+  ## Pass the Alertmanager configuration directives through Helm's templating
+  ## engine. If the Alertmanager configuration contains Alertmanager templates,
+  ## they'll need to be properly escaped so that they are not interpreted by
+  ## Helm
+  ## ref: https://helm.sh/docs/developing_charts/#using-the-tpl-function
+  ##      https://prometheus.io/docs/alerting/configuration/#%3Ctmpl_string%3E
+  ##      https://prometheus.io/docs/alerting/notifications/
+  ##      https://prometheus.io/docs/alerting/notification_examples/
+  tplConfig: false
+
+  ## Alertmanager template files to format alerts
+  ## ref: https://prometheus.io/docs/alerting/notifications/
+  ##      https://prometheus.io/docs/alerting/notification_examples/
+  ##
+  templateFiles: {}
+  #
+  ## An example template:
+  #   template_1.tmpl: |-
+  #       {{ define "cluster" }}{{ .ExternalURL | reReplaceAll ".*alertmanager\\.(.*)" "$1" }}{{ end }}
+  #
+  #       {{ define "slack.myorg.text" }}
+  #       {{- $root := . -}}
+  #       {{ range .Alerts }}
+  #         *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+  #         *Cluster:*  {{ template "cluster" $root }}
+  #         *Description:* {{ .Annotations.description }}
+  #         *Graph:* <{{ .GeneratorURL }}|:chart_with_upwards_trend:>
+  #         *Runbook:* <{{ .Annotations.runbook }}|:spiral_note_pad:>
+  #         *Details:*
+  #           {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+  #           {{ end }}
+  #       {{ end }}
+  #       {{ end }}
+
+  ingress:
+    enabled: false
+
+    annotations: {}
+
+    labels: {}
+
+    ## Hosts must be provided if Ingress is enabled.
+    ##
+    hosts: []
+      # - alertmanager.domain.com
+
+    ## Paths to use for ingress rules - one path should match the alertmanagerSpec.routePrefix
+    ##
+    paths: []
+    # - /
+
+    ## TLS configuration for Alertmanager Ingress
+    ## Secret must be manually created in the namespace
+    ##
+    tls: []
+    # - secretName: alertmanager-general-tls
+    #   hosts:
+    #   - alertmanager.example.com
+
+  ## Configuration for Alertmanager secret
+  ##
+  secret:
+    annotations: {}
+
+  ## Configuration for creating an Ingress that will map to each Alertmanager replica service
+  ## alertmanager.servicePerReplica must be enabled
+  ##
+  ingressPerReplica:
+    enabled: false
+    annotations: {}
+    labels: {}
+
+    ## Final form of the hostname for each per replica ingress is
+    ## {{ ingressPerReplica.hostPrefix }}-{{ $replicaNumber }}.{{ ingressPerReplica.hostDomain }}
+    ##
+    ## Prefix for the per replica ingress that will have `-$replicaNumber`
+    ## appended to the end
+    hostPrefix: ""
+    ## Domain that will be used for the per replica ingress
+    hostDomain: ""
+
+    ## Paths to use for ingress rules
+    ##
+    paths: []
+    # - /
+
+    ## Secret name containing the TLS certificate for alertmanager per replica ingress
+    ## Secret must be manually created in the namespace
+    tlsSecretName: ""
+
+    ## Separated secret for each per replica Ingress. Can be used together with cert-manager
+    ##
+    tlsSecretPerReplica:
+      enabled: false
+      ## Final form of the secret for each per replica ingress is
+      ## {{ tlsSecretPerReplica.prefix }}-{{ $replicaNumber }}
+      ##
+      prefix: "alertmanager"
+
+  ## Configuration for Alertmanager service
+  ##
+  service:
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## Port for Alertmanager Service to listen on
+    ##
+    port: 9093
+    ## To be used with a proxy extraContainer port
+    ##
+    targetPort: 9093
+    ## Port to expose on each node
+    ## Only used if service.type is 'NodePort'
+    ##
+    nodePort: 30903
+    ## List of IP addresses at which the Prometheus server service is available
+    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+    ##
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    ## Service type
+    ##
+    type: ClusterIP
+
+  ## Configuration for creating a separate Service for each statefulset Alertmanager replica
+  ##
+  servicePerReplica:
+    enabled: false
+    annotations: {}
+
+    ## Port for Alertmanager Service per replica to listen on
+    ##
+    port: 9093
+
+    ## To be used with a proxy extraContainer port
+    targetPort: 9093
+
+    ## Port to expose on each node
+    ## Only used if servicePerReplica.type is 'NodePort'
+    ##
+    nodePort: 30904
+
+    ## Loadbalancer source IP ranges
+    ## Only used if servicePerReplica.type is "loadbalancer"
+    loadBalancerSourceRanges: []
+    ## Service type
+    ##
+    type: ClusterIP
+
+  ## If true, create a serviceMonitor for alertmanager
+  ##
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
     interval: ""
-    # -- Timeout after which Prometheus considers the scrape to be failed.
-    scrapeTimeout: ""
-    # -- Configures the relabeling rules to apply the target’s metadata labels. See the [Prometheus Operator
-    # documentation](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.Endpoint) for
-    # formatting details.
-    relabelings: []
-    # -- Configures the relabeling rules to apply to the samples before ingestion. See the [Prometheus Operator
-    # documentation](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.Endpoint) for
-    # formatting details.
+    selfMonitor: true
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
     metricRelabelings: []
-## openshift settings
-openshift:
-  # -- Setting that allows Longhorn to integrate with OpenShift.
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+  ## Settings affecting alertmanagerSpec
+  ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#alertmanagerspec
+  ##
+  alertmanagerSpec:
+    ## Standard object’s metadata. More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#metadata
+    ## Metadata Labels and Annotations gets propagated to the Alertmanager pods.
+    ##
+    podMetadata: {}
+
+    ## Image of Alertmanager
+    ##
+    image:
+      repository: quay.io/prometheus/alertmanager
+      tag: v0.21.0
+      sha: ""
+
+    ## If true then the user will be responsible to provide a secret with alertmanager configuration
+    ## So when true the config part will be ignored (including templateFiles) and the one in the secret will be used
+    ##
+    useExistingSecret: false
+
+    ## Secrets is a list of Secrets in the same namespace as the Alertmanager object, which shall be mounted into the
+    ## Alertmanager Pods. The Secrets are mounted into /etc/alertmanager/secrets/.
+    ##
+    secrets: []
+
+    ## ConfigMaps is a list of ConfigMaps in the same namespace as the Alertmanager object, which shall be mounted into the Alertmanager Pods.
+    ## The ConfigMaps are mounted into /etc/alertmanager/configmaps/.
+    ##
+    configMaps: []
+
+    ## ConfigSecret is the name of a Kubernetes Secret in the same namespace as the Alertmanager object, which contains configuration for
+    ## this Alertmanager instance. Defaults to 'alertmanager-' The secret is mounted into /etc/alertmanager/config.
+    ##
+    # configSecret:
+
+    ## Define Log Format
+    # Use logfmt (default) or json-formatted logging
+    logFormat: logfmt
+
+    ## Log level for Alertmanager to be configured with.
+    ##
+    logLevel: info
+
+    ## Size is the expected size of the alertmanager cluster. The controller will eventually make the size of the
+    ## running cluster equal to the expected size.
+    replicas: 1
+
+    ## Time duration Alertmanager shall retain data for. Default is '120h', and must match the regular expression
+    ## [0-9]+(ms|s|m|h) (milliseconds seconds minutes hours).
+    ##
+    retention: 120h
+
+    ## Storage is the definition of how storage will be used by the Alertmanager instances.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/storage.md
+    ##
+    storage: {}
+    # volumeClaimTemplate:
+    #   spec:
+    #     storageClassName: gluster
+    #     accessModes: ["ReadWriteOnce"]
+    #     resources:
+    #       requests:
+    #         storage: 50Gi
+    #   selector: {}
+
+
+    ## 	The external URL the Alertmanager instances will be available under. This is necessary to generate correct URLs. This is necessary if Alertmanager is not served from root of a DNS name.	string	false
+    ##
+    externalUrl:
+
+    ## 	The route prefix Alertmanager registers HTTP handlers for. This is useful, if using ExternalURL and a proxy is rewriting HTTP routes of a request, and the actual ExternalURL is still true,
+    ## but the server serves requests under a different route prefix. For example for use with kubectl proxy.
+    ##
+    routePrefix: /
+
+    ## If set to true all actions on the underlying managed objects are not going to be performed, except for delete actions.
+    ##
+    paused: false
+
+    ## Define which Nodes the Pods are scheduled on.
+    ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+    ##
+    nodeSelector: {}
+
+    ## Define resources requests and limits for single Pods.
+    ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+    ##
+    resources: {}
+    # requests:
+    #   memory: 400Mi
+
+    ## Pod anti-affinity can prevent the scheduler from placing Prometheus replicas on the same node.
+    ## The default value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
+    ## The value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
+    ## The value "" will disable pod anti-affinity so that no anti-affinity rules will be configured.
+    ##
+    podAntiAffinity: ""
+
+    ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
+    ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
+    ##
+    podAntiAffinityTopologyKey: kubernetes.io/hostname
+
+    ## Assign custom affinity rules to the alertmanager instance
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+    ##
+    affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: kubernetes.io/e2e-az-name
+    #         operator: In
+    #         values:
+    #         - e2e-az1
+    #         - e2e-az2
+
+    ## If specified, the pod's tolerations.
+    ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+    ##
+    tolerations: []
+    # - key: "key"
+    #   operator: "Equal"
+    #   value: "value"
+    #   effect: "NoSchedule"
+
+    ## SecurityContext holds pod-level security attributes and common container settings.
+    ## This defaults to non root user with uid 1000 and gid 2000.	*v1.PodSecurityContext	false
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    ##
+    securityContext:
+      runAsGroup: 2000
+      runAsNonRoot: true
+      runAsUser: 1000
+      fsGroup: 2000
+
+    ## ListenLocal makes the Alertmanager server listen on loopback, so that it does not bind against the Pod IP.
+    ## Note this is only for the Alertmanager UI, not the gossip communication.
+    ##
+    listenLocal: false
+
+    ## Containers allows injecting additional containers. This is meant to allow adding an authentication proxy to an Alertmanager pod.
+    ##
+    containers: []
+
+    ## Priority class assigned to the Pods
+    ##
+    priorityClassName: ""
+
+    ## AdditionalPeers allows injecting a set of additional Alertmanagers to peer with to form a highly available cluster.
+    ##
+    additionalPeers: []
+
+    ## PortName to use for Alert Manager.
+    ##
+    portName: "web"
+
+
+## Using default values from https://github.com/helm/charts/blob/master/stable/grafana/values.yaml
+##
+grafana:
+  enabled: true
+  namespaceOverride: ""
+
+  ## Deploy default dashboards.
+  ##
+  defaultDashboardsEnabled: true
+
+  adminPassword: prom-operator
+
+  ingress:
+    ## If true, Grafana Ingress will be created
+    ##
+    enabled: false
+
+    ## Annotations for Grafana Ingress
+    ##
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+
+    ## Labels to be added to the Ingress
+    ##
+    labels: {}
+
+    ## Hostnames.
+    ## Must be provided if Ingress is enable.
+    ##
+    # hosts:
+    #   - grafana.domain.com
+    hosts: []
+
+    ## Path for grafana ingress
+    path: /
+
+    ## TLS configuration for grafana Ingress
+    ## Secret must be manually created in the namespace
+    ##
+    tls: []
+    # - secretName: grafana-general-tls
+    #   hosts:
+    #   - grafana.example.com
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+
+      ## Annotations for Grafana dashboard configmaps
+      ##
+      annotations: {}
+    datasources:
+      enabled: true
+      defaultDatasourceEnabled: true
+
+      ## Annotations for Grafana datasource configmaps
+      ##
+      annotations: {}
+
+      ## Create datasource for each Pod of Prometheus StatefulSet;
+      ## this uses headless service `prometheus-operated` which is
+      ## created by Prometheus Operator
+      ## ref: https://git.io/fjaBS
+      createPrometheusReplicasDatasources: false
+      label: grafana_datasource
+
+  extraConfigmapMounts: []
+  # - name: certs-configmap
+  #   mountPath: /etc/grafana/ssl/
+  #   configMap: certs-configmap
+  #   readOnly: true
+
+  ## Configure additional grafana datasources (passed through tpl)
+  ## ref: http://docs.grafana.org/administration/provisioning/#datasources
+  additionalDataSources: []
+  # - name: prometheus-sample
+  #   access: proxy
+  #   basicAuth: true
+  #   basicAuthPassword: pass
+  #   basicAuthUser: daco
+  #   editable: false
+  #   jsonData:
+  #       tlsSkipVerify: true
+  #   orgId: 1
+  #   type: prometheus
+  #   url: https://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
+  #   version: 1
+
+  ## Passed to grafana subchart and used by servicemonitor below
+  ##
+  service:
+    portName: service
+
+  ## If true, create a serviceMonitor for grafana
+  ##
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+    selfMonitor: true
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+## Component scraping the kube api server
+##
+kubeApiServer:
+  enabled: true
+  tlsConfig:
+    serverName: kubernetes
+    insecureSkipVerify: false
+
+  ## If your API endpoint address is not reachable (as in AKS) you can replace it with the kubernetes service
+  ##
+  relabelings: []
+  # - sourceLabels:
+  #     - __meta_kubernetes_namespace
+  #     - __meta_kubernetes_service_name
+  #     - __meta_kubernetes_endpoint_port_name
+  #   action: keep
+  #   regex: default;kubernetes;https
+  # - targetLabel: __address__
+  #   replacement: kubernetes.default.svc:443
+
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+    jobLabel: component
+    selector:
+      matchLabels:
+        component: apiserver
+        provider: kubernetes
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+## Component scraping the kubelet and kubelet-hosted cAdvisor
+##
+kubelet:
+  enabled: true
+  namespace: kube-system
+
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+
+    ## Enable scraping the kubelet over https. For requirements to enable this see
+    ## https://github.com/coreos/prometheus-operator/issues/926
+    ##
+    https: true
+
+    ## Enable scraping /metrics/cadvisor from kubelet's service
+    ##
+    cAdvisor: true
+
+    ## Enable scraping /metrics/probes from kubelet's service
+    ##
+    probes: true
+
+    ## Enable scraping /metrics/resource from kubelet's service
+    ##
+    resource: true
+    # From kubernetes 1.18, /metrics/resource/v1alpha1 renamed to /metrics/resource
+    resourcePath: "/metrics/resource/v1alpha1"
+    ## Metric relabellings to apply to samples before ingestion
+    ##
+    cAdvisorMetricRelabelings: []
+    # - sourceLabels: [__name__, image]
+    #   separator: ;
+    #   regex: container_([a-z_]+);
+    #   replacement: $1
+    #   action: drop
+    # - sourceLabels: [__name__]
+    #   separator: ;
+    #   regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+    #   replacement: $1
+    #   action: drop
+
+    ## Metric relabellings to apply to samples before ingestion
+    ##
+    probesMetricRelabelings: []
+    # - sourceLabels: [__name__, image]
+    #   separator: ;
+    #   regex: container_([a-z_]+);
+    #   replacement: $1
+    #   action: drop
+    # - sourceLabels: [__name__]
+    #   separator: ;
+    #   regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+    #   replacement: $1
+    #   action: drop
+
+    # 	relabel configs to apply to samples before ingestion.
+    #   metrics_path is required to match upstream rules and charts
+    ##
+    cAdvisorRelabelings:
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+    probesRelabelings:
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+    resourceRelabelings:
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+    metricRelabelings: []
+    # - sourceLabels: [__name__, image]
+    #   separator: ;
+    #   regex: container_([a-z_]+);
+    #   replacement: $1
+    #   action: drop
+    # - sourceLabels: [__name__]
+    #   separator: ;
+    #   regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+    #   replacement: $1
+    #   action: drop
+
+    # 	relabel configs to apply to samples before ingestion.
+    #   metrics_path is required to match upstream rules and charts
+    ##
+    relabelings:
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+## Component scraping the kube controller manager
+##
+kubeControllerManager:
+  enabled: true
+
+  ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
+  ##
+  endpoints: []
+  # - 10.141.4.22
+  # - 10.141.4.23
+  # - 10.141.4.24
+
+  ## If using kubeControllerManager.endpoints only the port and targetPort are used
+  ##
+  service:
+    port: 10252
+    targetPort: 10252
+    # selector:
+    #   component: kube-controller-manager
+
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+
+    ## Enable scraping kube-controller-manager over https.
+    ## Requires proper certs (not self-signed) and delegated authentication/authorization checks
+    ##
+    https: false
+
+    # Skip TLS certificate validation when scraping
+    insecureSkipVerify: null
+
+    # Name of the server to use when validating TLS certificate
+    serverName: null
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+## Component scraping coreDns. Use either this or kubeDns
+##
+coreDns:
+  enabled: true
+  service:
+    port: 9153
+    targetPort: 9153
+    # selector:
+    #   k8s-app: kube-dns
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+## Component scraping kubeDns. Use either this or coreDns
+##
+kubeDns:
   enabled: false
-  ui:
-    # -- Route for connections between Longhorn and the OpenShift web console.
-    route: "longhorn-ui"
-    # -- Port for accessing the OpenShift web console.
-    port: 443
-    # -- Port for proxy that provides access to the OpenShift web console.
-    proxy: 8443
-# -- Setting that allows Longhorn to generate code coverage profiles.
-enableGoCoverDir: false
-# -- Add extra objects manifests
-extraObjects: []
+  service:
+    dnsmasq:
+      port: 10054
+      targetPort: 10054
+    skydns:
+      port: 10055
+      targetPort: 10055
+    # selector:
+    #   k8s-app: kube-dns
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+    dnsmasqMetricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    dnsmasqRelabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+## Component scraping etcd
+##
+kubeEtcd:
+  enabled: true
+
+  ## If your etcd is not deployed as a pod, specify IPs it can be found on
+  ##
+  endpoints: []
+  # - 10.141.4.22
+  # - 10.141.4.23
+  # - 10.141.4.24
+
+  ## Etcd service. If using kubeEtcd.endpoints only the port and targetPort are used
+  ##
+  service:
+    port: 2379
+    targetPort: 2379
+    # selector:
+    #   component: etcd
+
+  ## Configure secure access to the etcd cluster by loading a secret into prometheus and
+  ## specifying security configuration below. For example, with a secret named etcd-client-cert
+  ##
+  ## serviceMonitor:
+  ##   scheme: https
+  ##   insecureSkipVerify: false
+  ##   serverName: localhost
+  ##   caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+  ##   certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+  ##   keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+  ##
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+    scheme: http
+    insecureSkipVerify: false
+    serverName: ""
+    caFile: ""
+    certFile: ""
+    keyFile: ""
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+
+## Component scraping kube scheduler
+##
+kubeScheduler:
+  enabled: true
+
+  ## If your kube scheduler is not deployed as a pod, specify IPs it can be found on
+  ##
+  endpoints: []
+  # - 10.141.4.22
+  # - 10.141.4.23
+  # - 10.141.4.24
+
+  ## If using kubeScheduler.endpoints only the port and targetPort are used
+  ##
+  service:
+    port: 10251
+    targetPort: 10251
+    # selector:
+    #   component: kube-scheduler
+
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+    ## Enable scraping kube-scheduler over https.
+    ## Requires proper certs (not self-signed) and delegated authentication/authorization checks
+    ##
+    https: false
+
+    ## Skip TLS certificate validation when scraping
+    insecureSkipVerify: null
+
+    ## Name of the server to use when validating TLS certificate
+    serverName: null
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+
+## Component scraping kube proxy
+##
+kubeProxy:
+  enabled: true
+
+  ## If your kube proxy is not deployed as a pod, specify IPs it can be found on
+  ##
+  endpoints: []
+  # - 10.141.4.22
+  # - 10.141.4.23
+  # - 10.141.4.24
+
+  service:
+    port: 10249
+    targetPort: 10249
+    # selector:
+    #   k8s-app: kube-proxy
+
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+
+    ## Enable scraping kube-proxy over https.
+    ## Requires proper certs (not self-signed) and delegated authentication/authorization checks
+    ##
+    https: false
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+
+## Component scraping kube state metrics
+##
+kubeStateMetrics:
+  enabled: true
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+## Configuration for kube-state-metrics subchart
+##
+kube-state-metrics:
+  namespaceOverride: ""
+  rbac:
+    create: true
+  podSecurityPolicy:
+    enabled: true
+
+## Deploy node exporter as a daemonset to all nodes
+##
+nodeExporter:
+  enabled: true
+
+  ## Use the value configured in prometheus-node-exporter.podLabels
+  ##
+  jobLabel: jobLabel
+
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+
+    ## How long until a scrape request times out. If not set, the Prometheus default scape timeout is used.
+    ##
+    scrapeTimeout: ""
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - sourceLabels: [__name__]
+    #   separator: ;
+    #   regex: ^node_mountstats_nfs_(event|operations|transport)_.+
+    #   replacement: $1
+    #   action: drop
+
+    ## 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+## Configuration for prometheus-node-exporter subchart
+##
+prometheus-node-exporter:
+  namespaceOverride: ""
+  podLabels:
+    ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
+    ##
+    jobLabel: node-exporter
+  extraArgs:
+    - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+)($|/)
+    - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
+
+## Manages Prometheus and Alertmanager components
+##
+prometheusOperator:
+  enabled: true
+
+  # If true prometheus operator will create and update its CRDs on startup
+  # Only for prometheusOperator.image.tag < v0.39.0
+  manageCrds: true
+
+  tlsProxy:
+    enabled: true
+    image:
+      repository: squareup/ghostunnel
+      tag: v1.5.2
+      sha: ""
+      pullPolicy: IfNotPresent
+    resources: {}
+
+  ## Admission webhook support for PrometheusRules resources added in Prometheus Operator 0.30 can be enabled to prevent incorrectly formatted
+  ## rules from making their way into prometheus and potentially preventing the container from starting
+  admissionWebhooks:
+    failurePolicy: Fail
+    enabled: true
+    ## If enabled, generate a self-signed certificate, then patch the webhook configurations with the generated data.
+    ## On chart upgrades (or if the secret exists) the cert will not be re-generated. You can use this to provide your own
+    ## certs ahead of time if you wish.
+    ##
+    patch:
+      enabled: true
+      image:
+        repository: jettech/kube-webhook-certgen
+        tag: v1.2.1
+        sha: ""
+        pullPolicy: IfNotPresent
+      resources: {}
+      ## Provide a priority class name to the webhook patching job
+      ##
+      priorityClassName: ""
+      podAnnotations: {}
+      nodeSelector: {}
+      affinity: {}
+      tolerations: []
+
+  ## Namespaces to scope the interaction of the Prometheus Operator and the apiserver (allow list).
+  ## This is mutually exclusive with denyNamespaces. Setting this to an empty object will disable the configuration
+  ##
+  namespaces: {}
+    # releaseNamespace: true
+    # additional:
+    # - kube-system
+
+  ## Namespaces not to scope the interaction of the Prometheus Operator (deny list).
+  ##
+  denyNamespaces: []
+
+  ## Service account for Alertmanager to use.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+  ##
+  serviceAccount:
+    create: true
+    name: ""
+
+  ## Configuration for Prometheus operator service
+  ##
+  service:
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+  ## Port to expose on each node
+  ## Only used if service.type is 'NodePort'
+  ##
+    nodePort: 30080
+
+    nodePortTls: 30443
+
+  ## Additional ports to open for Prometheus service
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#multi-port-services
+  ##
+    additionalPorts: []
+
+  ## Loadbalancer IP
+  ## Only use if service.type is "loadbalancer"
+  ##
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+
+  ## Service type
+  ## NodePort, ClusterIP, loadbalancer
+  ##
+    type: ClusterIP
+
+    ## List of IP addresses at which the Prometheus server service is available
+    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+    ##
+    externalIPs: []
+
+  ## Deploy CRDs used by Prometheus Operator.
+  ##
+  createCustomResource: true
+
+  ## Attempt to clean up CRDs created by Prometheus Operator.
+  ##
+  cleanupCustomResource: false
+
+  ## Labels to add to the operator pod
+  ##
+  podLabels: {}
+
+  ## Annotations to add to the operator pod
+  ##
+  podAnnotations: {}
+
+  ## Assign a PriorityClassName to pods if set
+  # priorityClassName: ""
+
+  ## Define Log Format
+  # Use logfmt (default) or json-formatted logging
+  # logFormat: logfmt
+
+  ## Decrease log verbosity to errors only
+  # logLevel: error
+
+  ## If true, the operator will create and maintain a service for scraping kubelets
+  ## ref: https://github.com/coreos/prometheus-operator/blob/master/helm/prometheus-operator/README.md
+  ##
+  kubeletService:
+    enabled: true
+    namespace: kube-system
+
+  ## Create a servicemonitor for the operator
+  ##
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+    ## Scrape timeout. If not set, the Prometheus default scrape timeout is used.
+    scrapeTimeout: ""
+    selfMonitor: true
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+  ## Resource limits & requests
+  ##
+  resources: {}
+  # limits:
+  #   cpu: 200m
+  #   memory: 200Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 100Mi
+
+  # Required for use in managed kubernetes clusters (such as AWS EKS) with custom CNI (such as calico),
+  # because control-plane managed by AWS cannot communicate with pods' IP CIDR and admission webhooks are not working
+  ##
+  hostNetwork: false
+
+  ## Define which Nodes the Pods are scheduled on.
+  ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+  ##
+  nodeSelector: {}
+
+  ## Tolerations for use with node taints
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+  # - key: "key"
+  #   operator: "Equal"
+  #   value: "value"
+  #   effect: "NoSchedule"
+
+  ## Assign custom affinity rules to the prometheus operator
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+  ##
+  affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: kubernetes.io/e2e-az-name
+    #         operator: In
+    #         values:
+    #         - e2e-az1
+    #         - e2e-az2
+
+  securityContext:
+    fsGroup: 65534
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+
+  ## Prometheus-operator image
+  ##
+  image:
+    repository: quay.io/coreos/prometheus-operator
+    tag: v0.38.1
+    sha: ""
+    pullPolicy: IfNotPresent
+
+  ## Configmap-reload image to use for reloading configmaps
+  ##
+  configmapReloadImage:
+    repository: docker.io/jimmidyson/configmap-reload
+    tag: v0.3.0
+    sha: ""
+
+  ## Prometheus-config-reloader image to use for config and rule reloading
+  ##
+  prometheusConfigReloaderImage:
+    repository: quay.io/coreos/prometheus-config-reloader
+    tag: v0.38.1
+    sha: ""
+
+  ## Set the prometheus config reloader side-car CPU limit
+  ##
+  configReloaderCpu: 100m
+
+  ## Set the prometheus config reloader side-car memory limit
+  ##
+  configReloaderMemory: 25Mi
+
+  ## Hyperkube image to use when cleaning up
+  ##
+  hyperkubeImage:
+    repository: k8s.gcr.io/hyperkube
+    tag: v1.16.12
+    sha: ""
+    pullPolicy: IfNotPresent
+
+## Deploy a Prometheus instance
+##
+prometheus:
+
+  enabled: true
+
+  ## Annotations for Prometheus
+  ##
+  annotations: {}
+
+  ## Service account for Prometheuses to use.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+  ##
+  serviceAccount:
+    create: true
+    name: ""
+
+  ## Configuration for Prometheus service
+  ##
+  service:
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## Port for Prometheus Service to listen on
+    ##
+    port: 9090
+
+    ## To be used with a proxy extraContainer port
+    targetPort: 9090
+
+    ## List of IP addresses at which the Prometheus server service is available
+    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+    ##
+    externalIPs: []
+
+    ## Port to expose on each node
+    ## Only used if service.type is 'NodePort'
+    ##
+    nodePort: 30090
+
+    ## Loadbalancer IP
+    ## Only use if service.type is "loadbalancer"
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    ## Service type
+    ##
+    type: ClusterIP
+
+    sessionAffinity: ""
+
+  ## Configuration for creating a separate Service for each statefulset Prometheus replica
+  ##
+  servicePerReplica:
+    enabled: false
+    annotations: {}
+
+    ## Port for Prometheus Service per replica to listen on
+    ##
+    port: 9090
+
+    ## To be used with a proxy extraContainer port
+    targetPort: 9090
+
+    ## Port to expose on each node
+    ## Only used if servicePerReplica.type is 'NodePort'
+    ##
+    nodePort: 30091
+
+    ## Loadbalancer source IP ranges
+    ## Only used if servicePerReplica.type is "loadbalancer"
+    loadBalancerSourceRanges: []
+    ## Service type
+    ##
+    type: ClusterIP
+
+  ## Configure pod disruption budgets for Prometheus
+  ## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
+  ## This configuration is immutable once created and will require the PDB to be deleted to be changed
+  ## https://github.com/kubernetes/kubernetes/issues/45398
+  ##
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+    maxUnavailable: ""
+
+# Ingress exposes thanos sidecar outside the clsuter
+  thanosIngress:
+    enabled: false
+    annotations: {}
+    labels: {}
+    servicePort: 10901
+    ## Hosts must be provided if Ingress is enabled.
+    ##
+    hosts: []
+      # - thanos-gateway.domain.com
+
+    ## Paths to use for ingress rules
+    ##
+    paths: []
+    # - /
+
+    ## TLS configuration for Alertmanager Ingress
+    ## Secret must be manually created in the namespace
+    ##
+    tls: []
+    # - secretName: thanos-gateway-tls
+    #   hosts:
+    #   - thanos-gateway.domain.com
+
+  ingress:
+    enabled: false
+    annotations: {}
+    labels: {}
+
+    ## Hostnames.
+    ## Must be provided if Ingress is enabled.
+    ##
+    # hosts:
+    #   - prometheus.domain.com
+    hosts: []
+
+    ## Paths to use for ingress rules - one path should match the prometheusSpec.routePrefix
+    ##
+    paths: []
+    # - /
+
+    ## TLS configuration for Prometheus Ingress
+    ## Secret must be manually created in the namespace
+    ##
+    tls: []
+      # - secretName: prometheus-general-tls
+      #   hosts:
+      #     - prometheus.example.com
+
+  ## Configuration for creating an Ingress that will map to each Prometheus replica service
+  ## prometheus.servicePerReplica must be enabled
+  ##
+  ingressPerReplica:
+    enabled: false
+    annotations: {}
+    labels: {}
+
+    ## Final form of the hostname for each per replica ingress is
+    ## {{ ingressPerReplica.hostPrefix }}-{{ $replicaNumber }}.{{ ingressPerReplica.hostDomain }}
+    ##
+    ## Prefix for the per replica ingress that will have `-$replicaNumber`
+    ## appended to the end
+    hostPrefix: ""
+    ## Domain that will be used for the per replica ingress
+    hostDomain: ""
+
+    ## Paths to use for ingress rules
+    ##
+    paths: []
+    # - /
+
+    ## Secret name containing the TLS certificate for Prometheus per replica ingress
+    ## Secret must be manually created in the namespace
+    tlsSecretName: ""
+
+    ## Separated secret for each per replica Ingress. Can be used together with cert-manager
+    ##
+    tlsSecretPerReplica:
+      enabled: false
+      ## Final form of the secret for each per replica ingress is
+      ## {{ tlsSecretPerReplica.prefix }}-{{ $replicaNumber }}
+      ##
+      prefix: "prometheus"
+
+  ## Configure additional options for default pod security policy for Prometheus
+  ## ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+  podSecurityPolicy:
+    allowedCapabilities: []
+
+  serviceMonitor:
+    ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+    ##
+    interval: ""
+    selfMonitor: true
+
+    ## scheme: HTTP scheme to use for scraping. Can be used with `tlsConfig` for example if using istio mTLS.
+    scheme: ""
+
+    ## tlsConfig: TLS configuration to use when scraping the endpoint. For example if using istio mTLS.
+    ## Of type: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#tlsconfig
+    tlsConfig: {}
+
+    bearerTokenFile:
+
+    ## 	metric relabel configs to apply to samples before ingestion.
+    ##
+    metricRelabelings: []
+    # - action: keep
+    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+    #   sourceLabels: [__name__]
+
+    # 	relabel configs to apply to samples before ingestion.
+    ##
+    relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+
+  ## Settings affecting prometheusSpec
+  ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
+  ##
+  prometheusSpec:
+    ## If true, pass --storage.tsdb.max-block-duration=2h to prometheus. This is already done if using Thanos
+    ##
+    disableCompaction: false
+    ## APIServerConfig
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#apiserverconfig
+    ##
+    apiserverConfig: {}
+
+    ## Interval between consecutive scrapes.
+    ##
+    scrapeInterval: ""
+
+    ## Interval between consecutive evaluations.
+    ##
+    evaluationInterval: ""
+
+    ## ListenLocal makes the Prometheus server listen on loopback, so that it does not bind against the Pod IP.
+    ##
+    listenLocal: false
+
+    ## EnableAdminAPI enables Prometheus the administrative HTTP API which includes functionality such as deleting time series.
+    ## This is disabled by default.
+    ## ref: https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis
+    ##
+    enableAdminAPI: false
+
+    ## Image of Prometheus.
+    ##
+    image:
+      repository: quay.io/prometheus/prometheus
+      tag: v2.18.2
+      sha: ""
+
+    ## Tolerations for use with node taints
+    ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+    ##
+    tolerations: []
+    #  - key: "key"
+    #    operator: "Equal"
+    #    value: "value"
+    #    effect: "NoSchedule"
+
+    ## Alertmanagers to which alerts will be sent
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#alertmanagerendpoints
+    ##
+    ## Default configuration will connect to the alertmanager deployed as part of this release
+    ##
+    alertingEndpoints: []
+    # - name: ""
+    #   namespace: ""
+    #   port: http
+    #   scheme: http
+    #   pathPrefix: ""
+    #   tlsConfig: {}
+    #   bearerTokenFile: ""
+    #   apiVersion: v2
+
+    ## External labels to add to any time series or alerts when communicating with external systems
+    ##
+    externalLabels: {}
+
+    ## Name of the external label used to denote replica name
+    ##
+    replicaExternalLabelName: ""
+
+    ## If true, the Operator won't add the external label used to denote replica name
+    ##
+    replicaExternalLabelNameClear: false
+
+    ## Name of the external label used to denote Prometheus instance name
+    ##
+    prometheusExternalLabelName: ""
+
+    ## If true, the Operator won't add the external label used to denote Prometheus instance name
+    ##
+    prometheusExternalLabelNameClear: false
+
+    ## External URL at which Prometheus will be reachable.
+    ##
+    externalUrl: ""
+
+    ## Define which Nodes the Pods are scheduled on.
+    ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+    ##
+    nodeSelector: {}
+
+    ## Secrets is a list of Secrets in the same namespace as the Prometheus object, which shall be mounted into the Prometheus Pods.
+    ## The Secrets are mounted into /etc/prometheus/secrets/. Secrets changes after initial creation of a Prometheus object are not
+    ## reflected in the running Pods. To change the secrets mounted into the Prometheus Pods, the object must be deleted and recreated
+    ## with the new list of secrets.
+    ##
+    secrets: []
+
+    ## ConfigMaps is a list of ConfigMaps in the same namespace as the Prometheus object, which shall be mounted into the Prometheus Pods.
+    ## The ConfigMaps are mounted into /etc/prometheus/configmaps/.
+    ##
+    configMaps: []
+
+    ## QuerySpec defines the query command line flags when starting Prometheus.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#queryspec
+    ##
+    query: {}
+
+    ## Namespaces to be selected for PrometheusRules discovery.
+    ## If nil, select own namespace. Namespaces to be selected for ServiceMonitor discovery.
+    ## See https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#namespaceselector for usage
+    ##
+    ruleNamespaceSelector: {}
+
+    ## If true, a nil or {} value for prometheus.prometheusSpec.ruleSelector will cause the
+    ## prometheus resource to be created with selectors based on values in the helm deployment,
+    ## which will also match the PrometheusRule resources created
+    ##
+    ruleSelectorNilUsesHelmValues: true
+
+    ## PrometheusRules to be selected for target discovery.
+    ## If {}, select all ServiceMonitors
+    ##
+    ruleSelector: {}
+    ## Example which select all prometheusrules resources
+    ## with label "prometheus" with values any of "example-rules" or "example-rules-2"
+    # ruleSelector:
+    #   matchExpressions:
+    #     - key: prometheus
+    #       operator: In
+    #       values:
+    #         - example-rules
+    #         - example-rules-2
+    #
+    ## Example which select all prometheusrules resources with label "role" set to "example-rules"
+    # ruleSelector:
+    #   matchLabels:
+    #     role: example-rules
+
+    ## If true, a nil or {} value for prometheus.prometheusSpec.serviceMonitorSelector will cause the
+    ## prometheus resource to be created with selectors based on values in the helm deployment,
+    ## which will also match the servicemonitors created
+    ##
+    serviceMonitorSelectorNilUsesHelmValues: true
+
+    ## ServiceMonitors to be selected for target discovery.
+    ## If {}, select all ServiceMonitors
+    ##
+    serviceMonitorSelector: {}
+    ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
+    # serviceMonitorSelector:
+    #   matchLabels:
+    #     prometheus: somelabel
+
+    ## Namespaces to be selected for ServiceMonitor discovery.
+    ## See https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#namespaceselector for usage
+    ##
+    serviceMonitorNamespaceSelector: {}
+
+    ## If true, a nil or {} value for prometheus.prometheusSpec.podMonitorSelector will cause the
+    ## prometheus resource to be created with selectors based on values in the helm deployment,
+    ## which will also match the podmonitors created
+    ##
+    podMonitorSelectorNilUsesHelmValues: true
+
+    ## PodMonitors to be selected for target discovery.
+    ## If {}, select all PodMonitors
+    ##
+    podMonitorSelector: {}
+    ## Example which selects PodMonitors with label "prometheus" set to "somelabel"
+    # podMonitorSelector:
+    #   matchLabels:
+    #     prometheus: somelabel
+
+    ## Namespaces to be selected for PodMonitor discovery.
+    ## See https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#namespaceselector for usage
+    ##
+    podMonitorNamespaceSelector: {}
+
+    ## How long to retain metrics
+    ##
+    retention: 10d
+
+    ## Maximum size of metrics
+    ##
+    retentionSize: ""
+
+    ## Enable compression of the write-ahead log using Snappy.
+    ##
+    walCompression: false
+
+    ## If true, the Operator won't process any Prometheus configuration changes
+    ##
+    paused: false
+
+    ## Number of Prometheus replicas desired
+    ##
+    replicas: 1
+
+    ## Log level for Prometheus be configured in
+    ##
+    logLevel: info
+
+    ## Log format for Prometheus be configured in
+    ##
+    logFormat: logfmt
+
+    ## Prefix used to register routes, overriding externalUrl route.
+    ## Useful for proxies that rewrite URLs.
+    ##
+    routePrefix: /
+
+    ## Standard object’s metadata. More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#metadata
+    ## Metadata Labels and Annotations gets propagated to the prometheus pods.
+    ##
+    podMetadata: {}
+    # labels:
+    #   app: prometheus
+    #   k8s-app: prometheus
+
+    ## Pod anti-affinity can prevent the scheduler from placing Prometheus replicas on the same node.
+    ## The default value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
+    ## The value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
+    ## The value "" will disable pod anti-affinity so that no anti-affinity rules will be configured.
+    podAntiAffinity: ""
+
+    ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
+    ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
+    ##
+    podAntiAffinityTopologyKey: kubernetes.io/hostname
+
+    ## Assign custom affinity rules to the prometheus instance
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+    ##
+    affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: kubernetes.io/e2e-az-name
+    #         operator: In
+    #         values:
+    #         - e2e-az1
+    #         - e2e-az2
+
+    ## The remote_read spec configuration for Prometheus.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#remotereadspec
+    remoteRead: []
+    # - url: http://remote1/read
+
+    ## The remote_write spec configuration for Prometheus.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#remotewritespec
+    remoteWrite: []
+    # - url: http://remote1/push
+
+    ## Enable/Disable Grafana dashboards provisioning for prometheus remote write feature
+    remoteWriteDashboards: false
+
+    ## Resource limits & requests
+    ##
+    resources: {}
+    # requests:
+    #   memory: 400Mi
+
+    ## Prometheus StorageSpec for persistent data
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/storage.md
+    ##
+    storageSpec: {}
+    #  volumeClaimTemplate:
+    #    spec:
+    #      storageClassName: gluster
+    #      accessModes: ["ReadWriteOnce"]
+    #      resources:
+    #        requests:
+    #          storage: 50Gi
+    #    selector: {}
+
+    # Additional volumes on the output StatefulSet definition.
+    volumes: []
+    # Additional VolumeMounts on the output StatefulSet definition.
+    volumeMounts: []
+
+    ## AdditionalScrapeConfigs allows specifying additional Prometheus scrape configurations. Scrape configurations
+    ## are appended to the configurations generated by the Prometheus Operator. Job configurations must have the form
+    ## as specified in the official Prometheus documentation:
+    ## https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config. As scrape configs are
+    ## appended, the user is responsible to make sure it is valid. Note that using this feature may expose the possibility
+    ## to break upgrades of Prometheus. It is advised to review Prometheus release notes to ensure that no incompatible
+    ## scrape configs are going to break Prometheus after the upgrade.
+    ##
+    ## The scrape configuraiton example below will find master nodes, provided they have the name .*mst.*, relabel the
+    ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
+    ##
+    additionalScrapeConfigs: []
+    # - job_name: kube-etcd
+    #   kubernetes_sd_configs:
+    #     - role: node
+    #   scheme: https
+    #   tls_config:
+    #     ca_file:   /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+    #     cert_file: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+    #     key_file:  /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+    #   relabel_configs:
+    #   - action: labelmap
+    #     regex: __meta_kubernetes_node_label_(.+)
+    #   - source_labels: [__address__]
+    #     action: replace
+    #     targetLabel: __address__
+    #     regex: ([^:;]+):(\d+)
+    #     replacement: ${1}:2379
+    #   - source_labels: [__meta_kubernetes_node_name]
+    #     action: keep
+    #     regex: .*mst.*
+    #   - source_labels: [__meta_kubernetes_node_name]
+    #     action: replace
+    #     targetLabel: node
+    #     regex: (.*)
+    #     replacement: ${1}
+    #   metric_relabel_configs:
+    #   - regex: (kubernetes_io_hostname|failure_domain_beta_kubernetes_io_region|beta_kubernetes_io_os|beta_kubernetes_io_arch|beta_kubernetes_io_instance_type|failure_domain_beta_kubernetes_io_zone)
+    #     action: labeldrop
+
+    ## If additional scrape configurations are already deployed in a single secret file you can use this section.
+    ## Expected values are the secret name and key
+    ## Cannot be used with additionalScrapeConfigs
+    additionalScrapeConfigsSecret: {}
+      # enabled: false
+      # name:
+      # key:
+
+    ## additionalPrometheusSecretsAnnotations allows to add annotations to the kubernetes secret. This can be useful
+    ## when deploying via spinnaker to disable versioning on the secret, strategy.spinnaker.io/versioned: 'false'
+    additionalPrometheusSecretsAnnotations: {}
+
+    ## AdditionalAlertManagerConfigs allows for manual configuration of alertmanager jobs in the form as specified
+    ## in the official Prometheus documentation https://prometheus.io/docs/prometheus/latest/configuration/configuration/#<alertmanager_config>.
+    ## AlertManager configurations specified are appended to the configurations generated by the Prometheus Operator.
+    ## As AlertManager configs are appended, the user is responsible to make sure it is valid. Note that using this
+    ## feature may expose the possibility to break upgrades of Prometheus. It is advised to review Prometheus release
+    ## notes to ensure that no incompatible AlertManager configs are going to break Prometheus after the upgrade.
+    ##
+    additionalAlertManagerConfigs: []
+    # - consul_sd_configs:
+    #   - server: consul.dev.test:8500
+    #     scheme: http
+    #     datacenter: dev
+    #     tag_separator: ','
+    #     services:
+    #       - metrics-prometheus-alertmanager
+
+    ## AdditionalAlertRelabelConfigs allows specifying Prometheus alert relabel configurations. Alert relabel configurations specified are appended
+    ## to the configurations generated by the Prometheus Operator. Alert relabel configurations specified must have the form as specified in the
+    ## official Prometheus documentation: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#alert_relabel_configs.
+    ## As alert relabel configs are appended, the user is responsible to make sure it is valid. Note that using this feature may expose the
+    ## possibility to break upgrades of Prometheus. It is advised to review Prometheus release notes to ensure that no incompatible alert relabel
+    ## configs are going to break Prometheus after the upgrade.
+    ##
+    additionalAlertRelabelConfigs: []
+    # - separator: ;
+    #   regex: prometheus_replica
+    #   replacement: $1
+    #   action: labeldrop
+
+    ## SecurityContext holds pod-level security attributes and common container settings.
+    ## This defaults to non root user with uid 1000 and gid 2000.
+    ## https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md
+    ##
+    securityContext:
+      runAsGroup: 2000
+      runAsNonRoot: true
+      runAsUser: 1000
+      fsGroup: 2000
+
+    ## 	Priority class assigned to the Pods
+    ##
+    priorityClassName: ""
+
+    ## Thanos configuration allows configuring various aspects of a Prometheus server in a Thanos environment.
+    ## This section is experimental, it may change significantly without deprecation notice in any release.
+    ## This is experimental and may change significantly without backward compatibility in any release.
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#thanosspec
+    ##
+    thanos: {}
+
+    ## Containers allows injecting additional containers. This is meant to allow adding an authentication proxy to a Prometheus pod.
+    ##  if using proxy extraContainer  update targetPort with proxy container port
+    containers: []
+
+    ## InitContainers allows injecting additional initContainers. This is meant to allow doing some changes
+    ## (permissions, dir tree) on mounted volumes before starting prometheus
+    initContainers: []
+
+    ## PortName to use for Prometheus.
+    ##
+    portName: "web"
+
+  additionalServiceMonitors: []
+  ## Name of the ServiceMonitor to create
+  ##
+  # - name: ""
+
+    ## Additional labels to set used for the ServiceMonitorSelector. Together with standard labels from
+    ## the chart
+    ##
+    # additionalLabels: {}
+
+    ## Service label for use in assembling a job name of the form <label value>-<port>
+    ## If no label is specified, the service name is used.
+    ##
+    # jobLabel: ""
+
+    ## labels to transfer from the kubernetes service to the target
+    ##
+    # targetLabels: ""
+
+    ## Label selector for services to which this ServiceMonitor applies
+    ##
+    # selector: {}
+
+    ## Namespaces from which services are selected
+    ##
+    # namespaceSelector:
+      ## Match any namespace
+      ##
+      # any: false
+
+      ## Explicit list of namespace names to select
+      ##
+      # matchNames: []
+
+    ## Endpoints of the selected service to be monitored
+    ##
+    # endpoints: []
+      ## Name of the endpoint's service port
+      ## Mutually exclusive with targetPort
+      # - port: ""
+
+      ## Name or number of the endpoint's target port
+      ## Mutually exclusive with port
+      # - targetPort: ""
+
+      ## File containing bearer token to be used when scraping targets
+      ##
+      #   bearerTokenFile: ""
+
+      ## Interval at which metrics should be scraped
+      ##
+      #   interval: 30s
+
+      ## HTTP path to scrape for metrics
+      ##
+      #   path: /metrics
+
+      ## HTTP scheme to use for scraping
+      ##
+      #   scheme: http
+
+      ## TLS configuration to use when scraping the endpoint
+      ##
+      #   tlsConfig:
+
+          ## Path to the CA file
+          ##
+          # caFile: ""
+
+          ## Path to client certificate file
+          ##
+          # certFile: ""
+
+          ## Skip certificate verification
+          ##
+          # insecureSkipVerify: false
+
+          ## Path to client key file
+          ##
+          # keyFile: ""
+
+          ## Server name used to verify host name
+          ##
+          # serverName: ""
+
+  additionalPodMonitors: []
+  ## Name of the PodMonitor to create
+  ##
+  # - name: ""
+
+    ## Additional labels to set used for the PodMonitorSelector. Together with standard labels from
+    ## the chart
+    ##
+    # additionalLabels: {}
+
+    ## Pod label for use in assembling a job name of the form <label value>-<port>
+    ## If no label is specified, the pod endpoint name is used.
+    ##
+    # jobLabel: ""
+
+    ## Label selector for pods to which this PodMonitor applies
+    ##
+    # selector: {}
+
+    ## PodTargetLabels transfers labels on the Kubernetes Pod onto the target.
+    ##
+    # podTargetLabels: {}
+
+    ## SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
+    ##
+    # sampleLimit: 0
+
+    ## Namespaces from which pods are selected
+    ##
+    # namespaceSelector:
+      ## Match any namespace
+      ##
+      # any: false
+
+      ## Explicit list of namespace names to select
+      ##
+      # matchNames: []
+
+    ## Endpoints of the selected pods to be monitored
+    ## https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#podmetricsendpoint
+    ##
+    # podMetricsEndpoints: []
 
