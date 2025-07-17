@@ -41,7 +41,6 @@ spec:
           kubernetes.io/tls-acme: "true"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts: 
           - grafana.${app_k8s_domain_name}
       tls: 
@@ -57,7 +56,6 @@ spec:
           kubernetes.io/tls-acme: "true"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts: 
           - alertmanager.${app_k8s_domain_name}
       tls: 
@@ -73,7 +71,6 @@ spec:
           kubernetes.io/tls-acme: "true"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts: 
           - prometheus.${app_k8s_domain_name}
       tls: 

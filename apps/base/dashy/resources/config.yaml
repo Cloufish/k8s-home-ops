@@ -81,6 +81,10 @@ sections:
     icon: https://duplicati.${app_swarm_domain_name}/img/logo.png
     url: https://duplicati.${app_swarm_domain_name}/
     description: For doing Backups
+  - title: Longhorn K8s
+    icon: https://github.com/longhorn/website/blob/master/static/img/logos/longhorn-stacked-color.png
+    url: https://longhorn.${app_swarm_domain_name}/
+    description: Cloud native distributed block storage for Kubernetes with Backups and Snapshots
 - name: Monitoring
   items:
   - title: Grafana Swarm
