@@ -59,8 +59,8 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <td>Automated dependency updates.</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://www.svgrepo.com/download/374041/renovate.svg"></td>
-        <td><a href="https://github.com/longhorn/website/blob/master/static/img/logos/longhorn-stacked-color.png">Longhorn</a></td>
+        <td><img width="32" src="https://github.com/longhorn/website/blob/master/static/img/logos/longhorn-stacked-color.png"></td>
+        <td><a href="https://longhorn.io/">Longhorn</a></td>
         <td>A distributed block storage system for Kubernetes with built-in Backups and Snapshots mechanism</td>
     </tr>
 </table>
