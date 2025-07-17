@@ -63,6 +63,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <td><a href="https://longhorn.io/">Longhorn</a></td>
         <td>A distributed block storage system for Kubernetes with built-in Backups and Snapshots mechanism</td>
     </tr>
+    <tr>
+        <td><img width="32" src="https://a.b.cdn.console.awsstatic.com/a/v1/DKY2SIL5N3MJQCULDNOQE7TKLNQIUXRSOHBJKJGQAHLZO7TLH3TQ/icon/c0828e0381730befd1f7a025057c74fb-43acc0496e64afba82dbc9ab774dc622.svg"></td>
+        <td><a href="https://aws.amazon.com/s3/">AWS S3 Bucket</a></td>
+        <td>For Storing Backups in the Cloud</td>
+    </tr>
 </table>
 
 ### STEPS TO DEPLOY NEW APPLICATION
