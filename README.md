@@ -68,6 +68,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <td><a href="https://aws.amazon.com/s3/">AWS S3 Bucket</a></td>
         <td>For Storing Backups in the Cloud</td>
     </tr>
+    <tr>
+        <td><img width="32" src="https://www.truenas.com/wp-content/uploads/2020/08/cropped-TN-favicon-100x100.png"></td>
+        <td><a href="https://www.truenas.com/">TrueNAS Core</a></td>
+        <td>For Storing Backups on-premise with NFS Protocol</td>
+    </tr>
 </table>
 
 ### STEPS TO DEPLOY NEW APPLICATION
@@ -95,8 +100,8 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [X] **Renovate**
 - [X] longhorn
 - [ ] Backups 
-    - [ ] To S3 Bucket
-    - [ ] To NFS Storage 
+    - [X] To S3 Bucket
+    - [X] To NFS Storage 
 - [ ] Vaultwarden 
 - [ ] Uptime Kuma
 - [X] Grafana
