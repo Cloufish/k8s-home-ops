@@ -22,6 +22,7 @@ spec:
       default_k8s_cert_name: k8s-cert-prod
       code_server_app_name: code-server
       dashy_app_name: dashy
+      chatgpt_next_app_name: chatgpt-next
   decryption:
     provider: sops
     secretRef: 
