@@ -41,8 +41,8 @@ spec:
         containers:
           app:
             image:
-              repository: yidadaa/chatgpt-next-web
-              tag: v2.16.0
+              repository: gsmlg/devdocs
+              tag: 2025-05-04
             env: 
               TZ: Europe/Warsaw
               UID: 1000
