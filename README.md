@@ -129,11 +129,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Searxng 
 - [ ] Compozerize (Stateless)
 - [ ] DSOMM 
-- [ ] Devdocs (Stateless)
+- [X] Devdocs (Stateless)
 - [ ] Home Assistant
 - [ ] n8n
 - [ ] pgadmin
 - [ ] commafeed
 - [ ] ReadLater
-- [ ] ChatGPT Frontend (Stateless)
+- [X] ChatGPT Frontend (Stateless)
 - [ ] Lidify
