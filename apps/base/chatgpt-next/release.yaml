@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: yidadaa/chatgpt-next-web
-              tag: 2.16.0
+              tag: v2.16.0
             env: 
               TZ: Europe/Warsaw
               UID: 1000
