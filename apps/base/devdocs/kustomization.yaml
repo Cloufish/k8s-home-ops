@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: ${devdocs_app_name}
 resources:
   - ./release.yaml
-  - ./chatgpt-next-secret.yaml
