@@ -21,7 +21,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <tr>
         <td><img width="32" src="https://docs.nginx.com/images/favicon-48x48.ico"></td>
         <td><a href="https://docs.nginx.com/nginx-ingress-controller/">NGINX Ingress Controller</a></td>
-        <td>X.509 certificate management for Kubernetes.</td>
+        <td> Ingress Controller implementation for NGINX that can load balance Websocket, gRPC, TCP and UDP applications.</td>
     </tr>
     <tr>
         <td><img width="32" src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/cert-manager.svg"></td>
@@ -118,7 +118,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     - [X] To S3 Bucket
     - [X] To NFS Storage 
 - [ ] Vaultwarden 
-- [ ] Uptime Kuma
 - [X] Grafana
 - [X] Prometheus 
 - [X] Alert Manager

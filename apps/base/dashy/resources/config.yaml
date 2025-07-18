@@ -207,7 +207,7 @@ sections:
   - title: ChatGPT
     description: Self-Hosted Frontend for ChatGPT
     icon: hl-chatgpt
-    url: https://chatgpt.${app_swarm_domain_name}
+    url: https://chatgpt-next.${app_k8s_domain_name}
   - title: Vaultwarden
     description: Self-Hosted Bitwarden
     icon: hl-bitwarden

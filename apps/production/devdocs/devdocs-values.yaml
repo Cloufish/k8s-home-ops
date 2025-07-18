@@ -1,0 +1,22 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ${devdocs_app_name} # This variable is defined inside clusters/production/apps.yaml
+  namespace: ${devdocs_app_name}
+spec:
+  chart:
+    spec:
+      version: ">=1.0.0"
+  values:
+    ingress:
+      app:
+        hosts:
+          - host: "${devdocs_app_name}.${app_k8s_domain_name}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "${devdocs_app_name}.${app_k8s_domain_name}"
+            secretName: ${devdocs_app_name}-${default_k8s_cert_name}
+

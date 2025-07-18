@@ -23,6 +23,7 @@ spec:
       code_server_app_name: code-server
       dashy_app_name: dashy
       chatgpt_next_app_name: chatgpt-next
+      devdocs_app_name: devdocs
   decryption:
     provider: sops
     secretRef: 
