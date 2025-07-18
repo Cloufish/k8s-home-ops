@@ -73,10 +73,9 @@ spec:
       servicemonitor:
         enabled: true
     config:
-      existingSecret: oauth2-proxy-dex
+      existingSecret: oauth2-proxy-secret
       configFile: |
-        provider = "oidc"
-        oidc_issuer_url = "https://oauth2-proxy.${app_k8s_domain_name}"
+        provider = "google"
         auth_logging = true
         cookie_domains = ".${app_k8s_domain_name}"
         cookie_httponly = true
