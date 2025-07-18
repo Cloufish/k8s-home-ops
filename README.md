@@ -18,6 +18,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <th>Name</th>
         <th>Description</th>
     </tr>
+        <tr>
+        <td><img width="32" src="https://docs.nginx.com/images/favicon-48x48.ico"></td>
+        <td><a href="https://docs.nginx.com/nginx-ingress-controller/">NGINX Ingress Controller</a></td>
+        <td>X.509 certificate management for Kubernetes.</td>
+    </tr>
     <tr>
         <td><img width="32" src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/cert-manager.svg"></td>
         <td><a href="https://cert-manager.io/">Cert Manager</a></td>
@@ -42,6 +47,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <td><img width="32" src="https://oauth2-proxy.github.io/oauth2-proxy/img/logos/OAuth2_Proxy_icon.svg"></td>
         <td><a href="https://oauth2-proxy.github.io/oauth2-proxy">OAuth2-Proxy</a></td>
         <td>Simple Middleware that provides authentication using Identity Providers like Google, GitHub</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://www.authelia.com/favicon.svg"></td>
+        <td><a href="https://www.authelia.com/">Authelia (**Coming soon**)</a></td>
+        <td>Authelia is a 2FA & SSO authentication server which is dedicated to the security of applications and users.</td>
     </tr>
     <tr>
         <td><img width="32" src="https://getsops.io/favicons/favicon.ico"></td>
@@ -114,16 +124,17 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [X] Alert Manager
 - [ ] Loki with Grafana-Operator
 - [ ] **OAuth 2.0 for Code Server** 
+- [ ] **Authelia**
 - [ ] languagetool 
-- [ ] Blocky DNS Server
+- [ ] Blocky DNS Server (Stateless)
 - [ ] Searxng 
-- [ ] Compozerize 
+- [ ] Compozerize (Stateless)
 - [ ] DSOMM 
-- [ ] Devdocs
+- [ ] Devdocs (Stateless)
 - [ ] Home Assistant
 - [ ] n8n
 - [ ] pgadmin
 - [ ] commafeed
 - [ ] ReadLater
-- [ ] ChatGPT Frontend
+- [ ] ChatGPT Frontend (Stateless)
 - [ ] Lidify

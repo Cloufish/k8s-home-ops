@@ -6,3 +6,5 @@ resources:
   - cloudnative-pg.yaml
   - prometheus-operator.yaml
   - longhorn.yaml
+  - oauth2-proxy.yaml
+#  - authelia.yaml
