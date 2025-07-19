@@ -128,8 +128,9 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Loki with Grafana-Operator
 - [ ] **OAuth 2.0 for Code Server** 
     - [ ] Fix oauth2-proxy not redirecting to the `$request_uri` (the oauth2 cookie is present)
-- [ ] Cloudflared Tunnel 
-    - [ ] Fix error `ERR Cannot determine default origin certificate path` https://github.com/cloudflare/cloudflared/issues/1037 
+- [X] Cloudflared Tunnel 
+    - [X] Fix error `ERR Cannot determine default origin certificate path` https://github.com/cloudflare/cloudflared/issues/1037 
+    - [ ] Create a tunnel once I fix oauth2-proxy error https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/#7-add-a-tunnel-route
     - This guide might be useful https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/
 - [ ] **Authelia**
 - [ ] languagetool 
