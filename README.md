@@ -123,17 +123,18 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [X] Alert Manager
 - [ ] Loki with Grafana-Operator
 - [ ] **OAuth 2.0 for Code Server** 
+    - [ ] Fix wrong detected Secret length by app
 - [ ] **Authelia**
 - [ ] languagetool 
 - [ ] Blocky DNS Server (Stateless)
 - [ ] Searxng 
 - [ ] Compozerize (Stateless)
 - [ ] DSOMM 
-- [X] Devdocs (Stateless)
 - [ ] Home Assistant
 - [ ] n8n
 - [ ] pgadmin
 - [ ] commafeed
 - [ ] ReadLater
-- [X] ChatGPT Frontend (Stateless)
+- [ ] ChatGPT Frontend (Stateless)
+    - [ ] Error [Org ID] is not set up. Related GitHub Issue https://github.com/ChatGPTNextWeb/NextChat/issues/6174
 - [ ] Lidify

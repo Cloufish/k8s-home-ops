@@ -138,7 +138,7 @@ sections:
   items:
   - title: Devdocs
     icon: hl-mkdocs
-    url: https://devdocs.${app_swarm_domain_name}
+    url: https://devdocs.io
     description: Self-Hosted Devdocs
   - title: Proxmox Docs
     icon: hl-proxmox
