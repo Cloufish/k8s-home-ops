@@ -9,7 +9,7 @@ metadata:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: cloudflared
+  name: bjw-s
   namespace: cloudflared
 spec:
   interval: 24h
