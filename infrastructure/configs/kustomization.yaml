@@ -6,3 +6,4 @@ resources:
   - ./grafana-secret.yaml
   - ./aws-s3-secret.yaml
   - ./oauth2-proxy-secret.yaml
+  - ./cloudflared-tunnel-secret.yaml
