@@ -62,7 +62,6 @@ spec:
             args:
               - tunnel
               - run
-              - "$(TUNNEL_ID)"
             probes:
               liveness: &probes
                 enabled: true
