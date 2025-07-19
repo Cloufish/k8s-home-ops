@@ -158,35 +158,6 @@ sections:
     icon: hl-traefik
     url: https://traefik-docs.${app_swarm_domain_name}
     description: Self-Hosted Traefik Docs
-  # - title: Rust Async Book
-  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
-  #   url: https://rust-async.${app_swarm_domain_name}
-  # - title: Rust Book
-  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
-  #   url: https://rust-book.${app_swarm_domain_name}
-  # - title: Rust Discovery
-  #   description: Introductory course on microcontroller-based embedded systems that uses Rust
-  #   url: https://rust-discovery.${app_swarm_domain_name}
-  # - title: Rust Embedded
-  #   description: An introductory book about using the Rust Programming Language on "Bare Metal" embedded systems
-  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
-  #   url: https://rust-embedded.${app_swarm_domain_name}
-  # - title: Rust ESP
-  #   description: Introductory course on ESP microcontroller-based embedded systems that uses Rust
-  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
-  #   url: https://rust-esp.${app_swarm_domain_name}
-  # - title: Rust By Example
-  #   description: A collection of runnable examples that illustrate various Rust concepts and standard libraries.
-  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
-  #   url: https://rust-example.${app_swarm_domain_name}
-  # - title: The Rustonomicon
-  #   description: The Rustonomicon digs into all the awful details that you need to understand when writing Unsafe Rust programs.
-  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
-  #   url: https://rust-nomicon.${app_swarm_domain_name}
-  # - title: Writing an OS in Rust
-  #   description: This blog series creates a small operating system in the Rust programming language
-  #   icon: https://www.rust-lang.org/static/images/rust-logo-blk.svg
-  #   url: https://rust-os.${app_swarm_domain_name}
 - name: Media
   items:
   # An array of items

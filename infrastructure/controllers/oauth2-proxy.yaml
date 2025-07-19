@@ -98,3 +98,11 @@ spec:
         standard_logging = true
         upstreams = [ "static://200" ]
         whitelist_domains = ".${app_k8s_domain_name}"
+
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+      className: nginx
+      hosts:
+        - oauth2-proxy.${app_k8s_domain_name}
