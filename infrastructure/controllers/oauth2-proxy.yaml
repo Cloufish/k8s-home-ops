@@ -83,6 +83,11 @@ spec:
         whitelist-domain: ".${app_k8s_domain_name}"
         exclude-logging-path: "/ping"
 
+    authenticatedEmailsFile:
+      enabled: true
+      restricted_access: |
+        cloufisz@gmail.com
+
     ingress:
       enabled: true
       annotations:
