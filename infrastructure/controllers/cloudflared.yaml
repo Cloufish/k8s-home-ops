@@ -1,4 +1,12 @@
-# The provided manifest is from official Cloudflare Documentation https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/. I trust it 
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloudflared
+  labels:
+    toolkit.fluxcd.io/tenant: sre-team
+---
+---
+# The provided manifest is from official Cloudflare Documentation https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/. 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
