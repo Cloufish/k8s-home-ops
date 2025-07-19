@@ -115,17 +115,25 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [X] **Renovate**
 - [X] longhorn
 - [ ] Backups 
-    - [X] To S3 Bucket
-    - [X] To NFS Storage 
+    - [X] Set up S3 Bucket
+    - [X] Set up NFS Storage
+    - [ ] Figure out why Manual Backups work, while Recurring Backups, Snapshots are not 
+    - [ ] See If you can encrypt backups before sending
 - [ ] Vaultwarden 
+    - Deploy it only when encrypted Backups, Snapshots are set
+    - If encryption isn't possible, don't migrate this app to K8s
 - [X] Grafana
 - [X] Prometheus 
 - [X] Alert Manager
 - [ ] Loki with Grafana-Operator
 - [ ] **OAuth 2.0 for Code Server** 
-    - [ ] Fix wrong detected Secret length by app
+    - [ ] Fix oauth2-proxy not redirecting to the `$request_uri` (the oauth2 cookie is present)
+- [ ] Cloudflared Tunnel 
+    - [ ] Fix error `ERR Cannot determine default origin certificate path` https://github.com/cloudflare/cloudflared/issues/1037 
 - [ ] **Authelia**
 - [ ] languagetool 
+    - Figure out why Docker version of this app stopped working
+    - Figure out how to download ngrams in GitOps way
 - [ ] Blocky DNS Server (Stateless)
 - [ ] Searxng 
 - [ ] Compozerize (Stateless)
@@ -133,7 +141,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Home Assistant
 - [ ] n8n
 - [ ] pgadmin
-- [ ] commafeed
+- [ ] **commafeed**
 - [ ] ReadLater
 - [ ] ChatGPT Frontend (Stateless)
     - [ ] Error [Org ID] is not set up. Related GitHub Issue https://github.com/ChatGPTNextWeb/NextChat/issues/6174

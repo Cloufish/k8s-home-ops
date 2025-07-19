@@ -77,18 +77,15 @@ spec:
       configFile: |
         provider = "google"
         auth_logging = true
-        cookie_domains = ".${app_k8s_domain_name}"
+        cookie_domains = ".cloufish.xyz"
         cookie_httponly = true
         cookie_name = "cloufish_oauth"
         cookie_refresh = "1h"
         cookie_samesite = "lax"
         cookie_secure = true
         pass_access_token = true
-        pass_authorization_header = true
-        pass_basic_auth = false
         request_logging = true
         session_store_type = "cookie"
-        silence_ping_logging = true
         set_authorization_header = true
         set_xauthrequest = true
         skip_jwt_bearer_tokens = true
@@ -96,7 +93,7 @@ spec:
         ssl_insecure_skip_verify = false
         standard_logging = true
         upstreams = [ "static://200" ]
-        whitelist_domains = ".${app_k8s_domain_name}"
+        whitelist_domains = ".cloufish.xyz"
 
     authenticatedEmailsFile:
       enabled: true
