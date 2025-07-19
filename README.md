@@ -130,6 +130,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     - [ ] Fix oauth2-proxy not redirecting to the `$request_uri` (the oauth2 cookie is present)
 - [ ] Cloudflared Tunnel 
     - [ ] Fix error `ERR Cannot determine default origin certificate path` https://github.com/cloudflare/cloudflared/issues/1037 
+    - This guide might be useful https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/
 - [ ] **Authelia**
 - [ ] languagetool 
     - Figure out why Docker version of this app stopped working
