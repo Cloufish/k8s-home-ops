@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: ${code_server_app_name}
 resources:
   - ./release.yaml
+  - ./code-server-secret.yaml

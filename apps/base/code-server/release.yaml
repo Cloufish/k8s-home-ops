@@ -47,6 +47,9 @@ spec:
               TZ: Europe/Warsaw
               UID: 1000
               GID: 1000
+            envFrom:
+              - secretRef:
+                  name: code-server-secret
             args:
               - --auth
               - none

@@ -112,6 +112,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 6. However, **even better option** is to use VSCode Extension to automatically (This is tricky in Windows environment)
 
 ### TODO: 
+- [ ] Alerts for TLS certificate expiration
 - [X] **Renovate**
 - [X] longhorn
 - [ ] Backups 
@@ -131,7 +132,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [X] Cloudflared Tunnel 
     - [X] Fix error `ERR Cannot determine default origin certificate path` https://github.com/cloudflare/cloudflared/issues/1037 
     - [ ] Create a tunnel once I fix oauth2-proxy error https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/#7-add-a-tunnel-route
-    - This guide might be useful https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/
 - [ ] **Authelia**
 - [ ] languagetool 
     - Figure out why Docker version of this app stopped working
