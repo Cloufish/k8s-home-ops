@@ -76,6 +76,9 @@ spec:
       existingSecret: oauth2-proxy-secret
       configFile: |
         provider = "google"
+        oidc_issuer_url = "https://accounts.google.com"
+        login_url = "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline"
+        redeem_url = "https://oauth2.googleapis.com/token"
         auth_logging = true
         cookie_domains = ".cloufish.xyz"
         cookie_httponly = true
