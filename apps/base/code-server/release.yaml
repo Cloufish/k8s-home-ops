@@ -52,9 +52,7 @@ spec:
                   name: code-server-secret
             args:
               - --auth
-              - none
-              - --disable-telemetry
-              - --disable-update-check
+              - password
               - --user-data-dir
               - /home/coder/.code-server
               - --extensions-dir
