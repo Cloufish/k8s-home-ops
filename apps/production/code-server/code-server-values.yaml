@@ -15,8 +15,14 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+          - host: "${code_server_app_name}.cloufish.xyz"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
           - hosts:
               - "${code_server_app_name}.${app_k8s_domain_name}"
             secretName: ${code_server_app_name}-${default_k8s_cert_name}
-
+          - hosts:
+              - "${code_server_app_name}.cloufish.xyz"
+            secretName: ${code_server_app_name}-${default_k8s_cert_name}
