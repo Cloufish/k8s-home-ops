@@ -108,7 +108,7 @@ spec:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-production
       className: nginx
-      path: /oauth2
+      path: /
       hosts:
         - oauth2-proxy.${app_k8s_domain_name}
       tls: 
