@@ -22,7 +22,7 @@ jobs:
           chmod +x /usr/local/bin/sops
       - name: Set up SOPS Secret
         run: | 
-          echo "${{ secrets.SOPS_AGE_KEY }}" | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
+          kubectl create secret generic sops-age --namespace=flux-system --from-literal key="${{ secrets.SOPS_AGE_KEY }}"
       - name: Setup Kubernetes
         uses: helm/kind-action@v1.7.0
         with:
