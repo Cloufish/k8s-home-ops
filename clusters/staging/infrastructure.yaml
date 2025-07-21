@@ -14,6 +14,13 @@ spec:
   path: ./infrastructure/controllers
   prune: true
   wait: true
+  patches: 
+    - patch: | 
+        - op: remove
+          path: /spec/values/controller/service/loadBalancerIP
+        - op: replace
+          path: /spec/values/controller/service/type
+          value: NodePort
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
