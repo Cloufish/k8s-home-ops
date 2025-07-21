@@ -25,7 +25,7 @@ spec:
   chart:
     spec:
       chart: ingress-nginx
-      version: "*"
+      version: '*'
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
@@ -34,7 +34,7 @@ spec:
   values:
     controller:
       service:
-        type: "LoadBalancer"
+        type: LoadBalancer
         loadBalancerIP: 192.168.1.240
     admissionWebhooks:
       enabled: false

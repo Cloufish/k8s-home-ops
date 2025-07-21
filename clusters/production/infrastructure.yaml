@@ -21,7 +21,7 @@ spec:
       default_k8s_cert_name: k8s-cert-prod
   decryption:
     provider: sops
-    secretRef: 
+    secretRef:
       name: sops-age
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -53,5 +53,5 @@ spec:
       default_k8s_cert_name: k8s-cert-prod
   decryption:
     provider: sops
-    secretRef: 
+    secretRef:
       name: sops-age

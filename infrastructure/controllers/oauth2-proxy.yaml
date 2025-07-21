@@ -19,8 +19,8 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: oauth2-proxy 
-  namespace: oauth2-proxy 
+  name: oauth2-proxy
+  namespace: oauth2-proxy
 spec:
   interval: 5m
   chart:
@@ -29,8 +29,8 @@ spec:
       version: 7.14.1
       sourceRef:
         kind: HelmRepository
-        name: oauth2-proxy 
-        namespace: oauth2-proxy 
+        name: oauth2-proxy
+        namespace: oauth2-proxy
       interval: 10m
   install:
     timeout: 10m
@@ -97,29 +97,22 @@ spec:
         standard_logging = true
         upstreams = [ "static://200" ]
         whitelist_domains = ".cloufish.xyz"
-
     authenticatedEmailsFile:
       enabled: true
       restricted_access: |
         cloufisz@gmail.com
-
     ingress:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-production
       className: nginx
       path: /
-      hosts:
-        - oauth2-proxy.${app_k8s_domain_name}
-        - oauth2-proxy.cloufish.xyz
-      tls: 
+      hosts: ['oauth2-proxy.${app_k8s_domain_name}', oauth2-proxy.cloufish.xyz]
+      tls:
         - secretName: oauth2-proxy-${default_k8s_cert_name}
-          hosts: 
-            - oauth2-proxy.${app_k8s_domain_name}
+          hosts: ['oauth2-proxy.${app_k8s_domain_name}']
         - secretName: oauth2-proxy-${default_k8s_cert_name}
-          hosts: 
-            - oauth2-proxy.cloufish.xyz
-
+          hosts: [oauth2-proxy.cloufish.xyz]
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -131,5 +124,4 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  dnsNames:
-    - 'oauth2-proxy.${app_k8s_domain_name}'
+  dnsNames: ['oauth2-proxy.${app_k8s_domain_name}']

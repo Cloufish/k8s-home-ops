@@ -36,30 +36,27 @@ spec:
     controllers:
       ${chatgpt_next_app_name}:
         annotations:
-          reloader.stakater.com/auto: "true"
-
+          reloader.stakater.com/auto: 'true'
         containers:
           app:
             image:
               repository: yidadaa/chatgpt-next-web
               tag: v2.16.0
-            env: 
+            env:
               TZ: Europe/Warsaw
               UID: 1000
               GID: 1000
-            envFrom: 
+            envFrom:
               - secretRef:
                   name: chatgpt-next-secret
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
               capabilities:
-                drop:
-                  - ALL
+                drop: [ALL]
             ports:
               - name: http
                 containerPort: &httpPort 3000
-
             resources:
               requests:
                 cpu: 10m
@@ -80,16 +77,14 @@ spec:
           http:
             port: *httpPort
             protocol: TCP
-
     ingress:
       app:
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
-          kubernetes.io/tls-acme: "true"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-          nginx.ingress.kubernetes.io/ssl-redirect: "true"
-
+          kubernetes.io/tls-acme: 'true'
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     persistence:
       config:
         enabled: true
@@ -97,4 +92,3 @@ spec:
         storageClass: longhorn
         accessMode: ReadWriteOnce
         size: 10Gi
-

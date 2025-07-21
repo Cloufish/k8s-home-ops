@@ -26,5 +26,5 @@ spec:
       devdocs_app_name: devdocs
   decryption:
     provider: sops
-    secretRef: 
+    secretRef:
       name: sops-age

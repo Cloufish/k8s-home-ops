@@ -36,14 +36,13 @@ spec:
     controllers:
       ${code_server_app_name}:
         annotations:
-          reloader.stakater.com/auto: "true"
-
+          reloader.stakater.com/auto: 'true'
         containers:
           app:
             image:
               repository: ghcr.io/coder/code-server
               tag: 4.101.2@sha256:5f654c1137f8d87c8cf44253318bf94b85f6f9129e426a9956da46eb602dcc5a
-            env: 
+            env:
               TZ: Europe/Warsaw
               UID: 1000
               GID: 1000
@@ -58,19 +57,16 @@ spec:
               - --extensions-dir
               - /home/coder/.code-server
               - --port
-              - "8080"
+              - '8080'
               - /home/coder/
-
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
               capabilities:
-                drop:
-                  - ALL
+                drop: [ALL]
             ports:
               - name: http
                 containerPort: &httpPort 8080
-
             resources:
               requests:
                 cpu: 10m
@@ -91,16 +87,15 @@ spec:
           http:
             port: *httpPort
             protocol: TCP
-
     ingress:
       app:
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
-          kubernetes.io/tls-acme: "true"
-          nginx.ingress.kubernetes.io/ssl-redirect: "true"
-          nginx.ingress.kubernetes.io/auth-url: "https://oauth2-proxy.cloufish.xyz/oauth2/auth"
-          nginx.ingress.kubernetes.io/auth-signin: "https://oauth2-proxy.cloufish.xyz/oauth2/start?rd=$escaped_request_uri"
+          kubernetes.io/tls-acme: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/auth-url: https://oauth2-proxy.cloufish.xyz/oauth2/auth
+          nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.cloufish.xyz/oauth2/start?rd=$escaped_request_uri
           nginx.ingress.kubernetes.io/auth-response-headers: Authorization
     persistence:
       config:
@@ -109,6 +104,5 @@ spec:
         storageClass: longhorn
         accessMode: ReadWriteOnce
         size: 10Gi
-        globalMounts: 
+        globalMounts:
           - path: /home/coder/
-

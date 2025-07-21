@@ -1,22 +1,21 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ${chatgpt_next_app_name} # This variable is defined inside clusters/production/apps.yaml
+  name: ${chatgpt_next_app_name}  # This variable is defined inside clusters/production/apps.yaml
   namespace: ${chatgpt_next_app_name}
 spec:
   chart:
     spec:
-      version: ">=1.0.0"
+      version: '>=1.0.0'
   values:
     ingress:
       app:
         hosts:
-          - host: "${chatgpt_next_app_name}.${app_k8s_domain_name}"
+          - host: ${chatgpt_next_app_name}.${app_k8s_domain_name}
             paths:
               - path: /
                 pathType: Prefix
         tls:
-          - hosts:
-              - "${chatgpt_next_app_name}.${app_k8s_domain_name}"
+          - hosts: ['${chatgpt_next_app_name}.${app_k8s_domain_name}']
             secretName: ${chatgpt_next_app_name}-${default_k8s_cert_name}
-

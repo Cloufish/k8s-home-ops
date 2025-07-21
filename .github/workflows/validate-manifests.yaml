@@ -1,12 +1,11 @@
+---
 name: validate-manifests
-
 on:
   workflow_dispatch:
   pull_request:
   push:
-    branches: [ '*' ]
-    tags-ignore: [ '*' ]
-
+    branches: ['*']
+    tags-ignore: ['*']
 jobs:
   manifests:
     runs-on: ubuntu-latest

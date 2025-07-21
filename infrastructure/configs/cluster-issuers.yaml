@@ -17,6 +17,5 @@ spec:
             apiTokenSecretRef:
               name: cloudflare-api-token-secret
               key: api-token
-        selector: 
-          dnsZones:
-          - ${app_k8s_domain_name}
+        selector:
+          dnsZones: ['${app_k8s_domain_name}']
