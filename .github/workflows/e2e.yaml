@@ -20,11 +20,8 @@ jobs:
           curl -LO https://github.com/getsops/sops/releases/download/v3.10.2/sops-v3.10.2.linux.amd64
           mv sops-v3.10.2.linux.amd64 /usr/local/bin/sops
           chmod +x /usr/local/bin/sops
-      - name: Set up SOPS 
+      - name: Set up SOPS Secret
         run: | 
-          mkdir -p ~/.config/sops/age/
-          echo "${{ secrets.SOPS_AGE_KEY }}" > ~/.config/sops/age/keys.txt
-          chmod 600 ~/.config/sops/age/keys.txt
           echo "${{ secrets.SOPS_AGE_KEY }}" | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
       - name: Setup Kubernetes
         uses: helm/kind-action@v1.7.0
