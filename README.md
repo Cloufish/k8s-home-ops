@@ -130,9 +130,10 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] **OAuth 2.0 for Code Server** 
     - [ ] Fix oauth2-proxy not redirecting to the `$request_uri` (the oauth2 cookie is present and If I try to access the page again it redirects)
         - **It's actually a confirmed BUG** https://github.com/oauth2-proxy/oauth2-proxy/issues/2552, https://github.com/oauth2-proxy/oauth2-proxy/issues/1510
-- [X] Cloudflared Tunnel 
+
+- [ ] Cloudflared Tunnel 
     - [X] Fix error `ERR Cannot determine default origin certificate path` https://github.com/cloudflare/cloudflared/issues/1037 
-    - [ ] Create a tunnel once I fix oauth2-proxy error https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/#7-add-a-tunnel-route
+    - [ ] Fix code-server timeouts when you set `--auth password`. After authenticating through oauth2 -> Password there's a timeout. Increasing timeout is not a solution
 - [ ] **Authelia**
 - [ ] languagetool 
     - Figure out why Docker version of this app stopped working
