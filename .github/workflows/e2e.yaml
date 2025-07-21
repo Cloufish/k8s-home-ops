@@ -25,6 +25,7 @@ jobs:
           mkdir -p ~/.config/sops/age/
           echo "${{ secrets.SOPS_AGE_KEY }}" > ~/.config/sops/age/keys.txt
           chmod 600 ~/.config/sops/age/keys.txt
+          echo "${{ secrets.SOPS_AGE_KEY }}" | kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey=/dev/stdin
       - name: Setup Kubernetes
         uses: helm/kind-action@v1.7.0
         with:
