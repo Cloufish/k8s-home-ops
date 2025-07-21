@@ -22,7 +22,7 @@ jobs:
     - name: Run yamllint
       shell: bash 
       run: | 
-        yamllint --format github
+        yamllint --format github .
 
   markdownlint: 
     name: markdownlint
