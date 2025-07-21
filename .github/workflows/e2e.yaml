@@ -21,7 +21,7 @@ jobs:
           mv sops-v3.10.2.linux.amd64 /usr/local/bin/sops
           chmod +x /usr/local/bin/sops
       - name: Set up SOPS Secret
-        uses: azure/k8s-create-secret@v4
+        uses: azure/k8s-create-secret@v5
         with:
             namespace: 'flux-system'
             secret-name: 'sops-age'
