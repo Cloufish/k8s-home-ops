@@ -14,14 +14,14 @@ spec:
   path: ./infrastructure/controllers
   prune: true
   wait: true
-  patches: 
-    - patch: | 
+  patches:
+    - patch: |
         - op: remove
           path: /spec/values/controller/service/loadBalancerIP
         - op: replace
           path: /spec/values/controller/service/type
           value: NodePort
-      target: 
+      target:
         kind: HelmRelease
         name: ingress-nginx
   postBuild:
