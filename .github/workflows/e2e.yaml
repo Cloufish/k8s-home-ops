@@ -21,8 +21,12 @@ jobs:
           mv sops-v3.10.2.linux.amd64 /usr/local/bin/sops
           chmod +x /usr/local/bin/sops
       - name: Set up SOPS Secret
-        run: | 
-          kubectl create secret generic sops-age --namespace=flux-system --from-literal key="${{ secrets.SOPS_AGE_KEY }}"
+        uses: azure/k8s-create-secret@v4
+        with:
+            namespace: 'flux-system'
+            secret-name: 'sops-age'
+            secret-type: generic
+            data: ${{ secrets.SOPS_AGE_KEY }}
       - name: Setup Kubernetes
         uses: helm/kind-action@v1.7.0
         with:
