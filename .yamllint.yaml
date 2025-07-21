@@ -1,0 +1,19 @@
+---
+ignore: |
+  *.sops.*
+
+extends: default
+
+rules:
+  brackets:
+    max-spaces-inside: 1
+    min-spaces-inside: 0
+  comments:
+    require-starting-space: true
+    min-spaces-from-content: 1
+  line-length: disable
+  truthy:
+    allowed-values:
+      - "true"
+      - "false"
+      - "on"

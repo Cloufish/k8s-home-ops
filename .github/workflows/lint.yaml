@@ -19,7 +19,7 @@ jobs:
         shell: bash
         run: |
             yamlfix .
-            yamllint --format github .
+            yamllint --format github -c .yamllint.yaml . 
   markdownlint:
     name: markdownlint
     runs-on: ubuntu-latest
