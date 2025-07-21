@@ -24,6 +24,15 @@ spec:
       target: 
         kind: HelmRelease
         name: ingress-nginx
+  postBuild:
+    substitute:
+      app_swarm_domain_name: swarm.cloufish.xyz
+      app_k8s_domain_name: k8s.cloufish.xyz
+      default_k8s_cert_name: k8s-cert-prod
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -49,3 +58,12 @@ spec:
       target:
         kind: ClusterIssuer
         name: letsencrypt-production
+  postBuild:
+    substitute:
+      app_swarm_domain_name: swarm.cloufish.xyz
+      app_k8s_domain_name: k8s.cloufish.xyz
+      default_k8s_cert_name: k8s-cert-prod
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
