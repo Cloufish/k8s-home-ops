@@ -6,7 +6,7 @@ metadata:
   labels:
     toolkit.fluxcd.io/tenant: sre-team
 ---
-# The provided manifest is from official Cloudflare Documentation https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/. 
+# The provided manifest is from official Cloudflare Documentation https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,7 +24,7 @@ spec:
     spec:
       securityContext:
         sysctls:
-        # Allows ICMP traffic (ping, traceroute) to resources behind cloudflared.
+          # Allows ICMP traffic (ping, traceroute) to resources behind cloudflared.
           - name: net.ipv4.ping_group_range
             value: 65532 65532
       containers:
