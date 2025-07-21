@@ -20,6 +20,10 @@ jobs:
           curl -LO https://github.com/getsops/sops/releases/download/v3.10.2/sops-v3.10.2.linux.amd64
           mv sops-v3.10.2.linux.amd64 /usr/local/bin/sops
           chmod +x /usr/local/bin/sops
+      - name: Setup Kubernetes
+        uses: helm/kind-action@v1.7.0
+        with:
+          cluster_name: flux
       - name: Set up SOPS Secret
         uses: azure/k8s-create-secret@v4
         with:
@@ -27,10 +31,6 @@ jobs:
             secret-name: 'sops-age'
             secret-type: generic
             data: "${{ secrets.SOPS_AGE_KEY }}"
-      - name: Setup Kubernetes
-        uses: helm/kind-action@v1.7.0
-        with:
-          cluster_name: flux
       - name: Install Flux in Kubernetes Kind
         run: flux install
       - name: Setup cluster reconciliation
