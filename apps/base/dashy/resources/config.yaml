@@ -1,5 +1,4 @@
 ---
-# trunk-ignore-all(prettier)
 pageInfo:
   title: Home Lab
 appConfig:
@@ -11,7 +10,6 @@ appConfig:
   layout: horizontal
   iconSize: big
 sections:
-# An array of sections
   - name: Search Browser
     widgets:
       - type: custom-search
@@ -164,7 +162,6 @@ sections:
         description: Self-Hosted Traefik Docs
   - name: Media
     items:
-  # An array of items
       - title: Jellyfin
         description: For all Movies, TV Series
         icon: hl-jellyfin
@@ -188,18 +185,6 @@ sections:
         description: Self-Hosted Bitwarden
         icon: hl-bitwarden
         url: https://vaultwarden.${app_swarm_domain_name}
-  # - title: FireflyIII
-  #   description: WebApp to control and monitor your Finances
-  #   icon: hl-firefly
-  #   url: https://fireflyiii.${app_swarm_domain_name}
-  # - title: FireflyIII-Importer
-  #   description: WebApp to control and monitor your Finances
-  #   icon: hl-firefly
-  #   url: https://fireflyiii-importer.${app_swarm_domain_name}
-  # - title: FireflyIII-Pico
-  #   description: WebApp to control and monitor your Finances
-  #   icon: hl-firefly
-  #   url: https://fireflyiii-pico.${app_swarm_domain_name}
       - title: Kiwix
         description: Offline Wikipedia, StackOverflow Viewer in .zim format
         icon: hl-kiwix
