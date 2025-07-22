@@ -26,6 +26,11 @@ jobs:
           cluster_name: flux
       - name: Install Flux in Kubernetes Kind
         run: flux install
+      - name: Create ~/.config/sops/age/keys.txt
+        run: | 
+          mkdir -p ~/.config/sops/age
+          echo "${{ secrets.SOPS_AGE_KEY }}" > ~/.config/sops/age/keys.txt
+          chmod 600 ~/.config/sops/age/keys.txt
       - name: Setup cluster reconciliation
         run: |
           flux create source git flux-system \
@@ -37,11 +42,8 @@ jobs:
           flux create kustomization flux-system \
           --source=flux-system \
           --path=./clusters/staging
-      - name: Setup SOPS Secret
+      - name: Setup SOPS Kubernetes Secret
         run: |
-          mkdir -p ~/.config/sops/age
-          echo "${{ secrets.SOPS_AGE_KEY }}" > ~/.config/sops/age/keys.txt
-          chmod 600 ~/.config/sops/age/keys.txt
           kubectl create secret generic sops-age --namespace=flux-system --from-literal key="${{ secrets.SOPS_AGE_KEY }}"
       - name: Verify cluster reconciliation
         run: |

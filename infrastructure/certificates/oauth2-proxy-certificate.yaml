@@ -1,0 +1,12 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: oauth2-proxy-${default_k8s_cert_name}
+  namespace: oauth2-proxy
+spec:
+  secretName: oauth2-proxy-${default_k8s_cert_name}
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  dnsNames: ['oauth2-proxy.${app_k8s_domain_name}']
