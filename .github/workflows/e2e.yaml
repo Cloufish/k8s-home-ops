@@ -39,7 +39,7 @@ jobs:
           --path=./clusters/staging
       - name: Setup SOPS Secret
         run: |
-          mkdir -p ~/.config/sops/age/
+          mkdir -p ~/.config/sops/age
           echo "${{ secrets.SOPS_AGE_KEY }}" > ~/.config/sops/age/keys.txt
           chmod 600 ~/.config/sops/age/keys.txt
           kubectl create secret generic sops-age --namespace=flux-system --from-literal key="${{ secrets.SOPS_AGE_KEY }}"
