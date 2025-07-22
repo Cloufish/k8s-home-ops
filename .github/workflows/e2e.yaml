@@ -28,7 +28,6 @@ jobs:
         run: flux install
       - name: Setup SOPS Kubernetes Secret
         run: |
-          kubectl create namespace flux-system
           kubectl create secret generic sops-age --namespace=flux-system --from-literal key="${{ secrets.SOPS_AGE_KEY }}"
       - name: Setup cluster reconciliation
         run: |
