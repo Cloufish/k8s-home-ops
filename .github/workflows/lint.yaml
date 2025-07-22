@@ -14,11 +14,10 @@ jobs:
       - name: Install yamllint
         shell: bash
         run: |
-          pip install --user yamllint yamlfix
+          pip install --user yamllint
       - name: Run yamllint
         shell: bash
         run: |
-          yamlfix .
           yamllint --format github -c .yamllint.yaml .
   markdownlint:
     name: markdownlint
