@@ -5,7 +5,6 @@ resources:
   - cert-manager.yaml
   - ingress-nginx.yaml
   - cloudnative-pg.yaml
-  - prometheus-operator.yaml
   - longhorn.yaml
   - oauth2-proxy.yaml
   - cloudflared.yaml

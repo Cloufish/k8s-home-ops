@@ -37,7 +37,7 @@ jobs:
           flux create kustomization flux-system \
           --source=flux-system \
           --path=./clusters/staging
-      - name: Set up SOPS Secret
+      - name: Setup SOPS Secret
         run: | 
           kubectl create secret generic sops-age --namespace=flux-system --from-literal key="${{ secrets.SOPS_AGE_KEY }}"
       - name: Verify cluster reconciliation

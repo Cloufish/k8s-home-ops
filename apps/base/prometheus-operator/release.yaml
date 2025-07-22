@@ -25,7 +25,6 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 75.x
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
