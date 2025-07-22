@@ -13,9 +13,6 @@ metadata:
   name: cloudflared-deployment
   namespace: cloudflared
 spec:
-  dependsOn:
-    - name: cert-manager
-      namespace: cert-manager
   replicas: 2
   selector:
     matchLabels:
