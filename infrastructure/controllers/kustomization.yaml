@@ -7,5 +7,4 @@ resources:
   - cloudnative-pg.yaml
   - longhorn.yaml
   - oauth2-proxy.yaml
-  - cloudflared.yaml
 #  - authelia.yaml
