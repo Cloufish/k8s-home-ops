@@ -22,6 +22,9 @@ metadata:
   name: oauth2-proxy
   namespace: oauth2-proxy
 spec:
+  dependsOn:
+    - name: cert-manager
+      namespace: cert-manager
   interval: 5m
   chart:
     spec:

@@ -21,6 +21,9 @@ metadata:
   name: longhorn
   namespace: longhorn
 spec:
+  dependsOn:
+    - name: cert-manager
+      namespace: cert-manager
   interval: 30m
   chart:
     spec:

@@ -21,6 +21,9 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
+  dependsOn:
+    - name: cert-manager
+      namespace: cert-manager
   interval: 30m
   chart:
     spec:
