@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: longhorn-${default_k8s_cert_name}
+  namespace: longhorn
+spec:
+  secretName: longhorn-${default_k8s_cert_name}
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  dnsNames: ['longhorn.${app_k8s_domain_name}']
