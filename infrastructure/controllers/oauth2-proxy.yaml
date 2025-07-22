@@ -113,4 +113,3 @@ spec:
           hosts: ['oauth2-proxy.${app_k8s_domain_name}']
         - secretName: oauth2-proxy-${default_k8s_cert_name}
           hosts: [oauth2-proxy.cloufish.xyz]
-
