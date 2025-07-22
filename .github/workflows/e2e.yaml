@@ -31,7 +31,7 @@ jobs:
           sudo mkdir -p /.config/sops/age
           echo "${{ secrets.TEST_SECRET }}" | sudo tee /.config/sops/age/keys.txt
           sudo chmod 600 /.config/sops/age/keys.txt
-          cat /.config/sops/age/keys.txt |
+          sudo cat /.config/sops/age/keys.txt |
           kubectl create secret generic sops-age \
           --namespace=flux-system \
           --from-file=age.agekey=/dev/stdin
