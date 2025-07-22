@@ -16,16 +16,6 @@ spec:
   path: ./infrastructure/controllers
   prune: true
   wait: true
-  patches:
-    - patch: |
-        - op: remove
-          path: /spec/values/controller/service/loadBalancerIP
-        - op: replace
-          path: /spec/values/controller/service/type
-          value: NodePort
-      target:
-        kind: HelmRelease
-        name: ingress-nginx
   postBuild:
     substitute:
       app_swarm_domain_name: swarm.cloufish.xyz
