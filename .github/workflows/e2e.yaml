@@ -29,9 +29,12 @@ jobs:
       - name: Setup SOPS Kubernetes Secret
         run: |
           sudo mkdir -p /.config/sops/age
-          echo "${{ secrets.SOPS_AGE_KEY }}" | sudo tee /.config/sops/age/keys.txt
+          echo "${{ secrets.TEST_SECRET }}" > /.config/sops/age/keys.txt
           sudo chmod 600 /.config/sops/age/keys.txt
-          kubectl create secret generic sops-age --namespace=flux-system --from-literal key="${{ secrets.SOPS_AGE_KEY }}"
+          cat /.config/sops/age/keys.txt |
+          kubectl create secret generic sops-age \
+          --namespace=flux-system \
+          --from-file=age.agekey=/dev/stdin
       - name: Setup cluster reconciliation
         run: |
           flux create source git flux-system \
