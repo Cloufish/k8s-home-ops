@@ -14,7 +14,7 @@ jobs:
       - name: Setup Flux
         uses: fluxcd/flux2/action@main
       - name: Install sops, age
-        run: | 
+        run: |
           sudo apt-get update
           sudo apt-get install -y age
           curl -LO https://github.com/getsops/sops/releases/download/v3.10.2/sops-v3.10.2.linux.amd64
@@ -37,12 +37,12 @@ jobs:
           flux create kustomization flux-system \
           --source=flux-system \
           --path=./clusters/staging
-      - name: Add Kubernetes labels
-        run: |    
-          kubectl label namespace cert-manager cert-manager.io/disable-validation=true # This should get rid of error "no matches for kind "Certificate" in version "cert-manager.io/v1"
       - name: Setup SOPS Secret
-        run: | 
+        run: |
           kubectl create secret generic sops-age --namespace=flux-system --from-literal key="${{ secrets.SOPS_AGE_KEY }}"
+      - name: Add Kubernetes labels
+        run: |
+          kubectl label namespace cert-manager cert-manager.io/disable-validation=true # This should get rid of error "no matches for kind "Certificate" in version "cert-manager.io/v1"
       - name: Verify cluster reconciliation
         run: |
           kubectl -n flux-system wait kustomization/infra-controllers --for=condition=ready --timeout=5m

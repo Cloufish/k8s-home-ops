@@ -21,7 +21,7 @@ spec:
       app_swarm_domain_name: swarm.cloufish.xyz
       default_k8s_cert_name: k8s-cert-prod
       code_server_app_name: code-server
-      prometheus_operator_app_name: prometheus-operator 
+      prometheus_operator_app_name: prometheus-operator
       dashy_app_name: dashy
       chatgpt_next_app_name: chatgpt-next
       devdocs_app_name: devdocs
