@@ -1,6 +1,6 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: cloudflared  # This variable is defined inside clusters/production/apps.yaml
+  name: cloudflared-deployment
   namespace: cloudflared
