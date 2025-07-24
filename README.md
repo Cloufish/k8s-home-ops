@@ -112,6 +112,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 6. However, **even better option** is to use VSCode Extension to automatically (This is tricky in Windows environment)
 
 ### TODO: 
+- [ ] Pre-commits hook with Linting and Secret Detection
 - [ ] Alerts for TLS certificate expiration
 - [X] **Renovate**
 - [X] longhorn

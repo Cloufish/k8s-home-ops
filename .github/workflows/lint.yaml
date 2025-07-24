@@ -9,8 +9,10 @@ jobs:
     name: yamlint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # So that it performs deep clone and can tell which files have changed
       - name: Install yamllint
         shell: bash
         run: |
@@ -23,16 +25,20 @@ jobs:
     name: markdownlint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # So that it performs deep clone and can tell which files have changed
       - name: Run markdownlint-cli
         uses: raven-actions/actionlint@v2.0.1
   actionlint:
     name: actionlint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # So that it performs deep clone and can tell which files have changed
       - name: Run actionlint
         uses: raven-actions/actionlint@v2.0.1
   shellcheck:
