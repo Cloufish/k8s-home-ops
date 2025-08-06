@@ -63,7 +63,7 @@ spec:
                   name: pgadmin-secret
             ports:
               - name: http
-                containerPort: &httpPort 8080
+                containerPort: &httpPort 80
             resources:
               requests:
                 cpu: 50m
