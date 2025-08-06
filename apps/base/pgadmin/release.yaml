@@ -39,9 +39,9 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1025
-        runAsGroup: 1025
-        fsGroup: 1025
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
     controllers:
@@ -94,7 +94,7 @@ spec:
         type: persistentVolumeClaim
         storageClass: longhorn
         accessMode: ReadWriteOnce
-        size: 10Gi
+        size: 1Gi
         globalMounts:
           - path: /var/lib/pgadmin
 

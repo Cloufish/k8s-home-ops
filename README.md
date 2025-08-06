@@ -147,7 +147,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Deepwiki
 - [ ] Home Assistant
 - [ ] n8n
-- [ ] pgadmin
+- [X] pgadmin
 - [ ] **commafeed**
 - [ ] ReadLater
 - [ ] ChatGPT Frontend (Stateless)
