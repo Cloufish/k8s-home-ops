@@ -1,0 +1,111 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: bjw-s-charts
+  namespace: ${pgadmin_app_name}
+spec:
+  interval: 12h
+  url: https://bjw-s-labs.github.io/helm-charts/
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${pgadmin_app_name}
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pgadmin
+  namespace: ${pgadmin_app_name}
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: ${pgadmin_app_name}
+  install:
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      ${pgadmin_app_name}:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: dpage/pgadmin4
+              tag: 9.4@sha256:6b1c0db09695758c72abcd5160b7c4cc6d0847ab0c90a2403bdbf951f0defb5a
+            env:
+              TZ: Europe/Warsaw
+              UID: 1000
+              GID: 1000
+              PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2']"
+              PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 10
+              PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+            envFrom:
+              - secretRef:
+                  name: pgadmin-secret
+            args:
+              - --auth
+              - none
+              - --user-data-dir
+              - /home/coder/.code-server
+              - --extensions-dir
+              - /home/coder/.code-server
+              - --port
+              - '8080'
+              - /home/coder/
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop: [ALL]
+            ports:
+              - name: http
+                containerPort: &httpPort 8080
+            resources:
+              requests:
+                cpu: 50m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: ${pgadmin_app_name}
+        type: ClusterIP
+        ports:
+          http:
+            port: *httpPort
+            protocol: TCP
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          kubernetes.io/tls-acme: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/auth-url: https://oauth2-proxy.cloufish.xyz/oauth2/auth
+          nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.cloufish.xyz/oauth2/start?rd=$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        globalMounts:
+          - path: /home/coder/
