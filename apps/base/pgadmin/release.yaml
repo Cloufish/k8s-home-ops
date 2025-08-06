@@ -55,29 +55,12 @@ spec:
               tag: 9.4@sha256:6b1c0db09695758c72abcd5160b7c4cc6d0847ab0c90a2403bdbf951f0defb5a
             env:
               TZ: Europe/Warsaw
-              UID: 1000
-              GID: 1000
               PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2']"
               PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 10
               PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
             envFrom:
               - secretRef:
                   name: pgadmin-secret
-            args:
-              - --auth
-              - none
-              - --user-data-dir
-              - /home/coder/.code-server
-              - --extensions-dir
-              - /home/coder/.code-server
-              - --port
-              - '8080'
-              - /home/coder/
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
-              capabilities:
-                drop: [ALL]
             ports:
               - name: http
                 containerPort: &httpPort 8080
@@ -87,12 +70,6 @@ spec:
                 memory: 100Mi
               limits:
                 memory: 500Mi
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: ${pgadmin_app_name}
