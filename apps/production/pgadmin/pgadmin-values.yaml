@@ -16,12 +16,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-          - host: ${pgadmin_app_name}.cloufish.xyz
-            paths:
-              - path: /
-                pathType: Prefix
         tls:
           - hosts: ['${pgadmin_app_name}.${app_k8s_domain_name}']
-            secretName: ${pgadmin_app_name}-${default_k8s_cert_name}
-          - hosts: ['${pgadmin_app_name}.cloufish.xyz']
             secretName: ${pgadmin_app_name}-${default_k8s_cert_name}
