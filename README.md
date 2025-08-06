@@ -113,6 +113,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 
 ### TODO: 
 - [ ] Pre-commits hook with Linting and Secret Detection
+- [ ] Implement Shell-Operator
 - [ ] Alerts for TLS certificate expiration
 - [X] **Renovate**
 - [X] longhorn
@@ -143,6 +144,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Searxng 
 - [ ] Compozerize (Stateless)
 - [ ] DSOMM 
+- [ ] Deepwiki
 - [ ] Home Assistant
 - [ ] n8n
 - [ ] pgadmin
