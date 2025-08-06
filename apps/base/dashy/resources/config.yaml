@@ -85,7 +85,7 @@ sections:
         description: Cloud native distributed block storage for Kubernetes with Backups
           and Snapshots
       - title: pgAdmin K8s
-        icon: https://github.com/longhorn/website/blob/master/static/img/logos/longhorn-stacked-color.png
+        icon: https://www.postgresql.org/media/img/about/press/elephant.png
         url: https://pgadmin.${app_k8s_domain_name}/
         description: Panel to manage and configure PostreSQL Databases in K8s Cluster
   - name: Monitoring
