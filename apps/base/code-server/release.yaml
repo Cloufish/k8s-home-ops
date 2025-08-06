@@ -105,4 +105,5 @@ spec:
         accessMode: ReadWriteOnce
         size: 10Gi
         globalMounts:
-          - path: /home/coder/
+          - path: /var/lib/pgadmin
+
