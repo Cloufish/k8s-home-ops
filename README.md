@@ -88,6 +88,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
         <td><a href="https://www.truenas.com/">TrueNAS Core</a></td>
         <td>For Storing Backups on-premise with NFSv4 Protocol</td>
     </tr>
+        <tr>
+        <td><img width="32" src="https://docs.stakater.com/reloader/assets/images/favicon.svg"></td>
+        <td><a href="https://docs.stakater.com/reloader/">Reloader</a></td>
+        <td>Reloader can watch changes in ConfigMap and Secret and do rolling upgrades on Pods</td>
+    </tr>
 </table>
 
 ### STEPS TO DEPLOY NEW APPLICATION
