@@ -180,7 +180,7 @@ sections:
         icon: hl-google-podcasts
         url: https://podgrab-de.${app_swarm_domain_name}
       - title: CommaFeed
-        description: Service to download newest German Podcast episodes
+        description: Google Reader inspired self-hosted RSS reader
         icon: https://www.commafeed.com/app-icon-144.png
         url: https://commafeed.${app_k8s_domain_name}
   - name: Other
