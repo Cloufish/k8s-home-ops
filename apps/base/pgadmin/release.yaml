@@ -55,7 +55,7 @@ spec:
               TZ: Europe/Warsaw
 #              PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2']"
               PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 10
-              PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+              PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: 'False'
             envFrom:
               - secretRef:
                   name: pgadmin-secret
@@ -95,4 +95,3 @@ spec:
         size: 5Gi
         globalMounts:
           - path: /var/lib/pgadmin
-
