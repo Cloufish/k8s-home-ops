@@ -46,9 +46,6 @@ spec:
               TZ: Europe/Warsaw
               UID: 1000
               GID: 1000
-            envFrom:
-              - secretRef:
-                  name: chatgpt-next-secret
             ports:
               - name: http
                 containerPort: &httpPort 8082
