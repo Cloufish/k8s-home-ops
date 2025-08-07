@@ -55,7 +55,7 @@ spec:
               tag: 9.4@sha256:6b1c0db09695758c72abcd5160b7c4cc6d0847ab0c90a2403bdbf951f0defb5a
             env:
               TZ: Europe/Warsaw
-              PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2']"
+#              PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2']"
               PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 10
               PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
             envFrom:
@@ -84,10 +84,10 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
           kubernetes.io/tls-acme: 'true'
-          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-          nginx.ingress.kubernetes.io/auth-url: https://oauth2-proxy.k8s.cloufish.xyz/oauth2/auth
-          nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.k8s.cloufish.xyz/oauth2/start?rd=$escaped_request_uri
-          nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+          # nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+          # nginx.ingress.kubernetes.io/auth-url: https://oauth2-proxy.k8s.cloufish.xyz/oauth2/auth
+          # nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.k8s.cloufish.xyz/oauth2/start?rd=$escaped_request_uri
+          # nginx.ingress.kubernetes.io/auth-response-headers: Authorization
     persistence:
       config:
         enabled: true
