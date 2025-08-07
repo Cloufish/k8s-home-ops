@@ -94,7 +94,7 @@ spec:
         type: persistentVolumeClaim
         storageClass: longhorn
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 5Gi
         globalMounts:
           - path: /var/lib/pgadmin
 
