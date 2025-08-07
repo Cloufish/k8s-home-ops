@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: yidadaa/chatgpt-next-web
-              tag: v2.16.0
+              tag: v2.16.1
             env:
               TZ: Europe/Warsaw
               UID: 1000
@@ -49,11 +49,6 @@ spec:
             envFrom:
               - secretRef:
                   name: chatgpt-next-secret
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
-              capabilities:
-                drop: [ALL]
             ports:
               - name: http
                 containerPort: &httpPort 3000
