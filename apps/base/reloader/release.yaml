@@ -4,6 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: reloader
+  namespace: reloader
 spec:
   interval: 5m
   layerSelector:
@@ -18,11 +19,13 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: reloader
+  namespace: reloader
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
     name: reloader
+    namespace: reloader
   install:
     remediation:
       retries: -1
@@ -43,4 +46,4 @@ spec:
             memory: 192Mi
       podMonitor:
         enabled: true
-        namespace: "{{ .Release.Namespace }}"
+        namespace: reloader
