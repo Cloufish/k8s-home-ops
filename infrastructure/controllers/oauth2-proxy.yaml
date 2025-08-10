@@ -96,7 +96,7 @@ spec:
         ssl_insecure_skip_verify = false
         standard_logging = true
         upstreams = [ "static://200" ]
-        whitelist_domains = ".cloufish.xyz"
+        whitelist_domains = [ '.cloufish.xyz', '*.cloufish.xyz'  ]
     authenticatedEmailsFile:
       enabled: true
       restricted_access: |

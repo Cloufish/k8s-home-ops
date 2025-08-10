@@ -95,7 +95,7 @@ spec:
           kubernetes.io/tls-acme: 'true'
           nginx.ingress.kubernetes.io/ssl-redirect: 'true'
           nginx.ingress.kubernetes.io/auth-url: https://oauth2-proxy.cloufish.xyz/oauth2/auth
-          nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.cloufish.xyz/oauth2/start?rd=$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.cloufish.xyz/oauth2/start?rd=https://$host$request_uri
           nginx.ingress.kubernetes.io/auth-response-headers: Authorization
     persistence:
       config:
