@@ -48,7 +48,7 @@ spec:
           app:
             image:
               repository: docker.io/erikvl87/languagetool
-              tag: 6.6
+              tag: latest@sha256:9c8763802e69a77f88fbdee0a796247fc9e4845ef8db4b0656dd18f6fd94d45c
             ports:
               - name: http
                 containerPort: &httpPort 8010
