@@ -121,11 +121,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Implement Shell-Operator
 - [X] **Renovate**
 - [X] longhorn
-- [ ] Backups 
-    - [X] Set up S3 Bucket
-    - [X] Set up NFS Storage
-    - [ ] Figure out why Manual Backups work, while Recurring Backups, Snapshots are not 
-    - [ ] See If you can encrypt backups before sending
+    - [ ] Backups 
+        - [X] Set up S3 Bucket
+        - [X] Set up NFS Storage
+        - [ ] Figure out why Manual Backups work, while Recurring Backups, Snapshots are not 
+        - [ ] See If you can encrypt backups before sending
 - [ ] Vaultwarden 
     - Deploy it only when encrypted Backups, Snapshots are set
     - If encryption isn't possible, don't migrate this app to K8s
@@ -135,7 +135,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     - Figure out why Docker version of this app stopped working
     - Figure out how to download ngrams in GitOps way
 - [ ] Searxng 
-- [ ] Compozerize (Stateless)
 - [ ] Deepwiki (Requires GPU)
 - [ ] Home Assistant (Requires Postresql)
 - [X] n8n (Requires Postresql)

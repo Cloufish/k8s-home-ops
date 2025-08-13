@@ -33,7 +33,8 @@ spec:
     remediation:
       retries: 3
   values:
-    replicas: 2
+    deployment:
+      replicas: 2
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

@@ -36,7 +36,8 @@ spec:
     - name: cloudnative-pg
       namespace: cloudnative-pg
   values:
-    replicas: 2
+    deployment:
+      replicas: 2
     defaultPodOptions:
       securityContext:
         runAsUser: 5050
