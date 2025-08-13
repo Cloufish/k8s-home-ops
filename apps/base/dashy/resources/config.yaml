@@ -88,6 +88,10 @@ sections:
         icon: https://www.postgresql.org/media/img/about/press/elephant.png
         url: https://pgadmin.${app_k8s_domain_name}/
         description: Panel to manage and configure PostreSQL Databases in K8s Cluster
+      - title: n8n
+        icon: hl-n8n
+        url: https://n8n.${app_k8s_domain_name}/
+        description: Flexible AI workflow automation
   - name: Monitoring
     items:
       - title: Grafana Swarm
