@@ -48,7 +48,7 @@ spec:
               GID: 1000
             envFrom:
               - secretRef:
-                  name: commafeed-secret
+                  name: commafeed-postresql-cluster-app
             ports:
               - name: http
                 containerPort: &httpPort 8082
