@@ -33,8 +33,6 @@ spec:
     remediation:
       retries: 3
   values:
-    deployment:
-      replicas: 2
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -45,6 +43,7 @@ spec:
         seccompProfile: {type: RuntimeDefault}
     controllers:
       ${code_server_app_name}:
+        replicas: 2
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:

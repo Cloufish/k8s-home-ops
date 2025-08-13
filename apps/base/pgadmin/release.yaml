@@ -36,8 +36,6 @@ spec:
     - name: cloudnative-pg
       namespace: cloudnative-pg
   values:
-    deployment:
-      replicas: 2
     defaultPodOptions:
       securityContext:
         runAsUser: 5050
@@ -46,6 +44,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     controllers:
       ${pgadmin_app_name}:
+        replicas: 2
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:
