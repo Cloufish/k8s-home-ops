@@ -144,7 +144,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] DSOMM 
 - [ ] Deepwiki (Requires GPU)
 - [ ] Home Assistant (Requires Postresql)
-- [ ] n8n (Requires Postresql)
+- [X] n8n (Requires Postresql)
 - [X] pgadmin
 - [X] **commafeed** (Requires Postresql)
 - [ ] ChatGPT Frontend (Stateless)
