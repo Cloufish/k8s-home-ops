@@ -43,12 +43,12 @@ spec:
               repository: athou/commafeed
               tag: master-postgresql-jvm
             env:
-              - name: TZ 
+              - name: TZ
                 value: Europe/Warsaw
-              - name: UID 
+              - name: UID
                 value: 1000
               - name: GID
-                value: "1000"
+                value: '1000'
               - name: QUARKUS_DATASOURCE_JDBC_URL
                 valueFrom:
                   secretKeyRef:
@@ -95,4 +95,3 @@ spec:
           kubernetes.io/tls-acme: 'true'
           nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
           nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-

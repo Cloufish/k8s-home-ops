@@ -66,7 +66,7 @@ spec:
               - name: N8N_LOG_OUTPUT
                 value: console
               - name: N8N_HOST
-                value: ${n8n_app_name}.${app_k8s_domain_name}           
+                value: ${n8n_app_name}.${app_k8s_domain_name}
               - name: DB_POSTGRESDB_DATABASE
                 valueFrom:
                   secretKeyRef:
@@ -134,19 +134,15 @@ spec:
         size: 3Gi
         globalMounts:
           - path: home/node/.n8n
-
     route:
       app:
-        hostnames:
-          - ${n8n_app_name}.${app_k8s_domain_name}
+        hostnames: ['${n8n_app_name}.${app_k8s_domain_name}']
         parentRefs:
           - name: internal
             namespace: kube-system
             sectionName: https
-
       webhooks:
-        hostnames:
-          - n8n-webhook.${app_k8s_domain_name}
+        hostnames: ['n8n-webhook.${app_k8s_domain_name}']
         parentRefs:
           - name: external
             namespace: kube-system
@@ -155,4 +151,5 @@ spec:
           - matches:
               - path:
                   value: /webhook
-            backendRefs: [{}]
+            backendRefs:
+              - {}
