@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: wurstbrot/dsomm
-              tag: 3.11
+              tag: 3.11.0
             env:
               TZ: Europe/Warsaw
               UID: 1000
