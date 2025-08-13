@@ -2,6 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: commafeed-postresql-cluster
+  namespace: commafeed
 spec:
   instances: 3
   storage:

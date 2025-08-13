@@ -142,12 +142,24 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Searxng 
 - [ ] Compozerize (Stateless)
 - [ ] DSOMM 
-- [ ] Deepwiki
-- [ ] Home Assistant
-- [ ] n8n
+- [ ] Deepwiki (Requires GPU)
+- [ ] Home Assistant (Requires Postresql)
+- [ ] n8n (Requires Postresql)
 - [X] pgadmin
-- [ ] **commafeed**
-- [ ] ReadLater
+- [ ] **commafeed** (Requires Postresql)
+- [ ] ReadLater (Requires Postresql)
 - [ ] ChatGPT Frontend (Stateless)
     - [ ] Error [Org ID] is not set up. Related GitHub Issue https://github.com/ChatGPTNextWeb/NextChat/issues/6174
 - [ ] Lidify
+
+## Use Cases of GPU, AI
+- Transcoding with Tdarr
+- Transcribing with Whisper
+- Deepwiki 
+- Self-Hosted Copilot
+- Face Recognition in HomeAssistant
+- Automating media tagging with PhotoPrism/Immich
+- AI assisted alerting in Grafana
+- Chatbots with Ollama and Open WebUI
+- AI Powered Security with CrowdSec
+- AI Agents
