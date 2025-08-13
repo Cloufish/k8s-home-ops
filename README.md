@@ -129,9 +129,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Vaultwarden 
     - Deploy it only when encrypted Backups, Snapshots are set
     - If encryption isn't possible, don't migrate this app to K8s
-- [X] Grafana
-- [X] Prometheus 
-- [X] Alert Manager
 - [ ] Loki with Grafana-Operator
 - [ ] **Authelia**
 - [ ] languagetool 

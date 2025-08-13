@@ -9,6 +9,8 @@ appConfig:
   customCss: '.clock p.time { font-size: 3rem !important; }'
   layout: horizontal
   iconSize: big
+  statusCheckAllowInsecure: true
+  statusCheckHeaders: {rejectUnauthorized: false}
 sections:
   - name: Search Browser
     widgets:
@@ -21,29 +23,20 @@ sections:
   - name: Infrastructure/Networking
     items:
       - title: Proxmox on NAS
-        statusCheckHeaders: {rejectUnauthorized: false}
         description: RAM 32GB, Storage 128GB, 12 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.6:8006
-        statusCheckAllowInsecure: true
       - title: Proxmox on MiniPC-1
-        statusCheckHeaders: {rejectUnauthorized: false}
         description: RAM 8GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
-        url: https://192.168.1.5:8006
-        statusCheckAllowInsecure: true
       - title: Proxmox on MiniPC-2
-        statusCheckHeaders: {rejectUnauthorized: false}
         description: RAM 32GB, Storage 512GB, 6 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.7:8006
-        statusCheckAllowInsecure: true
       - title: Proxmox on MiniPC-3
-        statusCheckHeaders: {rejectUnauthorized: false}
         description: RAM 16GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.8:8006
-        statusCheckAllowInsecure: true
       - title: PiHole-1
         icon: hl-pihole
         description: On Raspberry Pi Zero
@@ -56,7 +49,6 @@ sections:
         icon: https://traefik.io/favicon.svg
         url: https://traefik.${app_swarm_domain_name}
         description: Traefik for Docker Swarm
-        statusCheck: false
       - title: Portainer-Swarm
         icon: https://www.portainer.io/hubfs/crane-icon.svg
         url: https://portainer.${app_swarm_domain_name}
@@ -65,7 +57,6 @@ sections:
         icon: https://traefik.io/favicon.svg
         url: http://192.168.1.160:8443/stats
         description: Statistics, Monitoring for HAPRoxy
-        statusCheck: false
       - title: Whats Up Docker for Docker Swarm
         description: Service that monitors newest Docker images version
         icon: https://whatsupdocker.${app_swarm_domain_name}/img/icons/android-chrome-192x192.png
@@ -74,7 +65,6 @@ sections:
         description: As Virtual Machine on my NAS Server
         icon: https://www.truenas.com/wp-content/uploads/2020/08/cropped-TN-favicon-100x100.png
         url: https://truenas.home
-        statusCheckAllowInsecure: true
       - title: Duplicati-Swarm
         icon: https://duplicati.${app_swarm_domain_name}/img/logo.png
         url: https://duplicati.${app_swarm_domain_name}/
