@@ -2,4 +2,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: ${commafeed_app_name}
-resources: [./release.yaml, commafeed-postresql-cluster.yaml, commafeed-secret.yaml]
+resources: [./release.yaml, commafeed-postresql-cluster.yaml]
