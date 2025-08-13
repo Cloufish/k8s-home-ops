@@ -27,6 +27,7 @@ spec:
       chatgpt_next_app_name: chatgpt-next
       commafeed_app_name: commafeed
       n8n_app_name: n8n
+      dsomm_app_name: dsomm
   decryption:
     provider: sops
     secretRef:

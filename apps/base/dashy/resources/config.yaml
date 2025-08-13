@@ -143,7 +143,7 @@ sections:
       - title: DSOMM
         description: DevSecOps Maturity Model for measuring and improving IT Security
         icon: https://owasp.org/www--site-theme/favicon.ico
-        url: https://dsomm.${app_swarm_domain_name}
+        url: https://dsomm.${app_k8s_domain_name}
   - name: Documentation
     items:
       - title: Devdocs

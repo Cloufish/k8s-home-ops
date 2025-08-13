@@ -119,7 +119,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 ### TODO: 
 - [ ] Pre-commits hook with Linting and Secret Detection
 - [ ] Implement Shell-Operator
-- [ ] Alerts for TLS certificate expiration
 - [X] **Renovate**
 - [X] longhorn
 - [ ] Backups 
@@ -138,17 +137,12 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] languagetool 
     - Figure out why Docker version of this app stopped working
     - Figure out how to download ngrams in GitOps way
-- [ ] Blocky DNS Server (Stateless)
 - [ ] Searxng 
 - [ ] Compozerize (Stateless)
 - [ ] DSOMM 
 - [ ] Deepwiki (Requires GPU)
 - [ ] Home Assistant (Requires Postresql)
 - [X] n8n (Requires Postresql)
-- [X] pgadmin
-- [X] **commafeed** (Requires Postresql)
-- [ ] ChatGPT Frontend (Stateless)
-    - [ ] Error [Org ID] is not set up. Related GitHub Issue https://github.com/ChatGPTNextWeb/NextChat/issues/6174
 - [ ] Lidify
 - [ ] Backups of CLoudNativePG Clusters
 
