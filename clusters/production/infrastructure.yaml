@@ -92,6 +92,14 @@ spec:
     name: flux-system
   path: ./infrastructure/certificates
   prune: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/acme/server
+          value: https://acme-v02.api.letsencrypt.org/directory
+      target:
+        kind: ClusterIssuer
+        name: letsencrypt-production
   postBuild:
     substitute:
       app_swarm_domain_name: swarm.cloufish.xyz
