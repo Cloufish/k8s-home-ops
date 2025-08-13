@@ -139,7 +139,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     - Figure out how to download ngrams in GitOps way
 - [ ] Searxng 
 - [ ] Compozerize (Stateless)
-- [ ] DSOMM 
 - [ ] Deepwiki (Requires GPU)
 - [ ] Home Assistant (Requires Postresql)
 - [X] n8n (Requires Postresql)

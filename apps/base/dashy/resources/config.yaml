@@ -139,7 +139,7 @@ sections:
       - title: Composerize
         icon: hl-docker-compose
         description: Turn your docker commands into docker-compose format!
-        url: https://composerize.${app_swarm_domain_name}
+        url: https://composerize.${app_k8s_domain_name}
       - title: DSOMM
         description: DevSecOps Maturity Model for measuring and improving IT Security
         icon: https://owasp.org/www--site-theme/favicon.ico
