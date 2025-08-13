@@ -26,6 +26,7 @@ spec:
       dashy_app_name: dashy
       chatgpt_next_app_name: chatgpt-next
       commafeed_app_name: commafeed
+      n8n_app_name: n8n
   decryption:
     provider: sops
     secretRef:
