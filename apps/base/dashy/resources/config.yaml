@@ -194,7 +194,7 @@ sections:
       - title: languagetool
         description: Grammarly, but for multiple languages and free
         icon: https://languagetool.org/images/logo_color.svg?6b4c3eb171397ee0e2ba758a9e106891
-        url: https://languagetool.${app_swarm_domain_name}/v2/languages
+        url: https://languagetool.${app_k8s_domain_name}/v2/languages
         StatusCheckHeaders: {Accept: application/json}
       - title: Tandoor Recipes
         description: Application to plan and create dish recipes
