@@ -42,10 +42,6 @@ spec:
             image:
               repository: wurstbrot/dsomm
               tag: 3.11.0
-            env:
-              TZ: Europe/Warsaw
-              UID: 1000
-              GID: 1000
             ports:
               - name: http
                 containerPort: &httpPort 8080
@@ -55,12 +51,6 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 1Gi
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: ${dsomm_app_name}
