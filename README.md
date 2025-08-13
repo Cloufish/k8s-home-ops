@@ -146,11 +146,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Home Assistant (Requires Postresql)
 - [ ] n8n (Requires Postresql)
 - [X] pgadmin
-- [ ] **commafeed** (Requires Postresql)
-- [ ] ReadLater (Requires Postresql)
+- [X] **commafeed** (Requires Postresql)
 - [ ] ChatGPT Frontend (Stateless)
     - [ ] Error [Org ID] is not set up. Related GitHub Issue https://github.com/ChatGPTNextWeb/NextChat/issues/6174
 - [ ] Lidify
+- [ ] Backups of CLoudNativePG Clusters
 
 ## Use Cases of GPU, AI
 - Transcoding with Tdarr

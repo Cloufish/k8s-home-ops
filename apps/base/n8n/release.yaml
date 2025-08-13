@@ -1,0 +1,158 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: bjw-s-charts
+  namespace: ${n8n_app_name}
+spec:
+  interval: 12h
+  url: https://bjw-s-labs.github.io/helm-charts/
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${n8n_app_name}
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: n8n
+  namespace: ${n8n_app_name}
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: ${n8n_app_name}
+  install:
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      ${n8n_app_name}:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/n8n-io/n8n
+              tag: 1.107.0
+            env:
+              - name: GENERIC_TIMEZONE
+                value: Europe/Warsaw
+              - name: DB_SQLITE_VACUUM_ON_STARTUP
+                value: true
+              - name: EXECUTIONS_DATA_PRUNE
+                value: true
+              - name: EXECUTIONS_DATA_MAX_AGE
+                value: 7
+              - name: EXECUTIONS_DATA_PRUNE_MAX_COUNT
+                value: 50000
+              - name: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
+                value: false
+              - name: N8N_PROTOCOL
+                value: https
+              - name: N8N_PORT
+                value: &httpPort 8080
+              - name: N8N_HOST
+                value: ${n8n_app_name}.${app_k8s_domain_name}
+              - name: N8N_LOG_LEVEL
+                value: info
+              - name: N8N_LOG_OUTPUT
+                value: console
+              - name: N8N_HOST
+                value: ${n8n_app_name}.${app_k8s_domain_name}           
+              - name: DB_POSTGRESDB_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-postresql-cluster-app
+                    key: dbname
+              - name: DB_POSTGRESDB_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-postresql-cluster-app
+                    key: host
+              - name: DB_POSTGRESDB_PORT
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-postresql-cluster-app
+                    key: port
+              - name: DB_POSTGRESDB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-postresql-cluster-app
+                    key: user
+              - name: DB_POSTGRESDB_SCHEMA
+                value: schema
+              - name: DB_POSTGRESDB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-postresql-cluster-app
+                    key: password
+            ports:
+              - name: http
+                containerPort: *httpPort
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: ${n8n_app_name}
+        type: ClusterIP
+        ports:
+          http:
+            port: *httpPort
+            protocol: TCP
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          kubernetes.io/tls-acme: 'true'
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 3Gi
+        globalMounts:
+          - path: home/node/.n8n
+
+    route:
+      app:
+        hostnames:
+          - *hostName
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+
+      webhooks:
+        hostnames:
+          - n8n-webhook.${app_k8s_domain_name}
+        parentRefs:
+          - name: external
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  value: /webhook
+            backendRefs: [{}]

@@ -95,12 +95,4 @@ spec:
           kubernetes.io/tls-acme: 'true'
           nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
           nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-    persistence:
-      config:
-        enabled: true
-        type: persistentVolumeClaim
-        storageClass: longhorn
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        globalMounts:
-          - path: /commafeed/data
+
