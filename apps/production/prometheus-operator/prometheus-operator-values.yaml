@@ -9,3 +9,42 @@ spec:
     spec:
       version: '75.11'
   values:
+    grafana:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          kubernetes.io/tls-acme: 'true'
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+        hosts: ['grafana.${app_k8s_domain_name}']
+      tls:
+        - secretName: grafana-${default_k8s_cert_name}
+          hosts: ['grafana.${app_k8s_domain_name}']
+    alertmanager:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          kubernetes.io/tls-acme: 'true'
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+        hosts: ['alertmanager.${app_k8s_domain_name}']
+      tls:
+        - secretName: alertmanager-${default_k8s_cert_name}
+          hosts: ['alertmanager.${app_k8s_domain_name}']
+    prometheus:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          kubernetes.io/tls-acme: 'true'
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+        hosts: ['prometheus.${app_k8s_domain_name}']
+      tls:
+        - secretName: prometheus-${default_k8s_cert_name}
+          hosts: ['prometheus.${app_k8s_domain_name}']
