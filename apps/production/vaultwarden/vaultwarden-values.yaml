@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ${dsomm_app_name}  # This variable is defined inside clusters/production/apps.yaml
-  namespace: ${dsomm_app_name}
+  name: ${vaultwarden_app_name}  # This variable is defined inside clusters/production/apps.yaml
+  namespace: ${vaultwarden_app_name}
 spec:
   chart:
     spec:
@@ -12,10 +12,10 @@ spec:
     ingress:
       app:
         hosts:
-          - host: ${dsomm_app_name}.${app_k8s_domain_name}
+          - host: ${vaultwarden_app_name}.${app_k8s_domain_name}
             paths:
               - path: /
                 pathType: Prefix
         tls:
-          - hosts: ['${dsomm_app_name}.${app_k8s_domain_name}']
-            secretName: ${dsomm_app_name}-${default_k8s_cert_name}
+          - hosts: ['${vaultwarden_app_name}.${app_k8s_domain_name}']
+            secretName: ${vaultwarden_app_name}-${default_k8s_cert_name}
