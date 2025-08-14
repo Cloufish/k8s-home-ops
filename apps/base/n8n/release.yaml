@@ -129,7 +129,7 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        storageClass: longhorn
+        storageClass: longhorn-crypto-global
         accessMode: ReadWriteOnce
         size: 3Gi
         globalMounts:
