@@ -130,14 +130,11 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     - Deploy it only when encrypted Backups, Snapshots are set
     - If encryption isn't possible, don't migrate this app to K8s
 - [ ] Loki with Grafana-Operator
+    - [ ] Have logs on remote NFS
 - [ ] **Authelia**
-- [ ] languagetool 
-    - Figure out why Docker version of this app stopped working
-    - Figure out how to download ngrams in GitOps way
 - [ ] Searxng 
 - [ ] Deepwiki (Requires GPU)
-- [ ] Home Assistant (Requires Postresql)
-- [X] n8n (Requires Postresql)
+- [ ] Home Assistant (Requires Raspberry Pi, camera modules, sensors. It might be too expensive)
 - [ ] Lidify
 - [ ] Backups of CLoudNativePG Clusters
 
