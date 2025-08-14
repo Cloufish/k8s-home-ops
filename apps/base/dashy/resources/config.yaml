@@ -186,7 +186,7 @@ sections:
       - title: Vaultwarden
         description: Self-Hosted Bitwarden
         icon: hl-bitwarden
-        url: https://vaultwarden.${app_swarm_domain_name}
+        url: https://vaultwarden.${app_k8s_domain_name}
       - title: Kiwix
         description: Offline Wikipedia, StackOverflow Viewer in .zim format
         icon: hl-kiwix
