@@ -119,26 +119,42 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 ### TODO: 
 - [ ] Pre-commits hook with Linting and Secret Detection
 - [ ] Implement Shell-Operator
-- [X] **Renovate**
-- [X] longhorn
-    - [ ] Backups 
-        - [X] Set up S3 Bucket
-        - [X] Set up NFS Storage
-        - [ ] Figure out why Manual Backups work, while Recurring Backups, Snapshots are not 
-        - [ ] See If you can encrypt backups before sending
-- [ ] Vaultwarden 
-    - Deploy it only when encrypted Backups, Snapshots are set
-    - If encryption isn't possible, don't migrate this app to K8s
 - [ ] Loki with Grafana-Operator
     - [ ] Have logs on remote NFS
 - [ ] **Authelia**
-- [ ] Searxng 
-- [ ] Deepwiki (Requires GPU)
-- [ ] Home Assistant (Requires Raspberry Pi, camera modules, sensors. It might be too expensive)
 - [ ] Lidify
-- [ ] Backups of CLoudNativePG Clusters
+- [ ] Backups of CloudNativePG Clusters
+- [ ] Alerts
+    - [ ] Slack Notifications
+    - [X] Kubernetes Monitoring
+    - [ ] Docker Swarm integrated monitoring
+    - [ ] Pi-Hole Monitoring
+    - [ ] TrueNAS Monitoring
+- [ ] Documentation of HomeLab
+- [ ] Blog on AWS
 
-## Use Cases of GPU, AI
+## Planned Purchases (from most important to less)
+- **Once you do above ToDo List**
+### General
+- 2U UPS with Network Alerting System for automated Shutdown
+- PiKVM for remote access to Servers If something went wrong
+### Networking
+**After passing CCNA or during study**
+- Managed Cisco Switch with two 2.5Gbps port, some PoE. **Without GUI**. Maybe Cisco Catalyst 2960. Find out on Cisco Website options
+- [pfSense 2100 Router](https://shop.netgate.com/products/2100-base-pfsense)
+#### Use Cases of Networking Devices:
+- Network Segmentation with VLAN
+- Apply other CCNA concepts
+- Prepare for upgrading Internet Provider
+- Firewall
+- Port Forwarding
+### AI
+Total cost around 800$
+(Start small. I think this GPU is enough for learning)
+- 1x RTX 5060 Ti 16GB, 
+- RAM 2x16GB DDR4, 
+- 1TB SSD M.2
+#### Use Cases of GPU, AI
 - Transcoding with Tdarr
 - Transcribing with Whisper
 - Deepwiki 
@@ -146,6 +162,21 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - Face Recognition in HomeAssistant
 - Automating media tagging with PhotoPrism/Immich
 - AI assisted alerting in Grafana
-- Chatbots with Ollama and Open WebUI
+- Chatbots with Ollama and Open WebUI for simple queries
 - AI Powered Security with CrowdSec
 - AI Agents
+### Home Automation
+Total Cost
+- 1xRaspberry Pi with Camera Module
+- 3x Sensors
+- 2x Light Automation Kit
+- 2x Smart Speakers or try to implement existing ones into smart
+- Door Lock Detection System
+- Tablet Wall Mount
+- 2x Smart Power Outlet
+- 2x Temperature Sensors
+#### Use Cases of Home Automation
+- Automate Passive Language Learning through automatic Podcasts when arriving to a room
+- Automate Transcription of Podcasts
+- Peace of mind
+- HomeAssistant

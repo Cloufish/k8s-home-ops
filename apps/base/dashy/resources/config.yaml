@@ -9,8 +9,6 @@ appConfig:
   customCss: '.clock p.time { font-size: 3rem !important; }'
   layout: horizontal
   iconSize: big
-  statusCheckAllowInsecure: true
-  statusCheckHeaders: {rejectUnauthorized: false}
 sections:
   - name: Search Browser
     widgets:
@@ -26,17 +24,25 @@ sections:
         description: RAM 32GB, Storage 128GB, 12 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.6:8006
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Proxmox on MiniPC-1
         description: RAM 8GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Proxmox on MiniPC-2
         description: RAM 32GB, Storage 512GB, 6 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.7:8006
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Proxmox on MiniPC-3
         description: RAM 16GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.8:8006
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
       - title: PiHole-1
         icon: hl-pihole
         description: On Raspberry Pi Zero
