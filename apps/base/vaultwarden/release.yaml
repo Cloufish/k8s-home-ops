@@ -63,6 +63,6 @@ spec:
         type: persistentVolumeClaim
         storageClass: longhorn-crypto-global
         accessMode: ReadWriteOnce
-        size: 5Gi
+        size: 512Mi
         globalMounts:
           - path: /data

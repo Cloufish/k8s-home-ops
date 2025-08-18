@@ -93,6 +93,6 @@ spec:
         type: persistentVolumeClaim
         storageClass: longhorn
         accessMode: ReadWriteOnce
-        size: 10Gi
+        size: 4Gi
         globalMounts:
           - path: /home/coder/

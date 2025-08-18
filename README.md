@@ -118,15 +118,19 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 
 ### TODO: 
 - [ ] Pre-commits hook with Linting and Secret Detection
-- [ ] [descheduler ](https://github.com/kubernetes-sigs/descheduler)
+- [ ] [descheduler](https://github.com/kubernetes-sigs/descheduler)
+- [ ] NetBox
+- [ ] Tandoor
 - [ ] Fix dashy monitoring
 - [ ] Implement Shell-Operator
-- [ ] Loki with Grafana-Operator
     - [ ] Have logs on remote NFS
 - [ ] **Authelia**
 - [X] Lidify
 - [ ] Backups of CloudNativePG Clusters
-- [ ] Alerts
+- [ ] Alerts, Logs
+    - [ ] Blackbox
+    - [ ] Loki
+    - [ ] Karma for Alerting Dashboard
     - [ ] Slack Notifications
     - [X] Kubernetes Monitoring
     - [ ] Docker Swarm integrated monitoring
