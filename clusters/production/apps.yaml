@@ -32,6 +32,7 @@ spec:
       languagetool_app_name: languagetool
       vaultwarden_app_name: vaultwarden
       lidify_app_name: lidify
+      cyberchef_app_name: cyberchef
   decryption:
     provider: sops
     secretRef:

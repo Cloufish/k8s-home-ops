@@ -127,7 +127,7 @@ sections:
         description: Work in Progress
         icon: favicon
         url: https://kibana.${app_swarm_domain_name}
-  - name: Dev/Programming
+  - name: Dev/Programming/IT Security
     items:
       - title: VSCodium
         icon: hl-code
@@ -141,6 +141,10 @@ sections:
         description: DevSecOps Maturity Model for measuring and improving IT Security
         icon: https://owasp.org/www--site-theme/favicon.ico
         url: https://dsomm.${app_k8s_domain_name}
+      - title: CyberChef
+        description: The Cyber Swiss Army Knife - a web app for encryption, encoding, compression and data analysis
+        icon: https://cyberchef.io/images/cyberchef-128x128.png
+        url: https://cyberchef.${app_k8s_domain_name}
   - name: Documentation
     items:
       - title: Devdocs
