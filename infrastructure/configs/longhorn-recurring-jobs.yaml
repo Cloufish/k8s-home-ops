@@ -1,13 +1,13 @@
+---
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: snapshot-default
   namespace: longhorn
 spec:
-  cron: "0 9 * * ?"
-  task: "snapshot"
-  groups:
-  - default
+  cron: 0 9 * * ?
+  task: snapshot
+  groups: [default]
   retain: 7
   concurrency: 1
 ---
@@ -17,9 +17,8 @@ metadata:
   name: backup-default
   namespace: longhorn
 spec:
-  cron: "0 0 1/5 * ?"
-  task: "backup"
-  groups:
-  - default
+  cron: 0 0 1/5 * ?
+  task: backup
+  groups: [default]
   retain: 2
   concurrency: 1

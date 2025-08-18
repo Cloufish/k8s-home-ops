@@ -39,7 +39,7 @@ spec:
     remediation:
       retries: 3
   values:
-    deployment: 
+    deployment:
       replicas: 2
     fullnameOverride: reloader
     reloader:
