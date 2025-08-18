@@ -31,6 +31,7 @@ spec:
       composerize_app_name: composerize
       languagetool_app_name: languagetool
       vaultwarden_app_name: vaultwarden
+      lidify_app_name: lidify
   decryption:
     provider: sops
     secretRef:
