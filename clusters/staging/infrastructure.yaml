@@ -7,6 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-secrets
+    - name: infra-helm-repos
   interval: 1h
   retryInterval: 1m
   timeout: 5m
@@ -16,16 +17,6 @@ spec:
   path: ./infrastructure/controllers
   prune: true
   wait: true
-  patches:
-    - patch: |
-        - op: remove
-          path: /spec/values/controller/service/loadBalancerIP
-        - op: replace
-          path: /spec/values/controller/service/type
-          value: NodePort
-      target:
-        kind: HelmRelease
-        name: ingress-nginx
   postBuild:
     substitute:
       app_swarm_domain_name: swarm.cloufish.xyz
@@ -56,7 +47,7 @@ spec:
     - patch: |
         - op: replace
           path: /spec/acme/server
-          value: https://acme-staging-v02.api.letsencrypt.org/directory
+          value: https://acme-v02.api.letsencrypt.org/directory
       target:
         kind: ClusterIssuer
         name: letsencrypt-production
@@ -83,6 +74,30 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/secrets
+  prune: true
+  postBuild:
+    substitute:
+      app_swarm_domain_name: swarm.cloufish.xyz
+      app_k8s_domain_name: k8s.cloufish.xyz
+      default_k8s_cert_name: k8s-cert-prod
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-helm-repos
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/helm-repos
   prune: true
   postBuild:
     substitute:
