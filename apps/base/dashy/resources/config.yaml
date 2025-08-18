@@ -29,6 +29,7 @@ sections:
       - title: Proxmox on MiniPC-1
         description: RAM 8GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
+        url: https://192.168.1.5:8006
         statusCheckAllowInsecure: true
         statusCheckHeaders: {rejectUnauthorized: false}
       - title: Proxmox on MiniPC-2
@@ -241,8 +242,8 @@ sections:
         url: https://lidarr.${app_swarm_domain_name}/
       - title: Lidify
         description: Get new Music, Artists recomendations based on lidarr artists
-        icon: https://lidify.swarm.cloufish.xyz/static/lidarr.svg
-        url: https://lidify.${app_swarm_domain_name}/
+        icon: https://lidify.k8s.cloufish.xyz/static/lidarr.svg
+        url: https://lidify.${app_k8s_domain_name}/
       - title: Beets
         description: For finding music metadata, organizing and tagging
         icon: hl-beets
