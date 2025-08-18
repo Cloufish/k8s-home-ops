@@ -119,6 +119,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 ### TODO: 
 - [ ] Pre-commits hook with Linting and Secret Detection
 - [ ] [descheduler ](https://github.com/kubernetes-sigs/descheduler)
+- [ ] Fix dashy monitoring
 - [ ] Implement Shell-Operator
 - [ ] Loki with Grafana-Operator
     - [ ] Have logs on remote NFS
