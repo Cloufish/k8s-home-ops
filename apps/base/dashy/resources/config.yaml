@@ -268,3 +268,7 @@ sections:
         description: For bypassing Cloudflare Protection and Captchas
         icon: hl-flaresolverr
         url: https://flaresolverr.${app_swarm_domain_name}/
+      - title: Tdarr
+        description: Clean up your media libraries, health check files, save space and much more!
+        icon: hl-tdarr
+        url: http://192.168.1.140:8265/

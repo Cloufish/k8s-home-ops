@@ -118,7 +118,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 
 ### TODO: 
 - [ ] Pre-commits hook with Linting and Secret Detection
-- [ ] [descheduler](https://github.com/kubernetes-sigs/descheduler)
+- [X] [descheduler](https://github.com/kubernetes-sigs/descheduler)
 - [ ] NetBox
 - [ ] Tandoor
 - [ ] Fix dashy monitoring
