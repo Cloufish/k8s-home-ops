@@ -145,9 +145,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - 2U UPS with Network Alerting System for automated Shutdown
 - PiKVM for remote access to Servers If something went wrong
 ### Networking
-**After passing CCNA or during study**
-- Managed Cisco Switch with two 2.5Gbps port, some PoE. **Without GUI**. Maybe Cisco Catalyst 2960. Find out on Cisco Website options
-- [pfSense 2100 Router](https://shop.netgate.com/products/2100-base-pfsense)
 #### Use Cases of Networking Devices:
 - Network Segmentation with VLAN
 - Apply other CCNA concepts
@@ -155,11 +152,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - Firewall
 - Port Forwarding
 ### AI
-Total cost around 800$
-(Start small. I think this GPU is enough for learning)
-- 1x RTX 5060 Ti 16GB, 
-- RAM 2x16GB DDR4, 
-- 1TB SSD M.2
 #### Use Cases of GPU, AI
 - Transcoding with Tdarr
 - Transcribing with Whisper
