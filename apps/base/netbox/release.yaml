@@ -1,0 +1,101 @@
+# see https://github.com/frantathefranta/home-ops/blob/main/kubernetes/apps/default/netbox/app/helmrelease.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${netbox_app_name}
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: netbox
+  namespace: ${netbox_app_name}
+spec:
+  interval: 1h
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 6.1.17
+  url: oci://ghcr.io/netbox-community/netbox-chart/netbox
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: netbox
+  namespace: ${netbox_app_name}
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: netbox
+    namespace: netbox
+  install:
+    remediation:
+      retries: 3
+  values:
+    commonLabels:
+      postres: "true"
+    controllers:
+      ${netbox_app_name}:
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: athou/netbox
+              tag: master-postgresql-jvm
+            env:
+              - name: TZ
+                value: Europe/Warsaw
+              - name: UID
+                value: 1000
+              - name: GID
+                value: '1000'
+              - name: QUARKUS_DATASOURCE_JDBC_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: netbox-postresql-cluster-app
+                    key: jdbc-uri
+              - name: QUARKUS_DATASOURCE_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: netbox-postresql-cluster-app
+                    key: username
+              - name: QUARKUS_DATASOURCE_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: netbox-postresql-cluster-app
+                    key: password
+            ports:
+              - name: http
+                containerPort: &httpPort 8082
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: ${netbox_app_name}
+        type: ClusterIP
+        ports:
+          http:
+            port: *httpPort
+            protocol: TCP
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          kubernetes.io/tls-acme: 'true'
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
