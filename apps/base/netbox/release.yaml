@@ -1,4 +1,5 @@
 # see https://github.com/frantathefranta/home-ops/blob/main/kubernetes/apps/default/netbox/app/helmrelease.yaml
+# And chart options https://github.com/netbox-community/netbox-chart/tree/main/charts/netbox
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -19,83 +20,114 @@ spec:
     tag: 6.1.17
   url: oci://ghcr.io/netbox-community/netbox-chart/netbox
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: netbox
-  namespace: ${netbox_app_name}
+  name: &app netbox
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: netbox
-    namespace: netbox
-  install:
-    remediation:
-      retries: 3
   values:
-    commonLabels:
-      postres: "true"
-    controllers:
-      ${netbox_app_name}:
-        annotations:
-          reloader.stakater.com/auto: 'true'
-        containers:
-          app:
-            image:
-              repository: athou/netbox
-              tag: master-postgresql-jvm
-            env:
-              - name: TZ
-                value: Europe/Warsaw
-              - name: UID
-                value: 1000
-              - name: GID
-                value: '1000'
-              - name: QUARKUS_DATASOURCE_JDBC_URL
-                valueFrom:
-                  secretKeyRef:
-                    name: netbox-postresql-cluster-app
-                    key: jdbc-uri
-              - name: QUARKUS_DATASOURCE_USERNAME
-                valueFrom:
-                  secretKeyRef:
-                    name: netbox-postresql-cluster-app
-                    key: username
-              - name: QUARKUS_DATASOURCE_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: netbox-postresql-cluster-app
-                    key: password
-            ports:
-              - name: http
-                containerPort: &httpPort 8082
-            resources:
-              requests:
-                cpu: 10m
-                memory: 128Mi
-              limits:
-                memory: 1Gi
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
-    service:
-      app:
-        controller: ${netbox_app_name}
-        type: ClusterIP
-        ports:
-          http:
-            port: *httpPort
-            protocol: TCP
-    ingress:
-      app:
-        className: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-production
-          kubernetes.io/tls-acme: 'true'
-          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    commonAnnotations:
+      reloader.stakater.com/auto: "true"
+    image:
+      # renovate: datasource=docker depName=ghcr.io/frantathefranta/netbox-custom
+      registry: ghcr.io
+      repository: frantathefranta/netbox-custom
+      tag: v4.4.0 # {"$imagepolicy": "default:netbox:tag"}
+      digest: sha256:458c3b68f8e07c21816468586f71d31125ccb0f038c6cdc574b085075c013af3 # {"$imagepolicy": "default:netbox:digest"}
+    superuser:
+      name: cloufish
+      email: admin@cloufish.us
+    admins:
+      - ["cloufish", "admin@cloufish.us"]
+    loginRequired: true
+    timeZone: Europe/Warsaw
+    dateFormat: "j. F, Y"
+    shortDateFormat: "j.m.Y"
+    timeFormat: "G:i"
+    shortTimeFormat: "H:i:s"
+    dateTimeFormat: "j. F, Y g:i a"
+    shortDateTimeFormat: "j.m.Y H:i"
+    storages: # TODO: Change this
+      default:
+        BACKEND: "storages.backends.s3.S3Storage" 
+        OPTIONS:
+          bucket_name: "netbox"
+          endpoint_url: "https://rgw.franta.us"
+          region_name: "us-east-1"
+    existingSecret: netbox-secret
+    replicaCount: 1
+    resourcesPreset: "large"
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 1m
+    postgresql:
+      enabled: false
+    valkey:
+      enabled: false
+    tasksDatabase:
+      host: netbox-dragonfly.default.svc.cluster.local
+      database: 0
+      # existingSecretName: "netbox-secret"
+      # existingSecretKey: "REDIS_PASSWORD"
+    cachingDatabase:
+      host: netbox-dragonfly.default.svc.cluster.local
+      database: 1
+      # existingSecretName: "netbox-secret"
+      # existingSecretKey: "REDIS_PASSWORD"
+    externalDatabase:
+      host: netbox-pgbouncer.default.svc.cluster.local
+      port: 5432
+      database: netbox
+      username: netbox
+      existingSecretName: "netbox-pguser-netbox"
+      existingSecretKey: "password"
+      targetSessionAttrs: any
+      disableServerSideCursors: true
+      connMaxAge: 300
+    email:
+      server: smtp-relay.default.svc.cluster.local
+      port: 25
+      from: netbox@franta.dev
+    persistence:
+      enabled: false
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 60
+      timeoutSeconds: 1
+      periodSeconds: 10
+      successThreshold: 1
+    extraConfig:
+      - secret:
+          secretName: netbox-secret
+    housekeeping:
+      enabled: false
+    worker:
+      enabled: false
+    plugins:
+      - netbox_kea
+      - netbox_topology_views
+      - netbox_cable_labels
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: topology.kubernetes.io/zone
+                  operator: NotIn
+                  values:
+                    - protactinium # FIXME: BIND VM runs on the same Proxmox node and it doesn't allow traffic from VF to bridge
+  valuesFrom:
+    - targetPath: storages.default.OPTIONS.access_key
+      kind: Secret
+      name: netbox-secret
+      valuesKey: AWS_ACCESS_KEY_ID
+    - targetPath: storages.default.OPTIONS.secret_key
+      kind: Secret
+      name: netbox-secret
+      valuesKey: AWS_SECRET_ACCESS_KEY
