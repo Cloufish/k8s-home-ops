@@ -1,0 +1,23 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ${prometheus_operator_app_name}  # This variable is defined inside clusters/production/apps.yaml
+  namespace: ${prometheus_operator_app_name}
+spec:
+  chart:
+    spec:
+      version: '11.1.0'
+  values:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+        kubernetes.io/tls-acme: 'true'
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+      hosts: ['grafana.${app_k8s_domain_name}']
+    tls:
+      - secretName: grafana-${default_k8s_cert_name}
+        hosts: ['grafana.${app_k8s_domain_name}']

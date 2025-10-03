@@ -23,6 +23,7 @@ spec:
       code_server_app_name: code-server
       pgadmin_app_name: pgadmin
       prometheus_operator_app_name: prometheus-operator
+      prometheus_blackbox_exporter_app_name: prometheus-blackbox-exporter
       dashy_app_name: dashy
       chatgpt_next_app_name: chatgpt-next
       commafeed_app_name: commafeed
