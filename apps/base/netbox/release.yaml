@@ -35,14 +35,13 @@ spec:
     image:
       # renovate: datasource=docker depName=ghcr.io/frantathefranta/netbox-custom
       registry: ghcr.io
-      repository: frantathefranta/netbox-custom
+      repository: netboxcommunity/netbox
       tag: v4.4.0 # {"$imagepolicy": "default:netbox:tag"}
-      digest: sha256:458c3b68f8e07c21816468586f71d31125ccb0f038c6cdc574b085075c013af3 # {"$imagepolicy": "default:netbox:digest"}
     superuser:
       name: cloufish
-      email: admin@cloufish.us
+      email: cloufisz@gmail.com
     admins:
-      - ["cloufish", "admin@cloufish.us"]
+      - ["cloufish", "cloufisz@gmail.com"]
     loginRequired: true
     timeZone: Europe/Warsaw
     dateFormat: "j. F, Y"
@@ -125,7 +124,7 @@ spec:
   valuesFrom:
     - targetPath: storages.default.OPTIONS.access_key
       kind: Secret
-      name: netbox-secret
+      name: aws-s3-secret.yaml
       valuesKey: AWS_ACCESS_KEY_ID
     - targetPath: storages.default.OPTIONS.secret_key
       kind: Secret
