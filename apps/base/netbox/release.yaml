@@ -124,9 +124,9 @@ spec:
   valuesFrom:
     - targetPath: storages.default.OPTIONS.access_key
       kind: Secret
-      name: aws-s3-secret.yaml
+      name: aws-s3-secret
       valuesKey: AWS_ACCESS_KEY_ID
     - targetPath: storages.default.OPTIONS.secret_key
       kind: Secret
-      name: netbox-secret
+      name: aws-s3-secret
       valuesKey: AWS_SECRET_ACCESS_KEY
