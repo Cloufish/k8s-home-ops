@@ -131,38 +131,25 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     - [ ] Blackbox
     - [ ] Loki
     - [ ] Karma for Alerting Dashboard
-    - [ ] Slack Notifications
     - [X] Kubernetes Monitoring
     - [ ] Docker Swarm integrated monitoring
     - [ ] Pi-Hole Monitoring
     - [ ] TrueNAS Monitoring
+    - [ ] UPS Monitoring
+- [ ] Networking
+    - [ ] VLANs
+    - [ ] Port Forwarding
+    - [ ] VPN
 - [ ] Documentation of HomeLab
 - [ ] Blog on AWS
+- [ ] AI On Desktop:
+    - [ ] n8n AI Agents
+    - [ ] HomeAutomation
+    - [X] Tdarr
+    - [ ] Integrate Coding LLM into VSCode
 
 ## Planned Purchases (from most important to less)
 - **Once you do above ToDo List**
-### General
-- 2U UPS with Network Alerting System for automated Shutdown
-- PiKVM for remote access to Servers If something went wrong
-### Networking
-#### Use Cases of Networking Devices:
-- Network Segmentation with VLAN
-- Apply other CCNA concepts
-- Prepare for upgrading Internet Provider
-- Firewall
-- Port Forwarding
-### AI
-#### Use Cases of GPU, AI
-- Transcoding with Tdarr
-- Transcribing with Whisper
-- Deepwiki 
-- Self-Hosted Copilot
-- Face Recognition in HomeAssistant
-- Automating media tagging with PhotoPrism/Immich
-- AI assisted alerting in Grafana
-- Chatbots with Ollama and Open WebUI for simple queries
-- AI Powered Security with CrowdSec
-- AI Agents
 ### Home Automation
 Total Cost
 - 1xRaspberry Pi with Camera Module
