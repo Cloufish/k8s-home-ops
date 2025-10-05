@@ -4,18 +4,14 @@ kind: HelmRelease
 metadata:
   name: ${netbox_app_name}  # This variable is defined inside clusters/production/apps.yaml
   namespace: ${netbox_app_name}
-spec:
-  chart:
-    spec:
-      version: '>=1.0.0'
-  values:
-    ingress:
-      app:
-        hosts:
-          - host: ${netbox_app_name}.${app_k8s_domain_name}
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts: ['${netbox_app_name}.${app_k8s_domain_name}']
-            secretName: ${netbox_app_name}-${default_k8s_cert_name}
+  # values:
+  #   ingress:
+  #     app:
+  #       hosts:
+  #         - host: ${netbox_app_name}.${app_k8s_domain_name}
+  #           paths:
+  #             - path: /
+  #               pathType: Prefix
+  #       tls:
+  #         - hosts: ['${netbox_app_name}.${app_k8s_domain_name}']
+  #           secretName: ${netbox_app_name}-${default_k8s_cert_name}
