@@ -34,6 +34,7 @@ spec:
       vaultwarden_app_name: vaultwarden
       lidify_app_name: lidify
       cyberchef_app_name: cyberchef
+      netbox_app_name: netbox
   decryption:
     provider: sops
     secretRef:
