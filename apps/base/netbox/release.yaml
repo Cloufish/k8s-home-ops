@@ -23,12 +23,14 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app netbox
+  name: netbox
+  namespace: netbox
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
     name: netbox
+    namespace: netbox
   values:
     commonAnnotations:
       reloader.stakater.com/auto: "true"
