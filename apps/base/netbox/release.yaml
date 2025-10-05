@@ -10,7 +10,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: netbox
-  namespace: ${netbox_app_name}
+  namespace: flux-system
 spec:
   interval: 1h
   layerSelector:
@@ -30,7 +30,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: netbox
-    namespace: netbox
+    namespace: flux-system
   values:
     commonAnnotations:
       reloader.stakater.com/auto: "true"
