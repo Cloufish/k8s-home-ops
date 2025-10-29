@@ -57,12 +57,12 @@ spec:
     valkey:
       enabled: false
     tasksDatabase:
-      host: netbox-dragonfly.default.svc.cluster.local
+      host: netbox.k8s.cloufish.xyz
       database: 0
       # existingSecretName: "netbox-secret"
       # existingSecretKey: "REDIS_PASSWORD"
     cachingDatabase:
-      host: netbox-dragonfly.default.svc.cluster.local
+      host: netbox.k8s.cloufish.xyz
       database: 1
       # existingSecretName: "netbox-secret"
       # existingSecretKey: "REDIS_PASSWORD"
