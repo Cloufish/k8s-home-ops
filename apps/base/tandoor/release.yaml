@@ -1,3 +1,4 @@
+---
 # See https://github.com/drag0n141/home-ops/blob/master/kubernetes/apps/default/tandoor/app/helmrelease.yaml
 # https://github.com/auricom/home-ops/blob/main/kubernetes/apps/default/tandoor/app/helmrelease.yaml
 apiVersion: v1

@@ -142,7 +142,8 @@ sections:
         icon: https://owasp.org/www--site-theme/favicon.ico
         url: https://dsomm.${app_k8s_domain_name}
       - title: CyberChef
-        description: The Cyber Swiss Army Knife - a web app for encryption, encoding, compression and data analysis
+        description: The Cyber Swiss Army Knife - a web app for encryption, encoding,
+          compression and data analysis
         icon: https://cyberchef.io/images/cyberchef-128x128.png
         url: https://cyberchef.${app_k8s_domain_name}
   - name: Documentation
@@ -269,6 +270,7 @@ sections:
         icon: hl-flaresolverr
         url: https://flaresolverr.${app_swarm_domain_name}/
       - title: Tdarr
-        description: Clean up your media libraries, health check files, save space and much more!
+        description: Clean up your media libraries, health check files, save space
+          and much more!
         icon: hl-tdarr
         url: http://192.168.1.140:8265/

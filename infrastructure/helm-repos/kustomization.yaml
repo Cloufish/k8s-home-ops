@@ -5,5 +5,4 @@ resources:
   - ./bjw-s-charts.yaml
   - ./descheduler-repo.yaml
   - ./netbox-repo.yaml
-
 # For HelmRepositories that are used many times

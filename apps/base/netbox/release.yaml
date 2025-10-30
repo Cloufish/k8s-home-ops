@@ -1,3 +1,4 @@
+---
 # see https://github.com/frantathefranta/home-ops/blob/main/kubernetes/apps/default/netbox/app/helmrelease.yaml
 # And chart options https://github.com/netbox-community/netbox-chart/tree/main/charts/netbox
 apiVersion: v1
@@ -18,35 +19,35 @@ spec:
     namespace: flux-system
   values:
     commonAnnotations:
-      reloader.stakater.com/auto: "true"
+      reloader.stakater.com/auto: 'true'
     image:
       # renovate: datasource=docker depName=ghcr.io/frantathefranta/netbox-custom
       registry: ghcr.io
       repository: netboxcommunity/netbox
-      tag: v4.4.0 # {"$imagepolicy": "default:netbox:tag"}
+      tag: v4.4.0  # {"$imagepolicy": "default:netbox:tag"}
     superuser:
       name: cloufish
       email: cloufisz@gmail.com
     admins:
-      - ["cloufish", "cloufisz@gmail.com"]
+      - [cloufish, cloufisz@gmail.com]
     loginRequired: true
     timeZone: Europe/Warsaw
-    dateFormat: "j. F, Y"
-    shortDateFormat: "j.m.Y"
-    timeFormat: "G:i"
-    shortTimeFormat: "H:i:s"
-    dateTimeFormat: "j. F, Y g:i a"
-    shortDateTimeFormat: "j.m.Y H:i"
-    storages: # TODO: Change this
+    dateFormat: j. F, Y
+    shortDateFormat: j.m.Y
+    timeFormat: G:i
+    shortTimeFormat: H:i:s
+    dateTimeFormat: j. F, Y g:i a
+    shortDateTimeFormat: j.m.Y H:i
+    storages:  # TODO: Change this
       default:
-        BACKEND: "storages.backends.s3.S3Storage" 
+        BACKEND: storages.backends.s3.S3Storage
         OPTIONS:
-          bucket_name: "netbox"
-          endpoint_url: "https://rgw.franta.us"
-          region_name: "us-east-1"
+          bucket_name: netbox
+          endpoint_url: https://rgw.franta.us
+          region_name: us-east-1
     existingSecret: netbox-secret
     replicaCount: 1
-    resourcesPreset: "large"
+    resourcesPreset: large
     metrics:
       enabled: true
       serviceMonitor:
@@ -71,8 +72,8 @@ spec:
       port: 5432
       database: netbox
       username: netbox
-      existingSecretName: "netbox-pguser-netbox"
-      existingSecretKey: "password"
+      existingSecretName: netbox-pguser-netbox
+      existingSecretKey: password
       targetSessionAttrs: any
       disableServerSideCursors: true
       connMaxAge: 300
@@ -95,10 +96,7 @@ spec:
       enabled: false
     worker:
       enabled: false
-    plugins:
-      - netbox_kea
-      - netbox_topology_views
-      - netbox_cable_labels
+    plugins: [netbox_kea, netbox_topology_views, netbox_cable_labels]
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -107,7 +105,7 @@ spec:
                 - key: topology.kubernetes.io/zone
                   operator: NotIn
                   values:
-                    - protactinium # FIXME: BIND VM runs on the same Proxmox node and it doesn't allow traffic from VF to bridge
+                    - protactinium  # FIXME: BIND VM runs on the same Proxmox node and it doesn't allow traffic from VF to bridge
   valuesFrom:
     - targetPath: storages.default.OPTIONS.access_key
       kind: Secret
