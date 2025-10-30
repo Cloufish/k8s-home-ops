@@ -117,7 +117,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 6. However, **even better option** is to use VSCode Extension to automatically (This is tricky in Windows environment)
 
 ### TODO: 
-- [ ] Pre-commits hook with Linting and Secret Detection
 - [X] [descheduler](https://github.com/kubernetes-sigs/descheduler)
 - [ ] NetBox
 - [ ] Tandoor
@@ -144,6 +143,21 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [ ] Blog on AWS
 - [ ] AI On Desktop:
     - [ ] n8n AI Agents
+        - [ ] Backup workflows to Google Drive https://n8n.io/workflows/3295-ai-powered-language-teacher-with-telegram-google-sheet-and-gpt-4o/
+        - [ ] https://n8n.io/workflows/5541-track-ai-agent-token-usage-and-estimate-costs-in-google-sheets/
+        - Language Learning ChatBot https://n8n.io/workflows/3295-ai-powered-language-teacher-with-telegram-google-sheet-and-gpt-4o/
+        - [ ] Automate formatting Flashcard for Anki based on the Gender https://www.reddit.com/r/Anki/comments/jyw4kb/color_formatting_of_gendermarked_articles_for_4/
+        - [ ] Gather data
+            - [ ] Integrate Smart-Watch Data into Postresql 
+            - [ ] Integrate Anki Statistics into Postresql
+            - [ ] Integrate AntennaPod Statistics into Posresql
+            - [ ] Integrate Todoist data into Postresql
+        - [ ] Google Calendar Notifications and Automation based on the Activity
+        - [ ] Job Searching https://n8n.io/workflows/8539-smart-linkedin-job-filtering-with-google-gemini-cv-matching-and-google-maps/
+        - [ ] Automate Todoist
+            - [ ] Auto-complete Anki task when I complete a certain deck
+            - [ ] Auto-complete Podcast Task after I listen to Podcast for a certain time
+            - [ ] Auto-complete morning routine tasks after 8:00 p.m
     - [ ] HomeAutomation
     - [X] Tdarr
     - [ ] Integrate Coding LLM into VSCode
