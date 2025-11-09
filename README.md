@@ -112,7 +112,7 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 > Following instructions will be for WSL. If you are working on Linux then it's better to use VSCode Extension for SOPS. However VSCode installed on Windows didn't detect sops in WSL environment, and also on Windows 
 2. Put your generated keys with `age` inside default folder for sops keys, which is `$HOME/.config/sops/age/age.agekey`
 3. Configure config file for `.sops.yaml` (Already in the repository). Put there your **public** `age` key
-4. In your `$HOME/.bashrc` set `export SOPS_AGE_KEY_FILE="/home/cloufish/.config/sops/age/age.agekey"` 
+4. In your `$HOME/.bashrc` set `export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/age.agekey"` 
 5. Use `sops decrypt secrets.yaml --output=secrets.yaml` or `sops encrypt secrets.yaml --output=secrets.yaml`
 6. However, **even better option** is to use VSCode Extension to automatically (This is tricky in Windows environment)
 
@@ -145,14 +145,12 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     - [ ] n8n AI Agents
         - [ ] Backup workflows to Google Drive https://n8n.io/workflows/3295-ai-powered-language-teacher-with-telegram-google-sheet-and-gpt-4o/
         - [ ] https://n8n.io/workflows/5541-track-ai-agent-token-usage-and-estimate-costs-in-google-sheets/
-        - Language Learning ChatBot https://n8n.io/workflows/3295-ai-powered-language-teacher-with-telegram-google-sheet-and-gpt-4o/
-        - [ ] Automate formatting Flashcard for Anki based on the Gender https://www.reddit.com/r/Anki/comments/jyw4kb/color_formatting_of_gendermarked_articles_for_4/
+        - [ ] Automate formatting Flashcard for Anki based on the Gender with Regex https://www.reddit.com/r/Anki/comments/jyw4kb/color_formatting_of_gendermarked_articles_for_4/
         - [ ] Gather data
             - [ ] Integrate Smart-Watch Data into Postresql 
             - [ ] Integrate Anki Statistics into Postresql
             - [ ] Integrate AntennaPod Statistics into Posresql
             - [ ] Integrate Todoist data into Postresql
-        - [ ] Google Calendar Notifications and Automation based on the Activity
         - [ ] Job Searching https://n8n.io/workflows/8539-smart-linkedin-job-filtering-with-google-gemini-cv-matching-and-google-maps/
         - [ ] Automate Todoist
             - [ ] Auto-complete Anki task when I complete a certain deck
