@@ -43,7 +43,7 @@ spec:
         BACKEND: storages.backends.s3.S3Storage
         OPTIONS:
           bucket_name: cloufish-k8s-at-home
-          endpoint_url: https://rgw.franta.us # TODO: Find out how to set your endpoint
+          endpoint_url: https://rgw.franta.us  # TODO: Find out how to set your endpoint
           region_name: eu-north-1
     existingSecret: aws-s3-secret-netbox
     replicaCount: 1
@@ -78,7 +78,7 @@ spec:
       disableServerSideCursors: true
       connMaxAge: 300
     email:
-      server: smtp-relay.default.svc.cluster.local # TODO: Find out how to configure smtp
+      server: smtp-relay.default.svc.cluster.local  # TODO: Find out how to configure smtp
       port: 25
       from: netbox@franta.dev
     persistence:

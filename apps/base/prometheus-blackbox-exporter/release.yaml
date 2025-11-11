@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: prometheus-operator
+  name: ${prometheus_operator_app_name}
   labels:
     toolkit.fluxcd.io/tenant: sre-team
 ---
@@ -10,7 +10,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: prometheus-community
-  namespace: prometheus-operator
+  namespace: ${prometheus_operator_app_name}
 spec:
   interval: 24h
   url: https://prometheus-community.github.io/helm-charts
@@ -18,8 +18,8 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: prometheus-operator
-  namespace: prometheus-operator
+  name: ${prometheus_operator_app_name}
+  namespace: ${prometheus_operator_app_name}
 spec:
   interval: 30m
   chart:
@@ -28,5 +28,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
-        namespace: prometheus-operator
+        namespace: ${prometheus_operator_app_name}
       interval: 12h
+
+# For more options use helm show values oci://ghcr.io/prometheus-community/charts/prometheus-blackbox-exporter
