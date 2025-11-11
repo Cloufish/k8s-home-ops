@@ -12,6 +12,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
-        namespace: ${prometheus_operator_app_name}
+        namespace: flux-system
       interval: 12h
 # For more options use helm show values oci://ghcr.io/prometheus-community/charts/prometheus-blackbox-exporter

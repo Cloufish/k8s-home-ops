@@ -1,16 +1,9 @@
 ---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: ${prometheus_operator_app_name}
-  labels:
-    toolkit.fluxcd.io/tenant: sre-team
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: prometheus-community
-  namespace: ${prometheus_operator_app_name}
+  namespace: flux-system
 spec:
   interval: 24h
   url: https://prometheus-community.github.io/helm-charts
