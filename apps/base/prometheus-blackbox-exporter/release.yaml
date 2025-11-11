@@ -30,5 +30,4 @@ spec:
         name: prometheus-community
         namespace: ${prometheus_operator_app_name}
       interval: 12h
-
 # For more options use helm show values oci://ghcr.io/prometheus-community/charts/prometheus-blackbox-exporter
