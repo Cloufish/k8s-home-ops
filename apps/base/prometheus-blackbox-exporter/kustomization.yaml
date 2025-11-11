@@ -1,5 +1,5 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: ${prometheus_blackbox_exporter_app_name}
+namespace: ${prometheus_operator_app_name}
 resources: [./release.yaml]
