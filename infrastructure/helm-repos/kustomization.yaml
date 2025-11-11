@@ -5,4 +5,5 @@ resources:
   - ./bjw-s-charts.yaml
   - ./descheduler-repo.yaml
   - ./netbox-repo.yaml
+  - ./prometheus-community.yaml
 # For HelmRepositories that are used many times
