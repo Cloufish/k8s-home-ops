@@ -120,7 +120,6 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
 - [X] [descheduler](https://github.com/kubernetes-sigs/descheduler)
 - [ ] NetBox
 - [ ] Tandoor
-- [ ] Fix dashy monitoring
 - [ ] Implement Shell-Operator
     - [ ] Have logs on remote NFS
 - [ ] **Authelia**
