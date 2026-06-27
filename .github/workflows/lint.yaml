@@ -30,7 +30,7 @@ jobs:
         with:
           fetch-depth: 0  # So that it performs deep clone and can tell which files have changed
       - name: Run markdownlint-cli
-        uses: raven-actions/actionlint@v2.0.1
+        uses: raven-actions/actionlint@v2.2.0
   actionlint:
     name: actionlint
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
         with:
           fetch-depth: 0  # So that it performs deep clone and can tell which files have changed
       - name: Run actionlint
-        uses: raven-actions/actionlint@v2.0.1
+        uses: raven-actions/actionlint@v2.2.0
   shellcheck:
     name: shellcheck
     runs-on: ubuntu-latest
