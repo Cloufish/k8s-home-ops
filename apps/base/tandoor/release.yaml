@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: thewicklowwolf/lidify
-              tag: 0.2.3
+              tag: 0.2.11
             ports:
               - name: http
                 containerPort: &httpPort 5000
