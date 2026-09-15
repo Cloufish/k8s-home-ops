@@ -5,11 +5,13 @@ metadata:
   name: ${vaultwarden_app_name}  # This variable is defined inside clusters/production/apps.yaml
   namespace: ${vaultwarden_app_name}
 spec:
-  suspend: true
   chart:
     spec:
       version: '>=1.0.0'
   values:
+    controllers:
+      ${vaultwarden_app_name}:
+        replicas: 0
     ingress:
       app:
         hosts:
