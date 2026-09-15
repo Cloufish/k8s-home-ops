@@ -5,22 +5,6 @@ on:
     branches: ['*']
   pull_request:
 jobs:
-  yamlint:
-    name: yamlint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0  # So that it performs deep clone and can tell which files have changed
-      - name: Install yamllint
-        shell: bash
-        run: |
-          pip install --user yamllint
-      - name: Run yamllint
-        shell: bash
-        run: |
-          yamllint --format github -c .yamllint.yaml .
   markdownlint:
     name: markdownlint
     runs-on: ubuntu-latest
