@@ -18,4 +18,4 @@ spec:
                 pathType: Prefix
         tls:
           - hosts: ['${chatgpt_next_app_name}.${app_k8s_domain_name}']
-            secretName: ${chatgpt_next_app_name}-${default_k8s_cert_name}
+            secretName: wildcard-${default_k8s_cert_name}

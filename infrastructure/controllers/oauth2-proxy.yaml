@@ -15,7 +15,7 @@ spec:
   interval: 24h
   url: https://oauth2-proxy.github.io/manifests
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -103,13 +103,11 @@ spec:
         cloufisz@gmail.com
     ingress:
       enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-production
       className: nginx
       path: /
       hosts: ['oauth2-proxy.${app_k8s_domain_name}', oauth2-proxy.cloufish.xyz]
       tls:
-        - secretName: oauth2-proxy-${default_k8s_cert_name}
+        - secretName: wildcard-${default_k8s_cert_name}
           hosts: ['oauth2-proxy.${app_k8s_domain_name}']
-        - secretName: oauth2-proxy-${default_k8s_cert_name}
+        - secretName: wildcard-root-${default_k8s_cert_name}
           hosts: [oauth2-proxy.cloufish.xyz]

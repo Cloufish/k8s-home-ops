@@ -22,6 +22,6 @@ spec:
                 pathType: Prefix
         tls:
           - hosts: ['${n8n_app_name}.${app_k8s_domain_name}']
-            secretName: ${n8n_app_name}-${default_k8s_cert_name}
+            secretName: wildcard-${default_k8s_cert_name}
           - hosts: ['${n8n_app_name}-webhook.${app_k8s_domain_name}']
-            secretName: ${n8n_app_name}-webhook-${default_k8s_cert_name}
+            secretName: wildcard-${default_k8s_cert_name}

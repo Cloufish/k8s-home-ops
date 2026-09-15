@@ -15,18 +15,6 @@ spec:
   interval: 24h
   url: https://charts.authelia.com
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: authelia-${default_k8s_cert_name}
-  namespace: authelia
-spec:
-  secretName: authelia-${default_k8s_cert_name}
-  issuerRef:
-    name: letsencrypt-production
-    kind: ClusterIssuer
-  dnsNames: ['authelia.${app_k8s_domain_name}']
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -53,10 +41,8 @@ spec:
       className: nginx
       tls:
         enabled: true
-        secret: authelia-${default_k8s_cert_name}
+        secret: wildcard-${default_k8s_cert_name}
       annotations:
-        kubernetes.io/tls-acme: 'true'
-        cert-manager.io/cluster-issuer: letsencrypt-production
         nginx.ingress.kubernetes.io/custom-http-errors: '418'
       subdomain: auth
     configMap:

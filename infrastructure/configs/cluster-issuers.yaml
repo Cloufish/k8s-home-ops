@@ -18,4 +18,4 @@ spec:
               name: cloudflare-api-token-secret
               key: api-token
         selector:
-          dnsZones: ['${app_k8s_domain_name}']
+          dnsZones: ['cloufish.xyz']
