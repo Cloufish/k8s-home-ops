@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ${prometheus_operator_app_name}
-  namespace: ${prometheus_operator_app_name}
+  name: ${prometheus_blackbox_exporter_app_name}
+  namespace: ${prometheus_blackbox_exporter_app_name}
 spec:
   interval: 30m
   chart:
