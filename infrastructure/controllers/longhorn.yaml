@@ -28,7 +28,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: 1.x  # If you consider upgrading, also upgrade longhorn's CRD
+      version: 1.11.3  # Longhorn refuses to skip minor versions 
       sourceRef:
         kind: HelmRepository
         name: longhorn
