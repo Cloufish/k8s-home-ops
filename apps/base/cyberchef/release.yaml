@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: docker.io/mpepping/cyberchef
-              tag: v10.19.4
+              tag: v10.24.0
             env:
               TZ: Europe/Warsaw
             ports:
