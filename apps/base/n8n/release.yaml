@@ -31,7 +31,7 @@ spec:
           app:
             image:
               repository: ghcr.io/n8n-io/n8n
-              tag: 1.123.81
+              tag: 2.40.5
             env:
               - name: GENERIC_TIMEZONE
                 value: Europe/Warsaw
