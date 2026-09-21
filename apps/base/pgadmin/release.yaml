@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: dpage/pgadmin4
-              tag: 9.17
+              tag: 9.18
             env:
               TZ: Europe/Warsaw
 #              PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2']"
