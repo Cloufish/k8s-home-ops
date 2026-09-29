@@ -44,18 +44,34 @@ sections:
         url: https://192.168.1.8:8006
         statusCheckAllowInsecure: true
         statusCheckHeaders: {rejectUnauthorized: false}
-      - title: PiHole-1
-        icon: hl-pihole
-        description: On Raspberry Pi Zero
-        url: http://192.168.1.2/admin
-      - title: PiHole-2
-        icon: hl-pihole
-        description: On Raspberry Pi Zero
-        url: http://192.168.1.3/admin
+      - title: Windows Server 2025 Datacenter
+        description: Informational record where Active Directory lives
+        icon: https://www.cleanpng.com/png-active-directory-logo-png-blue-windows-icon-86sv99/
+        url: 192.168.1.30
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
+      - title: Cloudflare Dashboard
+        description: A place where I can manage my domains, Cloudflare tunnels
+        icon: 
+        url: https://dash.cloudflare.com/
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
+      - title: Microsoft Entra
+        description: Place where to manage users
+        icon: 
+        url: https://entra.microsoft.com
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Traefik-Swarm
         icon: https://traefik.io/favicon.svg
         url: https://traefik.${app_swarm_domain_name}
         description: Traefik for Docker Swarm
+      - title: My GitHub Repositories
+        description: A place where I can manage my domains, Cloudflare tunnels
+        icon: 
+        url: https://github.com/Cloufish?tab=repositories
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Portainer-Swarm
         icon: https://www.portainer.io/hubfs/crane-icon.svg
         url: https://portainer.${app_swarm_domain_name}
