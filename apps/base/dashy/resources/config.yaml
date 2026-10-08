@@ -66,12 +66,6 @@ sections:
         icon: https://traefik.io/favicon.svg
         url: https://traefik.${app_swarm_domain_name}
         description: Traefik for Docker Swarm
-      - title: My GitHub Repositories
-        description: A place where I can manage my domains, Cloudflare tunnels
-        icon: 
-        url: https://github.com/Cloufish?tab=repositories
-        statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Portainer-Swarm
         icon: https://www.portainer.io/hubfs/crane-icon.svg
         url: https://portainer.${app_swarm_domain_name}
@@ -105,6 +99,12 @@ sections:
         icon: hl-n8n
         url: https://n8n.${app_k8s_domain_name}/
         description: Flexible AI workflow automation
+      - title: My GitHub Repositories
+        description: A place where I can manage my domains, Cloudflare tunnels
+        icon: 
+        url: https://github.com/Cloufish?tab=repositories
+        statusCheckAllowInsecure: true
+        statusCheckHeaders: {rejectUnauthorized: false}
   - name: Monitoring
     items:
       - title: Grafana Swarm
