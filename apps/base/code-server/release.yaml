@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 apiVersion: v1
 kind: Namespace
@@ -95,3 +96,102 @@ spec:
         size: 10Gi
         globalMounts:
           - path: /home/coder/
+=======
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${code_server_app_name}
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: code-server
+  namespace: ${code_server_app_name}
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: {type: RuntimeDefault}
+    controllers:
+      ${code_server_app_name}:
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.138.0@sha256:81706b71ace316157850cbcfb574714d1067249c107a415b3a03dc6b613ebfbc
+            env:
+              TZ: Europe/Warsaw
+            envFrom:
+              - secretRef:
+                  name: code-server-secret
+            args:
+              - --auth
+              - none
+              - --user-data-dir
+              - /home/coder/.code-server
+              - --extensions-dir
+              - /home/coder/.code-server
+              - --port
+              - '8080'
+              - /home/coder/
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop: [ALL]
+            ports:
+              - name: http
+                containerPort: &httpPort 8080
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: ${code_server_app_name}
+        type: ClusterIP
+        ports:
+          http:
+            port: *httpPort
+            protocol: TCP
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/auth-url: https://oauth2-proxy.cloufish.xyz/oauth2/auth
+          nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.cloufish.xyz/oauth2/start?rd=https://$host$request_uri
+          nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        globalMounts:
+          - path: /home/coder/
+>>>>>>> 49b6e53 (Add Flux webhook to n8n)
