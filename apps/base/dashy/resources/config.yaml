@@ -97,11 +97,6 @@ sections:
         url: https://pgadmin.${app_k8s_domain_name}/
         description: Panel to manage and configure PostgreSQL Databases in K8s Cluster
         statusCheckAllowInsecure: true
-      - title: n8n
-        icon: hl-n8n
-        url: https://n8n.${app_k8s_domain_name}/
-        description: Flexible AI workflow automation
-        statusCheckAllowInsecure: true
       - title: My GitHub Repositories
         description: My personal GitHub repositories
         icon: hl-github

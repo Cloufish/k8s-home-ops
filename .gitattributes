@@ -1,0 +1,2 @@
+# Store all text files with LF so Windows and WSL git agree
+* text=auto eol=lf
