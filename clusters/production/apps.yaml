@@ -30,7 +30,6 @@ spec:
       dsomm_app_name: dsomm
       composerize_app_name: composerize
       languagetool_app_name: languagetool
-      vaultwarden_app_name: vaultwarden
       lidify_app_name: lidify
       cyberchef_app_name: cyberchef
   decryption:

@@ -228,11 +228,6 @@ sections:
         icon: hl-chatgpt
         url: https://chatgpt-next.${app_k8s_domain_name}
         statusCheckAllowInsecure: true
-      - title: Vaultwarden
-        description: Self-Hosted Bitwarden
-        icon: hl-bitwarden
-        url: https://vaultwarden.${app_k8s_domain_name}
-        statusCheckAllowInsecure: true
       - title: Kiwix
         description: Offline Wikipedia, StackOverflow Viewer in .zim format
         icon: hl-kiwix
