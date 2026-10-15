@@ -33,6 +33,17 @@ spec:
       interval: 12h
   values:
     controller:
+      replicaCount: 3
+      minAvailable: 1
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+              app.kubernetes.io/instance: ingress-nginx
+              app.kubernetes.io/component: controller
       service:
         type: LoadBalancer
         loadBalancerIP: 192.168.1.240

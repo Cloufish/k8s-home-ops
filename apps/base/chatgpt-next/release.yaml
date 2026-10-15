@@ -23,8 +23,17 @@ spec:
     remediation:
       retries: 3
   values:
+    defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/controller: ${chatgpt_next_app_name}
     controllers:
       ${chatgpt_next_app_name}:
+        replicas: 2
         annotations:
           reloader.stakater.com/auto: 'true'
         containers:

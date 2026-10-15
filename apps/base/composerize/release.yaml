@@ -24,6 +24,13 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/controller: ${composerize_app_name}
       securityContext:
         runAsUser: 5050
         runAsGroup: 5050

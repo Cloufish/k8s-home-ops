@@ -24,6 +24,13 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/controller: ${languagetool_app_name}
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000

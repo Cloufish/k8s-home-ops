@@ -5,6 +5,10 @@ metadata:
   name: commafeed-postresql-cluster
   namespace: commafeed
 spec:
-  instances: 2
+  instances: 3
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
   storage:
     size: 3Gi
