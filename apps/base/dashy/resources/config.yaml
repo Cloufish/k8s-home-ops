@@ -25,43 +25,37 @@ sections:
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.6:8006
         statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Proxmox on MiniPC-1
         description: RAM 8GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.5:8006
         statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Proxmox on MiniPC-2
         description: RAM 32GB, Storage 512GB, 6 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.7:8006
         statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Proxmox on MiniPC-3
         description: RAM 16GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.8:8006
         statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Windows Server 2025 Datacenter
         description: Informational record where Active Directory lives
-        icon: https://www.cleanpng.com/png-active-directory-logo-png-blue-windows-icon-86sv99/
-        url: 192.168.1.30
+        icon: fab fa-windows
+        url: http://192.168.1.30
+        statusCheck: false
         statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
       - title: Cloudflare Dashboard
         description: A place where I can manage my domains, Cloudflare tunnels
-        icon: 
+        icon: hl-cloudflare
         url: https://dash.cloudflare.com/
-        statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
+        statusCheck: false
       - title: Microsoft Entra
         description: Place where to manage users
-        icon: 
+        icon: favicon
         url: https://entra.microsoft.com
-        statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
+        statusCheck: false
       - title: Traefik-Swarm
         icon: https://traefik.io/favicon.svg
         url: https://traefik.${app_swarm_domain_name}
@@ -73,9 +67,9 @@ sections:
         description: For quick container troubleshooting :)
         statusCheckAllowInsecure: true
       - title: HAProxy Stats
-        icon: https://traefik.io/favicon.svg
+        icon: hl-haproxy
         url: http://192.168.1.160:8443/stats
-        description: Statistics, Monitoring for HAPRoxy
+        description: Statistics, Monitoring for HAProxy
         statusCheckAllowInsecure: true
       - title: Whats Up Docker for Docker Swarm
         description: Service that monitors newest Docker images version
@@ -93,7 +87,7 @@ sections:
         description: For doing Backups
         statusCheckAllowInsecure: true
       - title: Longhorn K8s
-        icon: https://github.com/longhorn/website/blob/master/static/img/logos/longhorn-stacked-color.png
+        icon: hl-longhorn
         url: https://longhorn.${app_k8s_domain_name}/
         description: Cloud native distributed block storage for Kubernetes with Backups
           and Snapshots
@@ -101,7 +95,7 @@ sections:
       - title: pgAdmin K8s
         icon: https://www.postgresql.org/media/img/about/press/elephant.png
         url: https://pgadmin.${app_k8s_domain_name}/
-        description: Panel to manage and configure PostreSQL Databases in K8s Cluster
+        description: Panel to manage and configure PostgreSQL Databases in K8s Cluster
         statusCheckAllowInsecure: true
       - title: n8n
         icon: hl-n8n
@@ -109,11 +103,10 @@ sections:
         description: Flexible AI workflow automation
         statusCheckAllowInsecure: true
       - title: My GitHub Repositories
-        description: A place where I can manage my domains, Cloudflare tunnels
-        icon: 
+        description: My personal GitHub repositories
+        icon: hl-github
         url: https://github.com/Cloufish?tab=repositories
-        statusCheckAllowInsecure: true
-        statusCheckHeaders: {rejectUnauthorized: false}
+        statusCheck: false
   - name: Monitoring
     items:
       - title: Grafana Swarm
@@ -131,7 +124,7 @@ sections:
         icon: hl-grafana
         url: https://loki.${app_k8s_domain_name}/loki/api/v1/push
         description: like Prometheus, but for logs.
-        statusCheckAcceptCodes: '405'
+        statusCheckUrl: https://loki.${app_k8s_domain_name}/ready
         statusCheckAllowInsecure: true
       - title: Prometheus Swarm
         icon: hl-prometheus
@@ -146,7 +139,7 @@ sections:
         description: For managing Prometheus Alerts
         statusCheckAllowInsecure: true
       - title: Karma Alert Dashboard
-        icon: https://karma.swarm.cloufish.xyz/favicon.ico
+        icon: https://karma.${app_k8s_domain_name}/favicon.ico
         url: https://karma.${app_k8s_domain_name}
         description: Dashboard for Prometheus Alerts
         statusCheckAllowInsecure: true
@@ -188,12 +181,11 @@ sections:
       - title: Devdocs
         icon: hl-mkdocs
         url: https://devdocs.io
-        description: Self-Hosted Devdocs
-        statusCheckAllowInsecure: true
+        description: API documentation browser
+        statusCheck: false
       - title: Proxmox Docs
         icon: hl-proxmox
         url: https://192.168.1.6:8006/pve-docs/index.html
-        statusCheckHeaders: {rejectUnauthorized: false}
         statusCheckAllowInsecure: true
         description: Self-Hosted Proxmox Docs
       - title: K8s Docs
@@ -255,7 +247,7 @@ sections:
         description: Grammarly, but for multiple languages and free
         icon: https://languagetool.org/images/logo_color.svg?6b4c3eb171397ee0e2ba758a9e106891
         url: https://languagetool.${app_k8s_domain_name}/v2/languages
-        StatusCheckHeaders: {Accept: application/json}
+        statusCheckHeaders: {Accept: application/json}
         statusCheckAllowInsecure: true
       - title: Tandoor Recipes
         description: Application to plan and create dish recipes
@@ -301,8 +293,8 @@ sections:
         url: https://lidarr.${app_swarm_domain_name}/
         statusCheckAllowInsecure: true
       - title: Lidify
-        description: Get new Music, Artists recomendations based on lidarr artists
-        icon: https://lidify.k8s.cloufish.xyz/static/lidarr.svg
+        description: Get new Music, Artists recommendations based on lidarr artists
+        icon: https://lidify.${app_k8s_domain_name}/static/lidarr.svg
         url: https://lidify.${app_k8s_domain_name}/
         statusCheckAllowInsecure: true
       - title: Beets
