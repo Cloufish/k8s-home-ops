@@ -5,6 +5,10 @@ metadata:
   name: n8n-postresql-cluster
   namespace: n8n
 spec:
-  instances: 2
+  instances: 3
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
   storage:
     size: 2Gi

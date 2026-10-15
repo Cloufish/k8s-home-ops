@@ -44,6 +44,10 @@ spec:
       annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    defaultSettings:
+      defaultReplicaCount: 3
+      replicaAutoBalance: best-effort
+      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
     defaultBackupStore:
       backupTarget: s3://cloufish-k8s-at-home@eu-north-1/
       backupTargetCredentialSecret: aws-s3-secret-longhorn

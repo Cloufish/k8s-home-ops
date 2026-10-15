@@ -23,6 +23,14 @@ spec:
     remediation:
       retries: 3
   values:
+    defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/controller: ${dashy_app_name}
     controllers:
       ${dashy_app_name}:
         replicas: 2

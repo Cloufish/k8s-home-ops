@@ -13,7 +13,7 @@ metadata:
   name: cloudflared-deployment
   namespace: cloudflared
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       pod: cloudflared
@@ -22,6 +22,13 @@ spec:
       labels:
         pod: cloudflared
     spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              pod: cloudflared
       securityContext:
         sysctls:
           # Allows ICMP traffic (ping, traceroute) to resources behind cloudflared.
@@ -56,3 +63,14 @@ spec:
             failureThreshold: 1
             initialDelaySeconds: 10
             periodSeconds: 10
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cloudflared
+  namespace: cloudflared
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      pod: cloudflared
