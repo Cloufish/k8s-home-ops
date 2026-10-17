@@ -145,31 +145,6 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
-  name: dashy-documentation
-spec:
-  interval: 60s
-  module: http_2xx
-  prober:
-    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
-  targets:
-    staticConfig:
-      labels:
-        source: dashy
-        dashy_section: Documentation
-      relabelingConfigs:
-        - sourceLabels: [__param_target]
-          regex: https?://([a-z][a-z0-9-]*)[.:/].*
-          targetLabel: app
-        - sourceLabels: [__param_target]
-          regex: https?://([0-9.]+(:[0-9]+)?).*
-          targetLabel: app
-      static:
-        - https://k8s-docs.${app_swarm_domain_name}
-        - https://k3s-docs.${app_swarm_domain_name}
----
-apiVersion: monitoring.coreos.com/v1
-kind: Probe
-metadata:
   name: dashy-documentation-self-signed
 spec:
   interval: 60s

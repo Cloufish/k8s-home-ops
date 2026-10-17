@@ -170,16 +170,6 @@ sections:
         url: https://192.168.1.6:8006/pve-docs/index.html
         statusCheckAllowInsecure: true
         description: Self-Hosted Proxmox Docs
-      - title: K8s Docs
-        icon: hl-kubernetes
-        url: https://k8s-docs.${app_swarm_domain_name}
-        description: Self-Hosted K8s Docs
-        statusCheckAllowInsecure: true
-      - title: K3s Docs WIP
-        icon: hl-kubernetes
-        url: https://k3s-docs.${app_swarm_domain_name}
-        description: Self-Hosted K3s Docs
-        statusCheckAllowInsecure: true
   - name: Media
     items:
       - title: Jellyfin
