@@ -1,0 +1,144 @@
+---
+# Metrics and alerts for the Docker Swarm (single node, 192.168.1.140).
+# The exporters are deployed by docker-nas-home-ops (roles/node-exporter, roles/cadvisor) as global services on the host network.
+# All series get environment="swarm" and instance="192.168.1.140", so both jobs can be joined and filtered in Grafana/Karma.
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: swarm-node-exporter
+spec:
+  jobName: swarm-node-exporter
+  scrapeInterval: 30s
+  staticConfigs:
+    - targets: ['192.168.1.140:9100']
+      labels:
+        environment: swarm
+  relabelings:
+    - sourceLabels: [__address__]
+      regex: '([^:]+):\d+'
+      targetLabel: instance
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: swarm-cadvisor
+spec:
+  jobName: swarm-cadvisor
+  scrapeInterval: 30s
+  scrapeTimeout: 20s
+  staticConfigs:
+    - targets: ['192.168.1.140:8089']
+      labels:
+        environment: swarm
+  relabelings:
+    - sourceLabels: [__address__]
+      regex: '([^:]+):\d+'
+      targetLabel: instance
+  metricRelabelings:
+    # Shorter names for the Docker labels cAdvisor keeps (--whitelisted_container_labels)
+    - action: labelmap
+      regex: container_label_com_docker_swarm_(service_name|task_name)
+      replacement: swarm_$1
+    - action: labelmap
+      regex: container_label_com_docker_stack_namespace
+      replacement: swarm_stack
+    - action: labeldrop
+      regex: container_label_.+
+    # Same `app` label as the Dashy probes, so Karma colors alerts of one app the same
+    - sourceLabels: [swarm_service_name]
+      regex: '(.+)'
+      targetLabel: app
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: swarm
+spec:
+  groups:
+    - name: swarm-node
+      rules:
+        - alert: SwarmNodeDown
+          expr: up{job="swarm-node-exporter"} == 0
+          for: 3m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'Swarm node {{ $labels.instance }} is down'
+            description: 'node-exporter on {{ $labels.instance }}:9100 has not been reachable for 3 minutes. Either the node is down or the node-exporter service is not running (docker service ps node-exporter_node-exporter).'
+        - alert: SwarmCadvisorDown
+          expr: up{job="swarm-cadvisor"} == 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: 'cAdvisor on Swarm node {{ $labels.instance }} is down'
+            description: 'Container metrics (restarts, OOM kills) of the Swarm are not collected while cAdvisor on {{ $labels.instance }}:8089 is unreachable (docker service ps cadvisor_cadvisor).'
+        - alert: SwarmNodeDiskAlmostFull
+          expr: |
+            100 * node_filesystem_avail_bytes{job="swarm-node-exporter", fstype!~"tmpfs|ramfs|squashfs|nsfs|overlay|fuse.*"}
+              / node_filesystem_size_bytes{job="swarm-node-exporter", fstype!~"tmpfs|ramfs|squashfs|nsfs|overlay|fuse.*"} < 10
+            and node_filesystem_readonly{job="swarm-node-exporter"} == 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Swarm node {{ $labels.instance }}: {{ $labels.mountpoint }} is {{ printf "%.1f" $value }}% free'
+            description: 'Filesystem {{ $labels.mountpoint }} ({{ $labels.device }}) has less than 10% free space.'
+        - alert: SwarmNodeDiskFull
+          expr: |
+            100 * node_filesystem_avail_bytes{job="swarm-node-exporter", fstype!~"tmpfs|ramfs|squashfs|nsfs|overlay|fuse.*"}
+              / node_filesystem_size_bytes{job="swarm-node-exporter", fstype!~"tmpfs|ramfs|squashfs|nsfs|overlay|fuse.*"} < 5
+            and node_filesystem_readonly{job="swarm-node-exporter"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'Swarm node {{ $labels.instance }}: {{ $labels.mountpoint }} is almost full ({{ printf "%.1f" $value }}% free)'
+            description: 'Filesystem {{ $labels.mountpoint }} ({{ $labels.device }}) has less than 5% free space. Containers writing to it will start failing; docker system df shows what uses the space.'
+        - alert: SwarmNodeMemoryPressure
+          expr: 100 * node_memory_MemAvailable_bytes{job="swarm-node-exporter"} / node_memory_MemTotal_bytes{job="swarm-node-exporter"} < 10
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Swarm node {{ $labels.instance }} has only {{ printf "%.1f" $value }}% memory available'
+            description: 'Less than 10% memory available for 10 minutes. docker stats shows which containers use it.'
+        - alert: SwarmNodeMemoryCritical
+          expr: 100 * node_memory_MemAvailable_bytes{job="swarm-node-exporter"} / node_memory_MemTotal_bytes{job="swarm-node-exporter"} < 5
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'Swarm node {{ $labels.instance }} is almost out of memory ({{ printf "%.1f" $value }}% available)'
+            description: 'Less than 5% memory available; the kernel will start killing processes (see SwarmNodeOOMKill).'
+        - alert: SwarmNodeOOMKill
+          expr: increase(node_vmstat_oom_kill{job="swarm-node-exporter"}[15m]) > 0
+          labels:
+            severity: warning
+          annotations:
+            summary: 'The kernel on Swarm node {{ $labels.instance }} killed a process for running out of memory'
+            description: '{{ printf "%.0f" $value }} OOM kill(s) in the last 15 minutes. SwarmContainerOOMKilled names the service when the victim was a container; otherwise check dmesg on the node.'
+    - name: swarm-containers
+      rules:
+        - alert: SwarmContainerRestarting
+          # A Swarm task restart creates a new container, so count containers of a service started in the last 30 minutes.
+          # max_over_time also sees containers that have exited since.
+          expr: |
+            count by (instance, environment, swarm_stack, swarm_service_name, app) (
+              max_over_time(container_start_time_seconds{job="swarm-cadvisor", swarm_service_name!=""}[30m]) > time() - 1800
+            ) > 2
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Swarm service {{ $labels.swarm_service_name }} is restarting'
+            description: '{{ $value }} containers of {{ $labels.swarm_service_name }} were started in the last 30 minutes. docker service ps --no-trunc {{ $labels.swarm_service_name }} shows why the tasks failed.'
+        - alert: SwarmContainerOOMKilled
+          expr: |
+            sum by (instance, environment, swarm_stack, swarm_service_name, app) (
+              increase(container_oom_events_total{job="swarm-cadvisor", swarm_service_name!=""}[15m])
+            ) > 0
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Swarm service {{ $labels.swarm_service_name }} was killed for running out of memory'
+            description: 'A container of {{ $labels.swarm_service_name }} hit its memory limit in the last 15 minutes. Raise the memory limit in docker-nas-home-ops/config.yml or find out why it uses more memory.'

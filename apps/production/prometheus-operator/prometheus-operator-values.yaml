@@ -48,6 +48,7 @@ spec:
           - secretName: wildcard-${default_k8s_cert_name}
             hosts: ['prometheus.${app_k8s_domain_name}']
       prometheusSpec:
-        # Pick up Probes and PrometheusRules from any namespace without requiring the `release` label
+        # Pick up Probes, PrometheusRules and ScrapeConfigs from any namespace without requiring the `release` label
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
