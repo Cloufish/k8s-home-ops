@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   name: oauth2-proxy
   labels:
+    goldilocks.fairwinds.com/enabled: 'true'
     toolkit.fluxcd.io/tenant: sre-team
 ---
 apiVersion: source.toolkit.fluxcd.io/v1

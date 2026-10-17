@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   name: cloudflared
   labels:
+    goldilocks.fairwinds.com/enabled: 'true'
     toolkit.fluxcd.io/tenant: sre-team
 ---
 # The provided manifest is from official Cloudflare Documentation https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/deployment-guides/kubernetes/.

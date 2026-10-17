@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   name: longhorn
   labels:
+    goldilocks.fairwinds.com/enabled: 'true'
     toolkit.fluxcd.io/tenant: sre-team
 ---
 apiVersion: source.toolkit.fluxcd.io/v1

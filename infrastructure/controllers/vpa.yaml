@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   name: vpa
   labels:
+    goldilocks.fairwinds.com/enabled: 'true'
     toolkit.fluxcd.io/tenant: sre-team
 ---
 # Vertical Pod Autoscaler: recommender, updater and admission controller, plus metrics-server (the VPA reads the metrics API).
