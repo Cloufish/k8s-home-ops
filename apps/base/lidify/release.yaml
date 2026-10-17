@@ -39,9 +39,26 @@ spec:
             env:
               - name: mode
                 value: LastFM
+              # gunicorn 25.1.0 (pinned by the image) can deadlock the worker on boot because of the
+              # control-socket thread: https://github.com/benoitc/gunicorn/issues/3529
+              - name: GUNICORN_CMD_ARGS
+                value: --no-control-socket
             envFrom:
               - secretRef:
                   name: lidify-secret
+            probes:
+              # The default TCP probe passes even when the worker is hung, since the gunicorn master still accepts connections
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *httpPort
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probe
             resources:
               requests:
                 cpu: 10m
@@ -70,4 +87,4 @@ spec:
         accessMode: ReadWriteOnce
         size: 2Gi
         globalMounts:
-          - path: /config
+          - path: /lidify/config  # Lidify reads/writes settings_config.json here, not in /config
