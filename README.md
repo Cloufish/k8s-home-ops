@@ -134,6 +134,10 @@ I'll try to create my own [Helm Charts](https://github.com/Cloufish/helm-charts)
     - [ ] Pi-Hole Monitoring
     - [ ] TrueNAS Monitoring
     - [ ] UPS Monitoring
+- [ ] Proxmox TLS hostnames (branch `feat/proxmox-tls-hostnames`), on Monday:
+    - [ ] Create DNS records: `proxmox-nas`, `pve-1`, `pve-2`, `pve-3` `.cloufish.xyz` -> 192.168.1.6, .5, .7, .8
+    - [ ] Check they also resolve inside the cluster (the probes run there): `kubectl run dnscheck --rm -it --image=busybox:1.36 --restart=Never -- nslookup pve-1.cloufish.xyz`
+    - [ ] Commit and merge the branch. Only after DNS works, otherwise the Dashy links break and `DashyAppDown` fires for all five Proxmox items
 - [ ] Networking
     - [ ] VLANs
     - [ ] Port Forwarding

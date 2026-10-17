@@ -23,23 +23,19 @@ sections:
       - title: Proxmox on NAS
         description: RAM 32GB, Storage 128GB, 12 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
-        url: https://192.168.1.6:8006
-        statusCheckAllowInsecure: true
+        url: https://proxmox-nas.cloufish.xyz:8006
       - title: Proxmox on MiniPC-1
         description: RAM 8GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
-        url: https://192.168.1.5:8006
-        statusCheckAllowInsecure: true
+        url: https://pve-1.cloufish.xyz:8006
       - title: Proxmox on MiniPC-2
         description: RAM 32GB, Storage 512GB, 6 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
-        url: https://192.168.1.7:8006
-        statusCheckAllowInsecure: true
+        url: https://pve-2.cloufish.xyz:8006
       - title: Proxmox on MiniPC-3
         description: RAM 16GB, Storage 512GB, 4 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
-        url: https://192.168.1.8:8006
-        statusCheckAllowInsecure: true
+        url: https://pve-3.cloufish.xyz:8006
       - title: Windows Server 2025 Datacenter
         description: Informational record where Active Directory lives
         icon: fab fa-windows
@@ -172,8 +168,7 @@ sections:
         statusCheck: false
       - title: Proxmox Docs
         icon: hl-proxmox
-        url: https://192.168.1.6:8006/pve-docs/index.html
-        statusCheckAllowInsecure: true
+        url: https://proxmox-nas.cloufish.xyz:8006/pve-docs/index.html
         description: Self-Hosted Proxmox Docs
   - name: Media
     items:

@@ -3,9 +3,9 @@
 # Keep in sync with apps/base/dashy/resources/config.yaml:
 #   - items with `statusCheck: false` are not probed
 #   - `statusCheckUrl` is probed instead of `url`
-#   - only self-signed endpoints (Proxmox, TrueNAS) use the insecure module, everything else must present a valid certificate
+#   - only self-signed endpoints (TrueNAS) use the insecure module, everything else must present a valid certificate
 # One Probe per Dashy section (and per blackbox module). The `app` label is derived from the URL:
-#   https://jellyfin.swarm.example.com/ -> app="jellyfin", https://192.168.1.6:8006 -> app="192.168.1.6:8006"
+#   https://jellyfin.swarm.example.com/ -> app="jellyfin", http://192.168.1.140:8265/ -> app="192.168.1.140:8265"
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
@@ -28,6 +28,10 @@ spec:
           regex: https?://([0-9.]+(:[0-9]+)?).*
           targetLabel: app
       static:
+        - https://proxmox-nas.cloufish.xyz:8006
+        - https://pve-1.cloufish.xyz:8006
+        - https://pve-2.cloufish.xyz:8006
+        - https://pve-3.cloufish.xyz:8006
         - https://portainer.${app_swarm_domain_name}
         - https://duplicati.${app_swarm_domain_name}/
         - https://longhorn.${app_k8s_domain_name}/
@@ -80,10 +84,6 @@ spec:
           regex: https?://([0-9.]+(:[0-9]+)?).*
           targetLabel: app
       static:
-        - https://192.168.1.6:8006
-        - https://192.168.1.5:8006
-        - https://192.168.1.7:8006
-        - https://192.168.1.8:8006
         - https://truenas.home
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -146,10 +146,10 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
 metadata:
-  name: dashy-documentation-self-signed
+  name: dashy-documentation
 spec:
   interval: 60s
-  module: http_2xx_insecure
+  module: http_2xx
   prober:
     url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
   targets:
@@ -165,7 +165,7 @@ spec:
           regex: https?://([0-9.]+(:[0-9]+)?).*
           targetLabel: app
       static:
-        - https://192.168.1.6:8006/pve-docs/index.html
+        - https://proxmox-nas.cloufish.xyz:8006/pve-docs/index.html
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
