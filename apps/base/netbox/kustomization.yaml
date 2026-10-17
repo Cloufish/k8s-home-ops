@@ -2,4 +2,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: ${netbox_app_name}
-resources: [./release.yaml, ./netbox-postgresql.yaml, ./valkey.yaml, ./netbox-secret.yaml]
+resources: [./release.yaml, ./netbox-postgresql.yaml, ./valkey.yaml, ./netbox-secret.yaml, ./aws-s3-secret-netbox.yaml]
