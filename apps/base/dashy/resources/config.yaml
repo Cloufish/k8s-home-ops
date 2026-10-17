@@ -143,8 +143,7 @@ sections:
       - title: Grafana Alloy K8s
         icon: hl-alloy
         url: https://alloy.${app_k8s_domain_name}
-        description: OpenTelemetry Collector distribution with built-in Prometheus
-          pipelines and support for metrics, logs, traces, and profiles.
+        description: Ships the logs of all K8s pods to Loki
         statusCheckAllowInsecure: true
       - title: Grafana Alloy Swarm
         icon: hl-alloy
@@ -160,9 +159,7 @@ sections:
       - title: Prometheus K8s
         icon: hl-prometheus
         url: https://prometheus.${app_k8s_domain_name}
-        description: collects metrics from configured targets at given intervals,
-          evaluates rule expressions, displays the results, and can trigger alerts
-          when specified conditions are observed.
+        description: Collects metrics and evaluates alert rules
         statusCheckAllowInsecure: true
       - title: Alert Manager K8s
         icon: hl-alertmanager
