@@ -107,6 +107,21 @@ sections:
         url: https://pgadmin.${app_k8s_domain_name}/
         description: Panel to manage and configure PostgreSQL Databases in K8s Cluster
         statusCheckAllowInsecure: true
+      - title: NetBox
+        icon: hl-netbox
+        url: https://netbox.${app_k8s_domain_name}/
+        description: Source of truth for IP addresses, devices, racks and cabling of the homelab
+        statusCheckAllowInsecure: true
+      - title: Headlamp
+        icon: hl-headlamp
+        url: https://headlamp.${app_k8s_domain_name}/
+        description: Kubernetes web UI (log in with a token, kubectl -n headlamp create token headlamp)
+        statusCheckAllowInsecure: true
+      - title: Goldilocks
+        icon: hl-goldilocks
+        url: https://goldilocks.${app_k8s_domain_name}/
+        description: Recommended CPU and memory requests/limits for every K8s workload
+        statusCheckAllowInsecure: true
       - title: My GitHub Repositories
         description: My personal GitHub repositories
         icon: hl-github
@@ -234,6 +249,11 @@ sections:
         icon: https://languagetool.org/images/logo_color.svg?6b4c3eb171397ee0e2ba758a9e106891
         url: https://languagetool.${app_k8s_domain_name}/v2/languages
         statusCheckHeaders: {Accept: application/json}
+        statusCheckAllowInsecure: true
+      - title: Paperless-ngx
+        description: Scans, OCRs and archives documents (Polish, German, English)
+        icon: hl-paperless-ngx
+        url: https://paperless.${app_k8s_domain_name}/
         statusCheckAllowInsecure: true
       - title: Tandoor Recipes
         description: Application to plan and create dish recipes

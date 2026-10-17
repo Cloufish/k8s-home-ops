@@ -35,6 +35,11 @@ spec:
       loki_app_name: loki
       karma_app_name: karma
       alloy_app_name: alloy
+      netbox_app_name: netbox
+      paperless_app_name: paperless
+      headlamp_app_name: headlamp
+      goldilocks_app_name: goldilocks
+      trivy_operator_app_name: trivy-operator
   decryption:
     provider: sops
     secretRef:

@@ -12,3 +12,9 @@ spec:
     podAntiAffinityType: required
   storage:
     size: 3Gi
+  # Continuous WAL archiving and base backups to S3 (ObjectStore and ScheduledBackup in commafeed-postgresql-backups.yaml)
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: s3-backups

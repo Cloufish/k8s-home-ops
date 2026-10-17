@@ -1,0 +1,48 @@
+---
+# Alerts for CloudNativePG backups (Barman Cloud plugin) and WAL archiving.
+# Metrics come from the PodMonitor next to each Cluster (label cnpg_io_cluster); see e.g. apps/base/netbox/netbox-postgresql.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cnpg-backups
+spec:
+  groups:
+    - name: cnpg-backups
+      rules:
+        - alert: CNPGBackupTooOld
+          # Daily ScheduledBackup; 26h leaves room for a slow run
+          expr: |
+            time() - max by (namespace, cnpg_io_cluster) (barman_cloud_cloudnative_pg_io_last_available_backup_timestamp > 0) > 26 * 3600
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: 'No successful backup of {{ $labels.namespace }}/{{ $labels.cnpg_io_cluster }} for {{ $value | humanizeDuration }}'
+            description: 'The last base backup in S3 is older than 26 hours. Check: kubectl -n {{ $labels.namespace }} get backups --sort-by=.metadata.creationTimestamp'
+        - alert: CNPGNoBackupYet
+          expr: max by (namespace, cnpg_io_cluster) (barman_cloud_cloudnative_pg_io_last_available_backup_timestamp) == 0
+          for: 6h
+          labels:
+            severity: warning
+          annotations:
+            summary: '{{ $labels.namespace }}/{{ $labels.cnpg_io_cluster }} has no backup in S3'
+            description: 'The cluster has never had a successful base backup. Check the ScheduledBackup and the ObjectStore credentials (cnpg-backup-s3 Secret).'
+        - alert: CNPGBackupFailed
+          expr: |
+            max by (namespace, cnpg_io_cluster) (barman_cloud_cloudnative_pg_io_last_failed_backup_timestamp)
+              > max by (namespace, cnpg_io_cluster) (barman_cloud_cloudnative_pg_io_last_available_backup_timestamp)
+          labels:
+            severity: warning
+          annotations:
+            summary: 'The last backup of {{ $labels.namespace }}/{{ $labels.cnpg_io_cluster }} failed'
+            description: 'The most recent backup attempt failed after the last successful one. kubectl -n {{ $labels.namespace }} describe backup <newest backup> shows the error.'
+        - alert: CNPGWALArchivingFailing
+          expr: |
+            max by (namespace, cnpg_io_cluster) (cnpg_pg_stat_archiver_last_failed_time)
+              > max by (namespace, cnpg_io_cluster) (cnpg_pg_stat_archiver_last_archived_time)
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'WAL archiving of {{ $labels.namespace }}/{{ $labels.cnpg_io_cluster }} is failing'
+            description: 'New WAL segments are not reaching S3, so point-in-time recovery would lose recent changes and pg_wal keeps growing on the volume. Check the logs of the primary pod, including the Barman Cloud plugin sidecar: kubectl -n {{ $labels.namespace }} logs <primary pod> --all-containers'

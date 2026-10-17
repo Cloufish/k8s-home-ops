@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ${goldilocks_app_name}  # This variable is defined inside clusters/production/apps.yaml
+  namespace: ${goldilocks_app_name}
+spec:
+  chart:
+    spec:
+      version: 11.2.0
+  values:
+    dashboard:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/auth-url: https://oauth2-proxy.cloufish.xyz/oauth2/auth
+          nginx.ingress.kubernetes.io/auth-signin: https://oauth2-proxy.cloufish.xyz/oauth2/start?rd=https://$host$request_uri
+        hosts:
+          - host: ${goldilocks_app_name}.${app_k8s_domain_name}
+            paths:
+              - path: /
+                type: Prefix
+        tls:
+          - hosts: ['${goldilocks_app_name}.${app_k8s_domain_name}']
+            secretName: wildcard-${default_k8s_cert_name}

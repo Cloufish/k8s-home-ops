@@ -34,6 +34,9 @@ spec:
         - https://duplicati.${app_swarm_domain_name}/
         - https://longhorn.${app_k8s_domain_name}/
         - https://pgadmin.${app_k8s_domain_name}/
+        - https://netbox.${app_k8s_domain_name}/
+        - https://headlamp.${app_k8s_domain_name}/
+        - https://goldilocks.${app_k8s_domain_name}/
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
@@ -222,6 +225,7 @@ spec:
       static:
         - https://chatgpt-next.${app_k8s_domain_name}
         - https://languagetool.${app_k8s_domain_name}/v2/languages
+        - https://paperless.${app_k8s_domain_name}/
         - https://tandoor.${app_swarm_domain_name}
 ---
 apiVersion: monitoring.coreos.com/v1

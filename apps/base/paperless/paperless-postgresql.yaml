@@ -1,0 +1,90 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: paperless-db
+spec:
+  instances: 2
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: preferred
+  bootstrap:
+    initdb:
+      database: paperless
+      owner: paperless  # password in the generated paperless-db-app Secret
+  storage:
+    storageClass: longhorn
+    size: 2Gi
+  resources:
+    requests:
+      cpu: 25m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: s3-backups
+---
+# Backups to S3 with the Barman Cloud plugin (infrastructure/controllers/cnpg-barman-cloud-plugin.yaml).
+# The cnpg-backup-s3 Secret is reflected into this namespace from cloudnative-pg (infrastructure/secrets/cnpg-backup-s3-secret.yaml).
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: s3-backups
+spec:
+  retentionPolicy: 30d
+  configuration:
+    destinationPath: s3://cloufish-k8s-at-home/cnpg/  # backups go to <destinationPath>/<cluster name>/
+    s3Credentials:
+      accessKeyId:
+        name: cnpg-backup-s3
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: cnpg-backup-s3
+        key: ACCESS_SECRET_KEY
+      region:
+        name: cnpg-backup-s3
+        key: REGION
+    wal:
+      compression: gzip
+    data:
+      compression: gzip
+  instanceSidecarConfiguration:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: paperless-db-daily
+spec:
+  schedule: '0 30 3 * * *'  # 03:30 every day (CloudNativePG cron has seconds)
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: paperless-db
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: paperless-db
+  labels:
+    release: ${prometheus_operator_app_name}  # selected by kube-prometheus-stack's podMonitorSelector
+spec:
+  selector:
+    matchLabels:
+      cnpg.io/cluster: paperless-db
+      cnpg.io/podRole: instance
+  podTargetLabels: [cnpg.io/cluster]
+  podMetricsEndpoints:
+    - port: metrics

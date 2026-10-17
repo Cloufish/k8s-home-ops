@@ -6,6 +6,8 @@ resources:
   - reflector.yaml
   - ingress-nginx.yaml
   - cloudnative-pg.yaml
+  - cnpg-barman-cloud-plugin.yaml
   - longhorn.yaml
   - oauth2-proxy.yaml
+  - vpa.yaml
 #  - authelia.yaml

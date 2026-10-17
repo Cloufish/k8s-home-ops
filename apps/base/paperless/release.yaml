@@ -1,0 +1,167 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${paperless_app_name}
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless
+  namespace: ${paperless_app_name}
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      ${paperless_app_name}:
+        replicas: 1
+        strategy: Recreate  # ReadWriteOnce volumes
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/paperless-ngx/paperless-ngx
+              tag: 3.3.2@sha256:d232cba37cc0bab0d6c6581ecd320383b7a6f49f33e0fd16adda4d009eb600dd
+            env:
+              PAPERLESS_URL: https://${paperless_app_name}.${app_k8s_domain_name}
+              PAPERLESS_PORT: &httpPort 8000
+              PAPERLESS_TIME_ZONE: Europe/Warsaw
+              PAPERLESS_REDIS: redis://localhost:6379  # valkey sidecar below
+              PAPERLESS_DBENGINE: postgresql
+              PAPERLESS_DBHOST: paperless-db-rw  # CloudNativePG, paperless-postgresql.yaml
+              PAPERLESS_DBNAME: paperless
+              PAPERLESS_DBUSER:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-db-app
+                    key: username
+              PAPERLESS_DBPASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: paperless-db-app
+                    key: password
+              # OCR in Polish, German and English; Polish is not in the image and is installed at startup
+              PAPERLESS_OCR_LANGUAGE: pol+deu+eng
+              PAPERLESS_OCR_LANGUAGES: pol
+              # Keep memory low on the small nodes: one consumer, one OCR thread, one web worker
+              PAPERLESS_TASK_WORKERS: 1
+              PAPERLESS_THREADS_PER_WORKER: 1
+              PAPERLESS_WEBSERVER_WORKERS: 1
+            envFrom:
+              # PAPERLESS_SECRET_KEY, PAPERLESS_ADMIN_USER, PAPERLESS_ADMIN_PASSWORD (paperless-secret.yaml)
+              - secretRef:
+                  name: paperless-secret
+            ports:
+              - name: http
+                containerPort: *httpPort
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  # First start runs migrations and installs the Polish OCR data
+                  httpGet:
+                    path: /
+                    port: *httpPort
+                  periodSeconds: 10
+                  failureThreshold: 60
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *httpPort
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+              readiness: *probe
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+          valkey:
+            image:
+              repository: docker.io/valkey/valkey
+              tag: 9.1.2-alpine@sha256:48332870af354a799964c0012ae1194a0bf2bf894eb508f945810596dc2d8d11
+            args: [--save, '', --appendonly, 'no']
+            securityContext:
+              runAsUser: 999
+              runAsGroup: 999
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: [ALL]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+    service:
+      app:
+        controller: ${paperless_app_name}
+        type: ClusterIP
+        ports:
+          http:
+            port: *httpPort
+            protocol: TCP
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/proxy-body-size: 100m  # document uploads
+    persistence:
+      data:
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 2Gi
+        advancedMounts:
+          ${paperless_app_name}:
+            app:
+              - path: /usr/src/paperless/data
+      media:
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        advancedMounts:
+          ${paperless_app_name}:
+            app:
+              - path: /usr/src/paperless/media
+      consume:
+        type: emptyDir
+        advancedMounts:
+          ${paperless_app_name}:
+            app:
+              - path: /usr/src/paperless/consume
+      export:
+        type: emptyDir
+        advancedMounts:
+          ${paperless_app_name}:
+            app:
+              - path: /usr/src/paperless/export
+      valkey-data:
+        type: emptyDir
+        advancedMounts:
+          ${paperless_app_name}:
+            valkey:
+              - path: /data

@@ -3,8 +3,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./bjw-s-charts.yaml
+  - ./aqua.yaml
   - ./descheduler-repo.yaml
+  - ./fairwinds.yaml
   - ./grafana.yaml
+  - ./headlamp.yaml
   - ./netbox-repo.yaml
   - ./prometheus-community.yaml
 # For HelmRepositories that are used many times
