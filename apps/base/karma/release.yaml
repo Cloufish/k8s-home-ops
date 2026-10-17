@@ -26,6 +26,8 @@ spec:
     controllers:
       ${karma_app_name}:
         replicas: 1
+        annotations:
+          reloader.stakater.com/auto: 'true'  # Restart when karma-configmap changes
         containers:
           app:
             image:
@@ -37,6 +39,7 @@ spec:
               ALERTMANAGER_URI: http://alertmanager-operated.${prometheus_operator_app_name}.svc:9093
               # Used for links in the UI, so they open the Alertmanager ingress instead of the cluster-internal address
               ALERTMANAGER_EXTERNAL_URI: https://alertmanager.${app_k8s_domain_name}
+              CONFIG_FILE: /etc/karma/karma.yaml
             ports:
               - name: http
                 containerPort: &httpPort 8080
@@ -77,3 +80,11 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
           nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    persistence:
+      config-file:
+        type: configMap
+        name: karma-configmap
+        globalMounts:
+          - path: /etc/karma/karma.yaml
+            subPath: karma.yaml  # Needs to match configMapGenerator.files in kustomization.yaml
+            readOnly: true

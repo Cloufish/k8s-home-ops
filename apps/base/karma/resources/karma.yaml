@@ -1,0 +1,19 @@
+---
+# Karma config file, Alertmanager itself is configured with ALERTMANAGER_* env variables in release.yaml.
+# Custom label colors can only be set here, not with env variables:
+# https://github.com/prymitive/karma/blob/main/docs/CONFIGURATION.md#labels
+labels:
+  color:
+    custom:
+      severity:
+        - value: critical
+          color: '#ff220c'
+        - value: warning
+          color: '#ffae42'
+        - value: info
+          color: '#87c4e0'
+        # Fallback for any other severity, e.g. "none" used by the Watchdog alert
+        - value_re: .*
+          color: '#736598'
+    # A stable generated color per value, so alerts of the same app/namespace are easy to spot
+    unique: [app, namespace]

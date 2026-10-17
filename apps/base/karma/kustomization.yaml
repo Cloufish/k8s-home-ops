@@ -3,3 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: ${karma_app_name}
 resources: [./release.yaml]
+configMapGenerator:
+  - name: karma-configmap
+    files: [karma.yaml=./resources/karma.yaml]
+generatorOptions:
+  disableNameSuffixHash: true
