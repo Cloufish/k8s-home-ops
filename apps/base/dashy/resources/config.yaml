@@ -6,9 +6,15 @@ appConfig:
   statusCheckInterval: 60
   theme: one-dark
   fontAwesomeKey: c94dc2b452
-  customCss: '.clock p.time { font-size: 3rem !important; }'
+  customCss: |
+    .clock p.time { font-size: 3rem !important; }
+    /* Show full item descriptions: Dashy limits them to 2 lines and the tile to 6rem height */
+    .item.size-large { max-height: none !important; }
+    .item.size-large .tile-title p.description { height: auto !important; max-height: 6rem; overflow-y: auto; }
+    /* Wider large tiles so long descriptions need fewer lines */
+    .item-wrapper.wrap-size-large { flex-basis: 16rem !important; }
   layout: horizontal
-  iconSize: big
+  iconSize: large  # descriptions are only shown on large tiles
 sections:
   - name: Search Browser
     widgets:
