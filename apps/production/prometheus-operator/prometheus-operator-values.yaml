@@ -10,6 +10,11 @@ spec:
       version: '75.11'
   values:
     grafana:
+      additionalDataSources:
+        - name: Loki
+          type: loki
+          url: http://loki.${loki_app_name}.svc:3100
+          access: proxy
       ingress:
         enabled: true
         ingressClassName: nginx

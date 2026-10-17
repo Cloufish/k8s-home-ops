@@ -1,0 +1,77 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${loki_app_name}
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: loki
+  namespace: ${loki_app_name}
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: loki
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+      interval: 12h
+  install:
+    remediation:
+      retries: 3
+  values:
+    # Single process with logs on a Longhorn volume, enough for a homelab (up to a few 10s of GB per day)
+    deploymentMode: SingleBinary
+    loki:
+      auth_enabled: false  # Single tenant, no X-Scope-OrgID header needed by clients
+      commonConfig:
+        replication_factor: 1
+      storage:
+        type: filesystem
+      schemaConfig:
+        configs:
+          - from: '2026-10-01'
+            store: tsdb
+            object_store: filesystem
+            schema: v13
+            index:
+              prefix: loki_index_
+              period: 24h
+      limits_config:
+        retention_period: 744h  # 31 days
+      compactor:
+        retention_enabled: true
+        delete_request_store: filesystem
+    singleBinary:
+      replicas: 1  # More than 1 requires object storage
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 20Gi
+      resources:
+        requests:
+          cpu: 50m
+          memory: 256Mi
+        limits:
+          memory: 2Gi
+    # Components of the scalable/distributed modes, unused in SingleBinary
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    backend:
+      replicas: 0
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
+    gateway:
+      enabled: false  # The ingress routes straight to the single binary
+    lokiCanary:
+      enabled: false
+    test:
+      enabled: false
+# For more options use helm show values grafana/loki

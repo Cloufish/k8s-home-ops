@@ -1,0 +1,24 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ${loki_app_name}  # This variable is defined inside clusters/production/apps.yaml
+  namespace: ${loki_app_name}
+spec:
+  chart:
+    spec:
+      version: 7.3.0
+  values:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+      paths:
+        # Chart defaults plus /ready, which Dashy and the blackbox probe use as health check
+        distributor: [/api/prom/push, /loki/api/v1/push, /otlp/v1/logs, /ui, /ready]
+      hosts: ['loki.${app_k8s_domain_name}']
+      tls:
+        - hosts: ['loki.${app_k8s_domain_name}']
+          secretName: wildcard-${default_k8s_cert_name}
