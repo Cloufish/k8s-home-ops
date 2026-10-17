@@ -28,13 +28,35 @@ spec:
           regex: https?://([0-9.]+(:[0-9]+)?).*
           targetLabel: app
       static:
-        - https://traefik.${app_swarm_domain_name}
         - https://portainer.${app_swarm_domain_name}
-        - http://192.168.1.160:8443/stats
-        - https://whatsupdocker.${app_swarm_domain_name}
         - https://duplicati.${app_swarm_domain_name}/
         - https://longhorn.${app_k8s_domain_name}/
         - https://pgadmin.${app_k8s_domain_name}/
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-infrastructure-401
+spec:
+  interval: 60s
+  module: http_401  # Dashy: statusCheckAcceptCodes: '401', behind basic auth
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Infrastructure/Networking
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://traefik.${app_swarm_domain_name}
+        - http://192.168.1.160:8443/stats
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
@@ -91,7 +113,6 @@ spec:
         - https://prometheus.${app_k8s_domain_name}
         - https://alertmanager.${app_k8s_domain_name}
         - https://karma.${app_k8s_domain_name}
-        - https://kibana.${app_swarm_domain_name}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
@@ -144,7 +165,6 @@ spec:
       static:
         - https://k8s-docs.${app_swarm_domain_name}
         - https://k3s-docs.${app_swarm_domain_name}
-        - https://traefik-docs.${app_swarm_domain_name}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Probe
@@ -220,7 +240,6 @@ spec:
           targetLabel: app
       static:
         - https://chatgpt-next.${app_k8s_domain_name}
-        - https://kiwix.${app_swarm_domain_name}
         - https://languagetool.${app_k8s_domain_name}/v2/languages
         - https://tandoor.${app_swarm_domain_name}
 ---

@@ -60,6 +60,7 @@ sections:
         icon: https://traefik.io/favicon.svg
         url: https://traefik.${app_swarm_domain_name}
         description: Traefik for Docker Swarm
+        statusCheckAcceptCodes: '401'  # Dashboard is behind basic auth
         statusCheckAllowInsecure: true
       - title: Portainer-Swarm
         icon: https://www.portainer.io/hubfs/crane-icon.svg
@@ -70,11 +71,7 @@ sections:
         icon: hl-haproxy
         url: http://192.168.1.160:8443/stats
         description: Statistics, Monitoring for HAProxy
-        statusCheckAllowInsecure: true
-      - title: Whats Up Docker for Docker Swarm
-        description: Service that monitors newest Docker images version
-        icon: https://whatsupdocker.${app_swarm_domain_name}/img/icons/android-chrome-192x192.png
-        url: https://whatsupdocker.${app_swarm_domain_name}
+        statusCheckAcceptCodes: '401'  # Stats page is behind basic auth
         statusCheckAllowInsecure: true
       - title: TrueNAS
         description: As Virtual Machine on my NAS Server
@@ -138,16 +135,6 @@ sections:
         url: https://karma.${app_k8s_domain_name}
         description: Dashboard for Prometheus Alerts
         statusCheckAllowInsecure: true
-      - title: Uptime-Kuma
-        url: https://kuma.${app_k8s_domain_name}
-        icon: https://uptime.kuma.pet/img/icon.svg
-        description: Monitor the uptime of API's, endpoints
-        statusCheckAllowInsecure: true
-      - title: ELK Stack
-        description: Work in Progress
-        icon: favicon
-        url: https://kibana.${app_swarm_domain_name}
-        statusCheckAllowInsecure: true
   - name: Dev/Programming/IT Security
     items:
       - title: VSCodium
@@ -193,11 +180,6 @@ sections:
         url: https://k3s-docs.${app_swarm_domain_name}
         description: Self-Hosted K3s Docs
         statusCheckAllowInsecure: true
-      - title: Traefik Docs
-        icon: hl-traefik
-        url: https://traefik-docs.${app_swarm_domain_name}
-        description: Self-Hosted Traefik Docs
-        statusCheckAllowInsecure: true
   - name: Media
     items:
       - title: Jellyfin
@@ -228,11 +210,6 @@ sections:
         icon: hl-chatgpt
         url: https://chatgpt-next.${app_k8s_domain_name}
         statusCheckAllowInsecure: true
-      - title: Kiwix
-        description: Offline Wikipedia, StackOverflow Viewer in .zim format
-        icon: hl-kiwix
-        url: https://kiwix.${app_swarm_domain_name}
-        statusCheckAllowInsecure: true
       - title: languagetool
         description: Grammarly, but for multiple languages and free
         icon: https://languagetool.org/images/logo_color.svg?6b4c3eb171397ee0e2ba758a9e106891
@@ -243,12 +220,6 @@ sections:
         description: Application to plan and create dish recipes
         icon: hl-tandoor
         url: https://tandoor.${app_swarm_domain_name}
-        statusCheckAllowInsecure: true
-      - title: Anki Server
-        description: Anki Server for Syncing Flashcards without Internet
-        icon: https://ankiweb.net/logo.png
-        url: https://anki-server.${app_swarm_domain_name}/sync/meta
-        statusCheckAcceptCodes: '405'
         statusCheckAllowInsecure: true
     widgets:
       - type: joke
