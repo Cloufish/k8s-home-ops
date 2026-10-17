@@ -52,6 +52,14 @@ spec:
       enabled: true
       storageClass: longhorn
       size: 2Gi
+    # The first start (and upgrades) run ~600 database migrations before the web server listens; the chart's
+    # default (100 x 10s) restarted the container mid-migration on these small nodes. Allow up to 1h before giving up.
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 360
     resourcesPreset: none
     resources:
       requests:

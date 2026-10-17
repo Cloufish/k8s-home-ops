@@ -43,6 +43,16 @@ spec:
               args:
                 nodeAffinityType: [requiredDuringSchedulingIgnoredDuringExecution]
             - name: RemovePodsViolatingNodeTaints
+              args:
+                # Kubernetes sets these itself for short-lived node problems and already evicts with its own grace periods;
+                # evicting everything immediately on them took down NetBox's database during its first start
+                excludedTaints:
+                  - node.kubernetes.io/not-ready
+                  - node.kubernetes.io/unreachable
+                  - node.kubernetes.io/memory-pressure
+                  - node.kubernetes.io/disk-pressure
+                  - node.kubernetes.io/pid-pressure
+                  - node.kubernetes.io/network-unavailable
             - name: RemovePodsViolatingTopologySpreadConstraint
               args:
                 constraints: [DoNotSchedule, ScheduleAnyway]
