@@ -28,6 +28,8 @@ spec:
           regex: https?://([0-9.]+(:[0-9]+)?).*
           targetLabel: app
       static:
+        - http://192.168.1.20
+        - http://192.168.1.15
         - https://portainer.${app_swarm_domain_name}
         - https://duplicati.${app_swarm_domain_name}/
         - https://longhorn.${app_k8s_domain_name}/

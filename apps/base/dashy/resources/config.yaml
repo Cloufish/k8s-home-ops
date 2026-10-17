@@ -20,6 +20,19 @@ sections:
               url: https://searxng.${app_swarm_domain_name}/?q=
   - name: Infrastructure/Networking
     items:
+      - title: pfSense
+        description: Main router and firewall
+        icon: hl-pfsense
+        url: https://192.168.1.1
+        statusCheck: false
+      - title: Keenetic Router
+        description: Keenetic router
+        icon: hl-keenetic
+        url: http://192.168.1.20
+      - title: TP-Link SG2218
+        description: Managed switch
+        icon: hl-tp-link
+        url: http://192.168.1.15
       - title: Proxmox on NAS
         description: RAM 32GB, Storage 128GB, 12 vCPUs
         icon: https://f6.allesedv.com/16/proxmox.com
