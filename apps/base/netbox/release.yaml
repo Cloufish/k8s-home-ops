@@ -66,11 +66,13 @@ spec:
       failureThreshold: 360
     resourcesPreset: none
     resources:
+      # The first start (~600 migrations) was OOMKilled at 1Gi; the request makes the scheduler pick a node with room.
+      # Once running, Goldilocks shows the steady-state usage to lower this again.
       requests:
         cpu: 50m
-        memory: 512Mi
-      limits:
         memory: 1Gi
+      limits:
+        memory: 2Gi
     worker:
       updateStrategy:
         type: Recreate
