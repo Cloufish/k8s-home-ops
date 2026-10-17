@@ -52,6 +52,10 @@ spec:
       enabled: true
       storageClass: longhorn
       size: 2Gi
+    # netbox and netbox-worker both mount the ReadWriteOnce media volume: stop the old pod before starting the new one
+    # (a rolling update can never get the volume) and keep the worker on the web pod's node (see worker.affinity)
+    updateStrategy:
+      type: Recreate
     # The first start (and upgrades) run ~600 database migrations before the web server listens; the chart's
     # default (100 x 10s) restarted the container mid-migration on these small nodes. Allow up to 1h before giving up.
     startupProbe:
@@ -68,6 +72,17 @@ spec:
       limits:
         memory: 1Gi
     worker:
+      updateStrategy:
+        type: Recreate
+      affinity:
+        podAffinity:
+          # ReadWriteOnce media volume can only be attached to one node: run next to the netbox web pod
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: netbox
+                  app.kubernetes.io/component: netbox
+              topologyKey: kubernetes.io/hostname
       resourcesPreset: none
       resources:
         requests:
