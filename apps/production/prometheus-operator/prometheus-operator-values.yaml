@@ -45,7 +45,9 @@ spec:
           receiver: 'null'
           # A single group for all alerts, so Telegram gets at most one message per hour with everything that changed
           group_by: []
-          group_wait: 30s
+          # Collect alerts for 3 minutes before the first message: rule groups are evaluated every 30s or 3m,
+          # so after an Alertmanager restart or a quiet period all related alerts arrive before the first send
+          group_wait: 3m
           group_interval: 1h
           repeat_interval: 1h
           routes:
