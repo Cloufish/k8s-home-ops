@@ -36,6 +36,55 @@ spec:
         tls:
           - secretName: wildcard-${default_k8s_cert_name}
             hosts: ['alertmanager.${app_k8s_domain_name}']
+      alertmanagerSpec:
+        # Mounted at /etc/alertmanager/secrets/alertmanager-telegram/ (apps/base/prometheus-operator/alertmanager-telegram-secret.yaml)
+        secrets: [alertmanager-telegram]
+      config:
+        # route and receivers replace the chart defaults, the chart's inhibit_rules are kept
+        route:
+          receiver: 'null'
+          # A single group for all alerts, so Telegram gets at most one message per hour with everything that changed
+          group_by: []
+          group_wait: 30s
+          group_interval: 1h
+          repeat_interval: 1h
+          routes:
+            # Dead man's switch: the always-firing Watchdog alert pings n8n every 5 minutes;
+            # n8n ("Monitoring Dead Man's Switch" workflow) alerts on Telegram when the pings stop
+            - matchers: ['alertname = "Watchdog"']
+              receiver: deadmans-switch
+              group_wait: 0s
+              group_interval: 1m
+              repeat_interval: 5m
+            - matchers: ['alertname = "InfoInhibitor"']
+              receiver: 'null'
+            - matchers: ['severity =~ "critical|warning"']
+              receiver: telegram
+        receivers:
+          - name: 'null'
+          - name: deadmans-switch
+            webhook_configs:
+              - url: https://n8n.${app_swarm_domain_name}/webhook/deadmans-switch-70170df733620f24
+                send_resolved: false
+          - name: telegram
+            telegram_configs:
+              - bot_token_file: /etc/alertmanager/secrets/alertmanager-telegram/bot-token
+                chat_id: 8622967243
+                parse_mode: HTML
+                send_resolved: true
+                message: |-
+                  {{- if eq .Status "firing" }}🚨 <b>{{ len .Alerts.Firing }} alert(s) firing</b>{{ else }}✅ <b>All alerts resolved</b>{{ end }}
+                  {{- range .Alerts.Firing }}
+
+                  {{ if eq .Labels.severity "critical" }}🔴{{ else }}🟠{{ end }} <b>{{ .Labels.alertname | html }}</b>{{ with .Labels.environment }} [{{ . | html }}]{{ end }}{{ with .Labels.namespace }} ({{ . | html }}){{ end }}
+                  {{ with .Annotations.summary }}{{ . | html }}{{ else }}{{ with .Annotations.description }}{{ . | html }}{{ else }}{{ .Annotations.message | html }}{{ end }}{{ end }}
+                  {{- end }}
+                  {{- if .Alerts.Resolved }}
+
+                  ✅ Resolved: {{ range $i, $a := .Alerts.Resolved }}{{ if $i }}, {{ end }}{{ $a.Labels.alertname | html }}{{ end }}
+                  {{- end }}
+
+                  https://karma.${app_k8s_domain_name}
     prometheus:
       ingress:
         enabled: true
