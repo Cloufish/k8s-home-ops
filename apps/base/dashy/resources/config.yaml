@@ -188,6 +188,11 @@ sections:
         icon: hl-photoprism
         url: https://photoprism.${app_swarm_domain_name}/
         statusCheckAllowInsecure: true
+      - title: Audiobookshelf
+        description: Audiobook and podcast server with progress sync across devices
+        icon: hl-audiobookshelf
+        url: https://audiobookshelf.${app_swarm_domain_name}/
+        statusCheckAllowInsecure: true
       - title: Syncthing
         description: Service to synchronize Music, Musicals, Podcasts, Photos with
           Phone's SD Card
