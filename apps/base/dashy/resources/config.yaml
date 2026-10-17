@@ -112,6 +112,11 @@ sections:
         description: OpenTelemetry Collector distribution with built-in Prometheus
           pipelines and support for metrics, logs, traces, and profiles.
         statusCheckAllowInsecure: true
+      - title: Grafana Alloy Swarm
+        icon: hl-alloy
+        url: https://alloy.${app_swarm_domain_name}
+        description: Ships the logs of all Docker Swarm containers to Loki in K8s
+        statusCheckAllowInsecure: true
       - title: Loki K8s
         icon: hl-grafana
         url: https://loki.${app_k8s_domain_name}/loki/api/v1/push
