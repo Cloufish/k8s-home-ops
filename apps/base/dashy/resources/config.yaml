@@ -107,8 +107,8 @@ sections:
         description: Monitoring in Docker Swarm
         statusCheckAllowInsecure: true
       - title: Grafana Alloy K8s
-        icon: hl-grafana
-        url: https://grafana.${app_k8s_domain_name}
+        icon: hl-alloy
+        url: https://alloy.${app_k8s_domain_name}
         description: OpenTelemetry Collector distribution with built-in Prometheus
           pipelines and support for metrics, logs, traces, and profiles.
         statusCheckAllowInsecure: true

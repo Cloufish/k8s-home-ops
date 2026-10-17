@@ -34,6 +34,7 @@ spec:
       cyberchef_app_name: cyberchef
       loki_app_name: loki
       karma_app_name: karma
+      alloy_app_name: alloy
   decryption:
     provider: sops
     secretRef:

@@ -1,0 +1,23 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ${alloy_app_name}  # This variable is defined inside clusters/production/apps.yaml
+  namespace: ${alloy_app_name}
+spec:
+  chart:
+    spec:
+      version: 1.13.1
+  values:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+      # The chart's ingress targets this port; point it at the Alloy UI (alloy.listenPort) instead of the Faro receiver
+      faroPort: 12345
+      hosts: ['alloy.${app_k8s_domain_name}']
+      tls:
+        - hosts: ['alloy.${app_k8s_domain_name}']
+          secretName: wildcard-${default_k8s_cert_name}

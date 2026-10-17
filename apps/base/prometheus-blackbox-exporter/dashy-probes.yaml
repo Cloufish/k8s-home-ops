@@ -109,6 +109,7 @@ spec:
           targetLabel: app
       static:
         - https://grafana.${app_k8s_domain_name}
+        - https://alloy.${app_k8s_domain_name}
         - https://loki.${app_k8s_domain_name}/ready
         - https://prometheus.${app_k8s_domain_name}
         - https://alertmanager.${app_k8s_domain_name}
