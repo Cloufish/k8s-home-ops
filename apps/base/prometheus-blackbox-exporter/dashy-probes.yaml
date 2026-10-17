@@ -190,6 +190,7 @@ spec:
           targetLabel: app
       static:
         - https://jellyfin.${app_swarm_domain_name}/
+        - https://photoprism.${app_swarm_domain_name}/
         - https://syncthing.${app_swarm_domain_name}
         - https://podgrab-de.${app_swarm_domain_name}
         - https://commafeed.${app_k8s_domain_name}

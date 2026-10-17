@@ -182,6 +182,12 @@ sections:
         icon: hl-jellyfin
         url: https://jellyfin.${app_swarm_domain_name}/
         statusCheckAllowInsecure: true
+      - title: PhotoPrism
+        description: AI-powered photo library for browsing, organizing and sharing
+          photos
+        icon: hl-photoprism
+        url: https://photoprism.${app_swarm_domain_name}/
+        statusCheckAllowInsecure: true
       - title: Syncthing
         description: Service to synchronize Music, Musicals, Podcasts, Photos with
           Phone's SD Card
