@@ -1,0 +1,259 @@
+---
+# Blackbox probes for the applications listed in Dashy.
+# Keep in sync with apps/base/dashy/resources/config.yaml:
+#   - items with `statusCheck: false` are not probed
+#   - `statusCheckUrl` is probed instead of `url`
+#   - only self-signed endpoints (Proxmox, TrueNAS) use the insecure module, everything else must present a valid certificate
+# One Probe per Dashy section (and per blackbox module). The `app` label is derived from the URL:
+#   https://jellyfin.swarm.example.com/ -> app="jellyfin", https://192.168.1.6:8006 -> app="192.168.1.6:8006"
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-infrastructure
+spec:
+  interval: 60s
+  module: http_2xx
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Infrastructure/Networking
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://traefik.${app_swarm_domain_name}
+        - https://portainer.${app_swarm_domain_name}
+        - http://192.168.1.160:8443/stats
+        - https://whatsupdocker.${app_swarm_domain_name}
+        - https://duplicati.${app_swarm_domain_name}/
+        - https://longhorn.${app_k8s_domain_name}/
+        - https://pgadmin.${app_k8s_domain_name}/
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-infrastructure-self-signed
+spec:
+  interval: 60s
+  module: http_2xx_insecure
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Infrastructure/Networking
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://192.168.1.6:8006
+        - https://192.168.1.5:8006
+        - https://192.168.1.7:8006
+        - https://192.168.1.8:8006
+        - https://truenas.home
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-monitoring
+spec:
+  interval: 60s
+  module: http_2xx
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Monitoring
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://grafana.${app_k8s_domain_name}
+        - https://loki.${app_k8s_domain_name}/ready
+        - https://prometheus.${app_k8s_domain_name}
+        - https://alertmanager.${app_k8s_domain_name}
+        - https://karma.${app_k8s_domain_name}
+        - https://kibana.${app_swarm_domain_name}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-dev
+spec:
+  interval: 60s
+  module: http_2xx
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Dev/Programming/IT Security
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://code-server.${app_k8s_domain_name}
+        - https://composerize.${app_k8s_domain_name}
+        - https://dsomm.${app_k8s_domain_name}
+        - https://cyberchef.${app_k8s_domain_name}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-documentation
+spec:
+  interval: 60s
+  module: http_2xx
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Documentation
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://k8s-docs.${app_swarm_domain_name}
+        - https://k3s-docs.${app_swarm_domain_name}
+        - https://traefik-docs.${app_swarm_domain_name}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-documentation-self-signed
+spec:
+  interval: 60s
+  module: http_2xx_insecure
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Documentation
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://192.168.1.6:8006/pve-docs/index.html
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-media
+spec:
+  interval: 60s
+  module: http_2xx
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Media
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://jellyfin.${app_swarm_domain_name}/
+        - https://syncthing.${app_swarm_domain_name}
+        - https://podgrab-de.${app_swarm_domain_name}
+        - https://commafeed.${app_k8s_domain_name}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-other
+spec:
+  interval: 60s
+  module: http_2xx
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Other
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://chatgpt-next.${app_k8s_domain_name}
+        - https://kiwix.${app_swarm_domain_name}
+        - https://languagetool.${app_k8s_domain_name}/v2/languages
+        - https://tandoor.${app_swarm_domain_name}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: dashy-arr
+spec:
+  interval: 60s
+  module: http_2xx
+  prober:
+    url: ${prometheus_blackbox_exporter_app_name}.${prometheus_operator_app_name}.svc:9115
+  targets:
+    staticConfig:
+      labels:
+        source: dashy
+        dashy_section: Arr
+      relabelingConfigs:
+        - sourceLabels: [__param_target]
+          regex: https?://([a-z][a-z0-9-]*)[.:/].*
+          targetLabel: app
+        - sourceLabels: [__param_target]
+          regex: https?://([0-9.]+(:[0-9]+)?).*
+          targetLabel: app
+      static:
+        - https://qbittorrent.${app_swarm_domain_name}/
+        - https://sonarr.${app_swarm_domain_name}/
+        - https://radarr.${app_swarm_domain_name}/
+        - https://lidarr.${app_swarm_domain_name}/
+        - https://lidify.${app_k8s_domain_name}/
+        - https://beets.${app_swarm_domain_name}/
+        - https://bazarr.${app_swarm_domain_name}/
+        - https://jellyseerr.${app_swarm_domain_name}/
+        - https://prowlarr.${app_swarm_domain_name}/
+        - https://flaresolverr.${app_swarm_domain_name}/
+        - http://192.168.1.140:8265/

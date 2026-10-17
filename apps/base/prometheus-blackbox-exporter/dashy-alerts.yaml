@@ -1,0 +1,33 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: dashy-probes
+spec:
+  groups:
+    - name: dashy-probes
+      rules:
+        - alert: DashyAppDown
+          expr: probe_success{source="dashy"} == 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: '{{ $labels.app }} ({{ $labels.dashy_section }}) is down'
+            description: 'Blackbox probe of {{ $labels.instance }} has been failing for 5 minutes.'
+        - alert: DashyAppCertificateExpiringSoon
+          expr: probe_ssl_earliest_cert_expiry{source="dashy"} - time() < 14 * 86400
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Certificate of {{ $labels.app }} expires in {{ $value | humanizeDuration }}'
+            description: 'TLS certificate served by {{ $labels.instance }} expires in less than 14 days.'
+        - alert: DashyAppSlow
+          expr: avg_over_time(probe_duration_seconds{source="dashy"}[15m]) > 3
+          for: 15m
+          labels:
+            severity: info
+          annotations:
+            summary: '{{ $labels.app }} responds slowly'
+            description: 'Blackbox probe of {{ $labels.instance }} has averaged {{ $value | humanizeDuration }} over the last 15 minutes.'

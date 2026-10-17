@@ -17,9 +17,9 @@ spec:
           nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
           nginx.ingress.kubernetes.io/ssl-redirect: 'true'
         hosts: ['grafana.${app_k8s_domain_name}']
-      tls:
-        - secretName: wildcard-${default_k8s_cert_name}
-          hosts: ['grafana.${app_k8s_domain_name}']
+        tls:
+          - secretName: wildcard-${default_k8s_cert_name}
+            hosts: ['grafana.${app_k8s_domain_name}']
     alertmanager:
       ingress:
         enabled: true
@@ -28,9 +28,9 @@ spec:
           nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
           nginx.ingress.kubernetes.io/ssl-redirect: 'true'
         hosts: ['alertmanager.${app_k8s_domain_name}']
-      tls:
-        - secretName: wildcard-${default_k8s_cert_name}
-          hosts: ['alertmanager.${app_k8s_domain_name}']
+        tls:
+          - secretName: wildcard-${default_k8s_cert_name}
+            hosts: ['alertmanager.${app_k8s_domain_name}']
     prometheus:
       ingress:
         enabled: true
@@ -39,6 +39,10 @@ spec:
           nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
           nginx.ingress.kubernetes.io/ssl-redirect: 'true'
         hosts: ['prometheus.${app_k8s_domain_name}']
-      tls:
-        - secretName: wildcard-${default_k8s_cert_name}
-          hosts: ['prometheus.${app_k8s_domain_name}']
+        tls:
+          - secretName: wildcard-${default_k8s_cert_name}
+            hosts: ['prometheus.${app_k8s_domain_name}']
+      prometheusSpec:
+        # Pick up Probes and PrometheusRules from any namespace without requiring the `release` label
+        probeSelectorNilUsesHelmValues: false
+        ruleSelectorNilUsesHelmValues: false

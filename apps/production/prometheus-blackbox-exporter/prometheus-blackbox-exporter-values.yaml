@@ -9,9 +9,37 @@ spec:
     spec:
       version: 11.1.0
   values:
+    config:
+      modules:
+        http_2xx:
+          prober: http
+          timeout: 5s
+          http:
+            valid_http_versions: [HTTP/1.1, HTTP/2.0]
+            follow_redirects: true
+            preferred_ip_protocol: ip4
+        # For self-signed endpoints (Proxmox, TrueNAS)
+        http_2xx_insecure:
+          prober: http
+          timeout: 5s
+          http:
+            valid_http_versions: [HTTP/1.1, HTTP/2.0]
+            follow_redirects: true
+            preferred_ip_protocol: ip4
+            tls_config:
+              insecure_skip_verify: true
+        # Anki sync server answers GET with 405 Method Not Allowed when healthy
+        http_405:
+          prober: http
+          timeout: 5s
+          http:
+            valid_http_versions: [HTTP/1.1, HTTP/2.0]
+            valid_status_codes: [405]
+            follow_redirects: true
+            preferred_ip_protocol: ip4
     ingress:
       enabled: true
-      ingressClassName: nginx
+      className: nginx
       annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/ssl-redirect: 'true'
@@ -20,6 +48,6 @@ spec:
           paths:
             - path: /
               pathType: ImplementationSpecific
-    tls:
-      - secretName: wildcard-${default_k8s_cert_name}
-        hosts: ['prometheus-blackbox.${app_k8s_domain_name}']
+      tls:
+        - secretName: wildcard-${default_k8s_cert_name}
+          hosts: ['prometheus-blackbox.${app_k8s_domain_name}']
