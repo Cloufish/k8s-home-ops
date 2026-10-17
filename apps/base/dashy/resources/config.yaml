@@ -250,6 +250,11 @@ sections:
         url: https://languagetool.${app_k8s_domain_name}/v2/languages
         statusCheckHeaders: {Accept: application/json}
         statusCheckAllowInsecure: true
+      - title: Home Assistant
+        description: Home automation (runs on the Docker Swarm host network)
+        icon: hl-home-assistant
+        url: https://homeassistant.${app_swarm_domain_name}/
+        statusCheckAllowInsecure: true
       - title: Paperless-ngx
         description: Scans, OCRs and archives documents (Polish, German, English)
         icon: hl-paperless-ngx

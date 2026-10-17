@@ -225,6 +225,7 @@ spec:
       static:
         - https://chatgpt-next.${app_k8s_domain_name}
         - https://languagetool.${app_k8s_domain_name}/v2/languages
+        - https://homeassistant.${app_swarm_domain_name}/
         - https://paperless.${app_k8s_domain_name}/
         - https://tandoor.${app_swarm_domain_name}
 ---
