@@ -53,7 +53,7 @@ sections:
         statusCheck: false
       - title: Microsoft Entra
         description: Place where to manage users
-        icon: favicon
+        icon: hl-entra-id
         url: https://entra.microsoft.com
         statusCheck: false
       - title: Traefik-Swarm
@@ -63,7 +63,7 @@ sections:
         statusCheckAcceptCodes: '401'  # Dashboard is behind basic auth
         statusCheckAllowInsecure: true
       - title: Portainer-Swarm
-        icon: https://www.portainer.io/hubfs/crane-icon.svg
+        icon: hl-portainer
         url: https://portainer.${app_swarm_domain_name}
         description: For quick container troubleshooting :)
         statusCheckAllowInsecure: true
@@ -131,7 +131,7 @@ sections:
         description: For managing Prometheus Alerts
         statusCheckAllowInsecure: true
       - title: Karma Alert Dashboard
-        icon: https://karma.${app_k8s_domain_name}/favicon.ico
+        icon: https://raw.githubusercontent.com/prymitive/karma/main/ui/public/favicon.ico
         url: https://karma.${app_k8s_domain_name}
         description: Dashboard for Prometheus Alerts
         statusCheckAllowInsecure: true
@@ -149,7 +149,7 @@ sections:
         statusCheckAllowInsecure: true
       - title: DSOMM
         description: DevSecOps Maturity Model for measuring and improving IT Security
-        icon: https://owasp.org/www--site-theme/favicon.ico
+        icon: https://dsomm.owasp.org/favicon.ico
         url: https://dsomm.${app_k8s_domain_name}
         statusCheckAllowInsecure: true
       - title: CyberChef
@@ -218,7 +218,7 @@ sections:
         statusCheckAllowInsecure: true
       - title: Tandoor Recipes
         description: Application to plan and create dish recipes
-        icon: hl-tandoor
+        icon: hl-tandoor-recipes
         url: https://tandoor.${app_swarm_domain_name}
         statusCheckAllowInsecure: true
     widgets:
