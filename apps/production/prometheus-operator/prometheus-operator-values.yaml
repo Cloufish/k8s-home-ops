@@ -10,6 +10,15 @@ spec:
       version: '75.11'
   values:
     grafana:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values: [k8s-worker-node-2, k8s-worker-node-3]
       additionalDataSources:
         - name: Loki
           type: loki
@@ -37,6 +46,16 @@ spec:
           - secretName: wildcard-${default_k8s_cert_name}
             hosts: ['alertmanager.${app_k8s_domain_name}']
       alertmanagerSpec:
+        replicas: 3  # one per worker node; the replicas share alerts and silences, so losing a node loses neither
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values: [k8s-worker-node-2, k8s-worker-node-3]
         # Mounted at /etc/alertmanager/secrets/alertmanager-telegram/ (apps/base/prometheus-operator/alertmanager-telegram-secret.yaml)
         secrets: [alertmanager-telegram]
       config:
@@ -99,7 +118,36 @@ spec:
           - secretName: wildcard-${default_k8s_cert_name}
             hosts: ['prometheus.${app_k8s_domain_name}']
       prometheusSpec:
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values: [k8s-worker-node-2, k8s-worker-node-3]
         # Pick up Probes, PrometheusRules and ScrapeConfigs from any namespace without requiring the `release` label
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
+    kube-state-metrics:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values: [k8s-worker-node-2, k8s-worker-node-3]
+    prometheusOperator:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values: [k8s-worker-node-2, k8s-worker-node-3]

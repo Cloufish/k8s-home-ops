@@ -32,3 +32,13 @@ spec:
         name: reflector
         namespace: reflector
       interval: 12h
+  values:
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values: [k8s-worker-node-2, k8s-worker-node-3]

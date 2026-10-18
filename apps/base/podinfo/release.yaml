@@ -19,8 +19,16 @@ spec:
   # Default values
   # https://github.com/stefanprodan/podinfo/blob/master/charts/podinfo/values.yaml
   values:
-    deployment:
-      replicas: 2
+    replicaCount: 2
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values: [k8s-worker-node-2, k8s-worker-node-3]
     redis:
       enabled: true
       repository: public.ecr.aws/docker/library/redis

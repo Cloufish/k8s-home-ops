@@ -50,6 +50,15 @@ spec:
         memory: 128Mi
       limits:
         memory: 512Mi
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values: [k8s-worker-node-2, k8s-worker-node-3]
     serviceMonitor:
       enabled: true
       labels:

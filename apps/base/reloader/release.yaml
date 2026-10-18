@@ -41,12 +41,21 @@ spec:
     remediation:
       retries: 3
   values:
-    deployment:
-      replicas: 2
     fullnameOverride: reloader
     reloader:
+      enableHA: true  # leader election, required for more than one replica
       readOnlyRootFileSystem: true
       deployment:
+        replicas: 2
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values: [k8s-worker-node-2, k8s-worker-node-3]
         resources:
           requests:
             cpu: 15m
