@@ -70,6 +70,29 @@ sections:
         icon: https://www.truenas.com/wp-content/uploads/2020/08/cropped-TN-favicon-100x100.png
         url: https://truenas.home
         statusCheckAllowInsecure: true
+    widgets:
+      - type: proxmox-lists
+        useProxy: true  # needed for the DASHY_ env var substitution below
+        allowInsecure: true  # Proxmox uses a self-signed certificate
+        options:
+          title: Proxmox NAS
+          cluster_url: https://192.168.1.6:8006
+          user_name: dashy@pve
+          token_name: dashy
+          token_uuid: DASHY_PROXMOX_NAS_TOKEN  # env var from the dashy-secret Secret (release.yaml)
+          footer: Proxmox NAS
+          footer_as_link: true
+      - type: proxmox-lists
+        useProxy: true
+        allowInsecure: true
+        options:
+          title: Proxmox Datacenter
+          cluster_url: https://192.168.1.5:8006
+          user_name: dashy@pve
+          token_name: dashy
+          token_uuid: DASHY_PROXMOX_DATACENTER_TOKEN  # env var from the dashy-secret Secret (release.yaml)
+          footer: Proxmox Datacenter
+          footer_as_link: true
   - name: Kubernetes
     items:
       - title: HAProxy Stats
@@ -228,6 +251,10 @@ sections:
         url: https://cyberchef.${app_k8s_domain_name}
         statusCheckAllowInsecure: true
     widgets:
+      - type: cve-vulnerabilities
+        options:
+          cvssV3Severity: CRITICAL
+          limit: 10
       - type: joke
         options:
           safeMode: true
@@ -307,10 +334,7 @@ sections:
           showMods: true
           showPlayers: true
           showPlugins: true
-      - type: iframe
-        options:
-          url: https://openspeedtest.com/speedtest
-          frameHeight: 450
+      - type: public-ip
   - name: Arr
     items:
       - title: qBittorrent
