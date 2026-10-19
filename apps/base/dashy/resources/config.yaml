@@ -93,6 +93,55 @@ sections:
           token_uuid: DASHY_PROXMOX_DATACENTER_TOKEN  # env var from the dashy-secret Secret (release.yaml)
           footer: Proxmox Datacenter
           footer_as_link: true
+      # VMs per node (node_data: qemu); the PVEAuditor tokens above can read them too
+      - type: proxmox-lists
+        useProxy: true
+        allowInsecure: true
+        options:
+          title: NAS pve VMs
+          cluster_url: https://192.168.1.6:8006
+          user_name: dashy@pve
+          token_name: dashy
+          token_uuid: DASHY_PROXMOX_NAS_TOKEN
+          node: pve
+          node_data: qemu
+          hide_templates: 1
+      - type: proxmox-lists
+        useProxy: true
+        allowInsecure: true
+        options:
+          title: Datacenter pve VMs
+          cluster_url: https://192.168.1.5:8006
+          user_name: dashy@pve
+          token_name: dashy
+          token_uuid: DASHY_PROXMOX_DATACENTER_TOKEN
+          node: pve
+          node_data: qemu
+          hide_templates: 1
+      - type: proxmox-lists
+        useProxy: true
+        allowInsecure: true
+        options:
+          title: Datacenter pve2 VMs
+          cluster_url: https://192.168.1.5:8006
+          user_name: dashy@pve
+          token_name: dashy
+          token_uuid: DASHY_PROXMOX_DATACENTER_TOKEN
+          node: pve2
+          node_data: qemu
+          hide_templates: 1
+      - type: proxmox-lists
+        useProxy: true
+        allowInsecure: true
+        options:
+          title: Datacenter pve3 VMs
+          cluster_url: https://192.168.1.5:8006
+          user_name: dashy@pve
+          token_name: dashy
+          token_uuid: DASHY_PROXMOX_DATACENTER_TOKEN
+          node: pve3
+          node_data: qemu
+          hide_templates: 1
   - name: Kubernetes
     items:
       - title: HAProxy Stats
