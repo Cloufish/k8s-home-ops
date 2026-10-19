@@ -57,20 +57,18 @@ spec:
               TZ: Europe/Warsaw
               UID: 1000
               GID: 1000
-              # API tokens for the proxmox-lists widgets; Dashy substitutes DASHY_* values in proxied widget requests
-              # optional: Dashy still starts without them; only the Proxmox widgets fail
+              # API tokens for the proxmox-lists widgets (dashy-secret.yaml); Dashy substitutes DASHY_* values in
+              # proxied widget requests. app-template's schema doesn't allow secretKeyRef.optional.
               DASHY_PROXMOX_NAS_TOKEN:
                 valueFrom:
                   secretKeyRef:
                     name: dashy-secret
                     key: DASHY_PROXMOX_NAS_TOKEN
-                    optional: true
               DASHY_PROXMOX_DATACENTER_TOKEN:
                 valueFrom:
                   secretKeyRef:
                     name: dashy-secret
                     key: DASHY_PROXMOX_DATACENTER_TOKEN
-                    optional: true
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
