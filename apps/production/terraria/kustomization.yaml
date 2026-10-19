@@ -1,0 +1,8 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources: [../../base/terraria]
+patches:
+  - path: terraria-values.yaml
+    target:
+      kind: HelmRelease

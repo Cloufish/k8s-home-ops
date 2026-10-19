@@ -40,6 +40,8 @@ spec:
       headlamp_app_name: headlamp
       goldilocks_app_name: goldilocks
       minecraft_app_name: minecraft
+      hytale_app_name: hytale
+      terraria_app_name: terraria
   decryption:
     provider: sops
     secretRef:
