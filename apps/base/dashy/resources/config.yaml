@@ -227,6 +227,15 @@ sections:
         icon: https://cyberchef.io/images/cyberchef-128x128.png
         url: https://cyberchef.${app_k8s_domain_name}
         statusCheckAllowInsecure: true
+    widgets:
+      - type: joke
+        options:
+          safeMode: true
+          language: pl
+          category: Programming
+      - type: github-profile-stats
+        options:
+          username: Cloufish
   - name: Media
     items:
       - title: Jellyfin
@@ -289,16 +298,15 @@ sections:
         icon: hl-tandoor-recipes
         url: https://tandoor.${app_swarm_domain_name}
         statusCheckAllowInsecure: true
-    widgets:
-      - type: joke
+    widgets:  
+      - type: minecraft-status
         options:
-          safeMode: true
-          language: pl
-          category: Programming
-      - type: github-trending-repos
-        options:
-          limit: 8
-          since: monthly
+          title: Venity Network
+          server: play.venitymc.com
+          bedrock: true
+          showMods: true
+          showPlayers: true
+          showPlugins: true
   - name: Arr
     items:
       - title: qBittorrent
