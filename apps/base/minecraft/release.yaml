@@ -1,0 +1,63 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${minecraft_app_name}
+  labels:
+    goldilocks.fairwinds.com/enabled: 'true'
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minecraft
+  namespace: ${minecraft_app_name}
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: minecraft
+      sourceRef:
+        kind: HelmRepository
+        name: itzg
+        namespace: flux-system
+      interval: 12h
+  install:
+    remediation:
+      retries: 3
+  values:
+    # Image: itzg/minecraft-server, see https://docker-minecraft-server.readthedocs.io/ for the options below
+    minecraftServer:
+      eula: 'TRUE'  # https://aka.ms/MinecraftEULA
+      type: PAPER
+      version: LATEST
+      memory: 2048M  # JVM heap; keep the memory request/limit about 0.5-1Gi above it
+      difficulty: normal
+      motd: Minecraft on k8s-home-ops
+      # Game traffic is plain TCP, so it can't go through ingress-nginx; the LoadBalancer Service also gets a NodePort
+      serviceType: LoadBalancer
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2560Mi
+      limits:
+        memory: 3Gi
+    # The first start downloads Paper and generates the world, which takes longer than the liveness probe allows
+    startupProbe:
+      enabled: true
+    # Only k8s-worker-node-2 has enough free memory for the server
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values: [k8s-worker-node-2]
+    # World data; backed up by the Longhorn recurring jobs (infrastructure/configs/longhorn-recurring-jobs.yaml)
+    persistence:
+      storageClass: longhorn
+      dataDir:
+        enabled: true
+        Size: 5Gi
+# For more options use helm show values itzg/minecraft

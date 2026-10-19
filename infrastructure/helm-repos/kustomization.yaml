@@ -7,6 +7,7 @@ resources:
   - ./fairwinds.yaml
   - ./grafana.yaml
   - ./headlamp.yaml
+  - ./itzg.yaml
   - ./netbox-repo.yaml
   - ./prometheus-community.yaml
 # For HelmRepositories that are used many times
