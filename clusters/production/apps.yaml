@@ -39,7 +39,6 @@ spec:
       paperless_app_name: paperless
       headlamp_app_name: headlamp
       goldilocks_app_name: goldilocks
-      trivy_operator_app_name: trivy-operator
   decryption:
     provider: sops
     secretRef:
