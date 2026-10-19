@@ -36,6 +36,13 @@ spec:
         memory: 64Mi
       limits:
         memory: 256Mi
+    # Chart default is a 1s timeout; on a busy node that caused a liveness restart loop
+    probes:
+      livenessProbe:
+        timeoutSeconds: 5
+        failureThreshold: 6
+      readinessProbe:
+        timeoutSeconds: 5
     affinity:
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
