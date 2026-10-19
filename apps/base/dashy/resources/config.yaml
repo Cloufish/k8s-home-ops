@@ -299,6 +299,7 @@ sections:
         icon: https://cyberchef.io/images/cyberchef-128x128.png
         url: https://cyberchef.${app_k8s_domain_name}
         statusCheckAllowInsecure: true
+    widgets:
       - type: joke
         options:
           safeMode: true
