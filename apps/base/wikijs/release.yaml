@@ -1,0 +1,112 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${wikijs_app_name}
+  labels:
+    goldilocks.fairwinds.com/enabled: 'true'
+---
+# Wiki.js keeps pages and uploaded files in PostgreSQL (wikijs-postgresql.yaml), so it needs no volume.
+# The first visit opens the setup page, where you create the admin account.
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: wikijs
+  namespace: ${wikijs_app_name}
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  values:
+    defaultPodOptions:
+      # Prefer k8s-worker-node-2/3 over k8s-worker-node-1
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values: [k8s-worker-node-2, k8s-worker-node-3]
+    controllers:
+      ${wikijs_app_name}:
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: 'true'
+        containers:
+          app:
+            image:
+              repository: ghcr.io/requarks/wiki
+              tag: 2.5.314@sha256:68f0d1848261ae76492ba358e30a96a76fed5d97a3fff381656082bf90f70d7e
+            env:
+              TZ: Europe/Warsaw
+              DB_TYPE: postgres
+              DB_HOST: wikijs-db-rw  # CloudNativePG, wikijs-postgresql.yaml
+              DB_PORT: 5432
+              DB_NAME: wikijs
+              DB_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: wikijs-db-app
+                    key: username
+              DB_PASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: wikijs-db-app
+                    key: password
+            ports:
+              - name: http
+                containerPort: &httpPort 3000
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  # First start creates the database schema
+                  httpGet:
+                    path: /healthz
+                    port: *httpPort
+                  periodSeconds: 10
+                  failureThreshold: 30
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: *httpPort
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probe
+            resources:
+              requests:
+                cpu: 25m
+                memory: 192Mi
+              limits:
+                memory: 768Mi
+    service:
+      app:
+        controller: ${wikijs_app_name}
+        type: ClusterIP
+        ports:
+          http:
+            port: *httpPort
+            protocol: TCP
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+          nginx.ingress.kubernetes.io/proxy-body-size: 50m  # file uploads

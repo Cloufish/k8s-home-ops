@@ -118,6 +118,16 @@ sections:
         url: https://netbox.${app_k8s_domain_name}/
         description: Source of truth for IP addresses, devices, racks and cabling of the homelab
         statusCheckAllowInsecure: true
+      - title: Wiki.js
+        icon: hl-wikijs
+        url: https://wikijs.${app_k8s_domain_name}/
+        description: Runbooks and documentation of the homelab
+        statusCheckAllowInsecure: true
+      - title: Excalidraw
+        icon: hl-excalidraw
+        url: https://excalidraw.${app_k8s_domain_name}/
+        description: Whiteboard for network and architecture diagrams
+        statusCheckAllowInsecure: true
       - title: Headlamp
         icon: hl-headlamp
         url: https://headlamp.${app_k8s_domain_name}/

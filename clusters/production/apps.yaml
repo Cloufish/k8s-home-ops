@@ -41,6 +41,8 @@ spec:
       goldilocks_app_name: goldilocks
       minecraft_app_name: minecraft
       hytale_app_name: hytale
+      wikijs_app_name: wikijs
+      excalidraw_app_name: excalidraw
   decryption:
     provider: sops
     secretRef:
