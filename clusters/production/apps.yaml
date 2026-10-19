@@ -43,6 +43,7 @@ spec:
       hytale_app_name: hytale
       wikijs_app_name: wikijs
       excalidraw_app_name: excalidraw
+      searxng_app_name: searxng
   decryption:
     provider: sops
     secretRef:

@@ -23,7 +23,7 @@ sections:
           placeholder: Search for something using the buttons below
           engines:
             - title: SearXNG
-              url: https://searxng.${app_swarm_domain_name}/?q=
+              url: https://searxng.${app_k8s_domain_name}/search?q=
   - name: Infrastructure/Networking
     items:
       - title: pfSense
