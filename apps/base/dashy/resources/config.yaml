@@ -232,7 +232,7 @@ sections:
       - title: VSCodium
         icon: hl-code
         url: https://code-server.${app_k8s_domain_name}
-        description: For programming environment
+        description: For remote programming environment
         statusCheckAllowInsecure: true
       - title: Composerize
         icon: hl-docker-compose
@@ -250,11 +250,6 @@ sections:
         icon: https://cyberchef.io/images/cyberchef-128x128.png
         url: https://cyberchef.${app_k8s_domain_name}
         statusCheckAllowInsecure: true
-    widgets:
-      - type: cve-vulnerabilities
-        options:
-          cvssV3Severity: CRITICAL
-          limit: 10
       - type: joke
         options:
           safeMode: true
