@@ -73,16 +73,6 @@ spec:
         memory: 1Gi
       limits:
         memory: 2Gi
-    # Prefer k8s-worker-node-2/3 over k8s-worker-node-1 (the worker follows this pod through its podAffinity)
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            preference:
-              matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values: [k8s-worker-node-2, k8s-worker-node-3]
     worker:
       updateStrategy:
         type: Recreate
@@ -105,13 +95,4 @@ spec:
     housekeeping:
       enabled: true
       timezone: Europe/Warsaw
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              preference:
-                matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values: [k8s-worker-node-2, k8s-worker-node-3]
 # For more options use helm show values oci://ghcr.io/netbox-community/netbox-chart/netbox

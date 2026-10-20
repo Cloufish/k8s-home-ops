@@ -29,15 +29,6 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            preference:
-              matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values: [k8s-worker-node-2, k8s-worker-node-3]
     resources:
       requests:
         cpu: 10m

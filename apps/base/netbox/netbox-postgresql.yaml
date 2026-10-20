@@ -9,15 +9,6 @@ spec:
     enablePodAntiAffinity: true
     topologyKey: kubernetes.io/hostname
     podAntiAffinityType: preferred
-    # Prefer k8s-worker-node-2/3 over k8s-worker-node-1
-    nodeAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          preference:
-            matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values: [k8s-worker-node-2, k8s-worker-node-3]
   bootstrap:
     initdb:
       database: netbox

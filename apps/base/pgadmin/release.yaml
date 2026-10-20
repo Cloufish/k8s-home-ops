@@ -29,16 +29,6 @@ spec:
       namespace: cloudnative-pg
   values:
     defaultPodOptions:
-      # Prefer k8s-worker-node-2/3 over k8s-worker-node-1
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              preference:
-                matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values: [k8s-worker-node-2, k8s-worker-node-3]
       securityContext:
         runAsUser: 5050
         runAsGroup: 5050

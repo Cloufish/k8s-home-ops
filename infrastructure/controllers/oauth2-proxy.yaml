@@ -62,15 +62,6 @@ spec:
       namespace: cert-manager
   values:
     replicaCount: 3  # every protected ingress authenticates through it
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            preference:
-              matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values: [k8s-worker-node-2, k8s-worker-node-3]
     image:
       repository: quay.io/oauth2-proxy/oauth2-proxy
     # Configure Kubernetes liveness and readiness probes.

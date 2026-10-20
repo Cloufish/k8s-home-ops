@@ -17,16 +17,6 @@ spec:
       labels:
         app.kubernetes.io/name: netbox-valkey
     spec:
-      # Prefer k8s-worker-node-2/3 over k8s-worker-node-1
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              preference:
-                matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values: [k8s-worker-node-2, k8s-worker-node-3]
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
