@@ -59,6 +59,11 @@ sections:
         icon: https://f6.allesedv.com/16/proxmox.com
         url: https://192.168.1.8:8006
         statusCheckAllowInsecure: true
+      - title: Proxmox on MiniPC-4
+        description: Proxmox node pve4
+        icon: https://f6.allesedv.com/16/proxmox.com
+        url: https://192.168.1.9:8006
+        statusCheckAllowInsecure: true
       - title: Windows Server 2025 Datacenter
         description: Informational record where Active Directory lives
         icon: fab fa-windows
@@ -140,6 +145,18 @@ sections:
           token_name: dashy
           token_uuid: DASHY_PROXMOX_DATACENTER_TOKEN
           node: pve3
+          node_data: qemu
+          hide_templates: 1
+      - type: proxmox-lists
+        useProxy: true
+        allowInsecure: true
+        options:
+          title: Datacenter pve4 VMs
+          cluster_url: https://192.168.1.5:8006
+          user_name: dashy@pve
+          token_name: dashy
+          token_uuid: DASHY_PROXMOX_DATACENTER_TOKEN
+          node: pve4
           node_data: qemu
           hide_templates: 1
   - name: Kubernetes

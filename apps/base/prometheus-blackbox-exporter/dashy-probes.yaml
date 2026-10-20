@@ -89,6 +89,7 @@ spec:
         - https://192.168.1.5:8006
         - https://192.168.1.7:8006
         - https://192.168.1.8:8006
+        - https://192.168.1.9:8006
         - https://truenas.home
 ---
 apiVersion: monitoring.coreos.com/v1
