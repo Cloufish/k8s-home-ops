@@ -354,11 +354,6 @@ sections:
         icon: hl-google-podcasts
         url: https://podgrab-de.${app_swarm_domain_name}
         statusCheckAllowInsecure: true
-      - title: CommaFeed
-        description: Google Reader inspired self-hosted RSS reader
-        icon: https://www.commafeed.com/app-icon-144.png
-        url: https://commafeed.${app_k8s_domain_name}
-        statusCheckAllowInsecure: true
   - name: Other
     items:
       - title: ChatGPT

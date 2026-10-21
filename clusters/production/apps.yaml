@@ -26,7 +26,6 @@ spec:
       prometheus_blackbox_exporter_app_name: prometheus-blackbox-exporter
       dashy_app_name: dashy
       chatgpt_next_app_name: chatgpt-next
-      commafeed_app_name: commafeed
       dsomm_app_name: dsomm
       composerize_app_name: composerize
       languagetool_app_name: languagetool
