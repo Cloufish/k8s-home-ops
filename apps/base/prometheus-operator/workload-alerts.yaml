@@ -102,6 +102,7 @@ spec:
         - alert: CronJobLastRunFailed
           # Only the newest Job of each CronJob counts, so a failed run stops alerting once a later run succeeds
           # (failed Jobs stay around for failedJobsHistoryLimit runs)
+          # The longhorn namespace has its own LonghornRecurringJobFailed (longhorn-alerts.yaml)
           expr: |
             max by (namespace, owner_name, job_name) (
               kube_job_status_start_time{job="kube-state-metrics"}
@@ -115,7 +116,7 @@ spec:
               max by (namespace, job_name, owner_name) (kube_job_owner{job="kube-state-metrics", owner_kind="CronJob"})
             )
               and on (namespace, job_name)
-            max by (namespace, job_name) (kube_job_failed{job="kube-state-metrics", condition="true"}) == 1
+            max by (namespace, job_name) (kube_job_failed{job="kube-state-metrics", namespace!="longhorn", condition="true"}) == 1
           labels:
             severity: warning
           annotations:

@@ -38,8 +38,33 @@ spec:
             time() - max by (namespace, persistentvolumeclaim) (kube_persistentvolumeclaim_created{job="kube-state-metrics"}) > 6 * 86400
           for: 1h
           labels:
-            severity: warning
+            # info: kept off Telegram (only critical|warning go there). The VMs are shut down at night, so the
+            # 00:00 UTC backup-default run is often missed or fails while the cluster boots.
+            severity: info
             category: backup
           annotations:
             summary: 'Longhorn volume {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} has no backup from the last 6 days'
-            description: 'The volume has never been backed up or its last backup is older than 6 days. Check the backup-default jobs (kubectl -n longhorn get jobs) and the backup target (kubectl -n longhorn get backuptargets). Back it up now: kubectl -n longhorn create job --from=cronjob/backup-default backup-default-manual'
+            description: 'This does not mean that backups do not work: the VMs are shut down at night, so the scheduled backup-default run (00:00 UTC) is often missed or fails while the cluster boots. The volume has never been backed up or its last backup is older than 6 days. Check the backup-default jobs (kubectl -n longhorn get jobs) and the backup target (kubectl -n longhorn get backuptargets). Back it up now: kubectl -n longhorn create job --from=cronjob/backup-default backup-default-manual'
+        - alert: LonghornRecurringJobFailed
+          # Same as CronJobLastRunFailed (workload-alerts.yaml), which skips the longhorn namespace so these runs get
+          # severity info and the night shutdown note
+          expr: |
+            max by (namespace, owner_name, job_name) (
+              kube_job_status_start_time{job="kube-state-metrics", namespace="longhorn"}
+                * on (namespace, job_name) group_left (owner_name)
+              max by (namespace, job_name, owner_name) (kube_job_owner{job="kube-state-metrics", namespace="longhorn", owner_kind="CronJob"})
+            )
+              == on (namespace, owner_name) group_left ()
+            max by (namespace, owner_name) (
+              kube_job_status_start_time{job="kube-state-metrics", namespace="longhorn"}
+                * on (namespace, job_name) group_left (owner_name)
+              max by (namespace, job_name, owner_name) (kube_job_owner{job="kube-state-metrics", namespace="longhorn", owner_kind="CronJob"})
+            )
+              and on (namespace, job_name)
+            max by (namespace, job_name) (kube_job_failed{job="kube-state-metrics", namespace="longhorn", condition="true"}) == 1
+          labels:
+            severity: info
+            category: backup
+          annotations:
+            summary: 'The last run of Longhorn recurring job {{ $labels.owner_name }} failed'
+            description: 'This does not mean that backups do not work: the VMs are shut down at night, so a run missed overnight starts while the cluster boots, before the Longhorn volumes are ready, and fails. Job {{ $labels.job_name }} failed. Check the volumes are healthy (kubectl -n longhorn get volumes.longhorn.io) and rerun it with: kubectl -n longhorn create job --from=cronjob/{{ $labels.owner_name }} {{ $labels.owner_name }}-manual'

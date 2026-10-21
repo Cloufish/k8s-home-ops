@@ -75,13 +75,8 @@ spec:
               continue: true
               group_interval: 15m
               repeat_interval: 24h
+            # (also covers LonghornRecurringJobFailed, the failed backup-default and snapshot-default runs)
             - matchers: ['category = "backup"', 'alertname =~ "Longhorn.*"']
-              receiver: n8n-longhorn-backups
-              continue: true
-              group_interval: 15m
-              repeat_interval: 24h
-            # Failed Longhorn recurring jobs (backup-default, snapshot-default)
-            - matchers: ['alertname = "CronJobLastRunFailed"', 'namespace = "longhorn"']
               receiver: n8n-longhorn-backups
               continue: true
               group_interval: 15m
