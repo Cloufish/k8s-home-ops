@@ -9,6 +9,11 @@ spec:
     spec:
       version: '75.11'
   values:
+    defaultRules:
+      # Replaced by faster versions in apps/base/prometheus-operator/workload-alerts.yaml
+      disabled:
+        KubePodCrashLooping: true
+        KubePodNotReady: true
     grafana:
       additionalDataSources:
         - name: Loki

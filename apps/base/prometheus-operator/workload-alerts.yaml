@@ -1,0 +1,97 @@
+---
+# Alerts for pods stuck in CrashLoopBackOff or Pending and for Services without ready backends (ingress-nginx answers 503).
+# Metrics come from kube-state-metrics. They replace the chart's KubePodCrashLooping and KubePodNotReady
+# (defaultRules.disabled in apps/production/prometheus-operator/prometheus-operator-values.yaml), which wait 15m.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: workload-alerts
+spec:
+  groups:
+    - name: workload-alerts
+      rules:
+        - alert: PodCrashLooping
+          expr: |
+            max by (namespace, pod, container) (
+              max_over_time(kube_pod_container_status_waiting_reason{job="kube-state-metrics", reason="CrashLoopBackOff"}[5m])
+            ) >= 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: '{{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is in CrashLoopBackOff'
+            description: 'The container keeps exiting after it starts. Check: kubectl -n {{ $labels.namespace }} logs {{ $labels.pod }} -c {{ $labels.container }} --previous'
+        - alert: PodContainerCannotStart
+          # Waiting reasons that never resolve on their own, unlike ContainerCreating or PodInitializing
+          expr: |
+            max by (namespace, pod, container, reason) (
+              kube_pod_container_status_waiting_reason{job="kube-state-metrics", reason=~"ImagePullBackOff|ErrImagePull|InvalidImageName|CreateContainerConfigError|CreateContainerError"}
+            ) == 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: '{{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) cannot start: {{ $labels.reason }}'
+            description: 'ImagePull* means a wrong image tag or registry access; CreateContainerConfigError usually a missing Secret or ConfigMap key. Check: kubectl -n {{ $labels.namespace }} describe pod {{ $labels.pod }}'
+        - alert: PodUnschedulable
+          expr: max by (namespace, pod) (kube_pod_status_unschedulable{job="kube-state-metrics"}) == 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: '{{ $labels.namespace }}/{{ $labels.pod }} cannot be scheduled on any node'
+            description: 'No node fits the pod (resource requests, affinity, taints or an unbound PVC). The FailedScheduling event says which: kubectl -n {{ $labels.namespace }} describe pod {{ $labels.pod }}'
+        - alert: PodPending
+          # Scheduled but not started, e.g. a Longhorn volume that cannot attach or an image that is still pulling
+          expr: |
+            max by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase="Pending"}) == 1
+              unless on (namespace, pod) (kube_pod_status_unschedulable{job="kube-state-metrics"} == 1)
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: '{{ $labels.namespace }}/{{ $labels.pod }} has been Pending for more than 10 minutes'
+            description: 'The pod is on a node but its containers have not started. Check the events: kubectl -n {{ $labels.namespace }} describe pod {{ $labels.pod }}'
+        - alert: PodStatusUnknown
+          # The node stopped reporting (it is NotReady or powered off)
+          expr: max by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase="Unknown"}) == 1
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: '{{ $labels.namespace }}/{{ $labels.pod }} is in Unknown state'
+            description: 'The kubelet of its node stopped reporting. Check: kubectl get nodes'
+        - alert: ServiceNoReadyEndpoints
+          # Every Endpoints object without a ready address: the Service exists but has no ready pod behind it
+          expr: |
+            count by (namespace, endpoint) (kube_endpoint_info{job="kube-state-metrics"})
+              unless on (namespace, endpoint)
+            count by (namespace, endpoint) (kube_endpoint_address{job="kube-state-metrics", ready="true"})
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Service {{ $labels.namespace }}/{{ $labels.endpoint }} has no ready pods'
+            description: 'Requests to this Service fail (ingress-nginx answers 503). Check: kubectl -n {{ $labels.namespace }} get pods'
+        - alert: DeploymentUnavailable
+          expr: |
+            max by (namespace, deployment) (kube_deployment_spec_replicas{job="kube-state-metrics"}) > 0
+              and on (namespace, deployment)
+            max by (namespace, deployment) (kube_deployment_status_replicas_available{job="kube-state-metrics"}) == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has no available replicas'
+            description: 'All {{ $value }} wanted replicas are down, so the app is unavailable. Check: kubectl -n {{ $labels.namespace }} get pods'
+        - alert: StatefulSetUnavailable
+          expr: |
+            max by (namespace, statefulset) (kube_statefulset_replicas{job="kube-state-metrics"}) > 0
+              and on (namespace, statefulset)
+            max by (namespace, statefulset) (kube_statefulset_status_replicas_ready{job="kube-state-metrics"}) == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} has no ready replicas'
+            description: 'All {{ $value }} wanted replicas are down. Check: kubectl -n {{ $labels.namespace }} get pods'
