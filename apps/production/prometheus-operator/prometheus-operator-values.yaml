@@ -44,8 +44,8 @@ spec:
             hosts: ['alertmanager.${app_k8s_domain_name}']
       alertmanagerSpec:
         replicas: 3  # one per worker node; the replicas share alerts and silences, so losing a node loses neither
-        # Mounted at /etc/alertmanager/secrets/alertmanager-telegram/ (apps/base/prometheus-operator/alertmanager-telegram-secret.yaml)
-        secrets: [alertmanager-telegram]
+        # Mounted at /etc/alertmanager/secrets/<name>/ (infrastructure/secrets/alertmanager-*-secret.yaml)
+        secrets: [alertmanager-telegram, alertmanager-n8n-webhook]
       config:
         # route and receivers replace the chart defaults, the chart's inhibit_rules are kept
         route:
@@ -67,6 +67,31 @@ spec:
               repeat_interval: 5m
             - matchers: ['alertname = "InfoInhibitor"']
               receiver: 'null'
+            # The n8n routes below only add an analysis by Claude Code; `continue` lets every alert still reach Telegram.
+            # n8n skips alerts it has already analysed, so a long repeat_interval only limits the webhook traffic.
+            # Backup alerts go to n8n's "CloudNativePG Backup Failure Explainer" and "Longhorn Backup Failure Explainer"
+            - matchers: ['category = "backup"', 'alertname =~ "CNPG.*"']
+              receiver: n8n-cnpg-backups
+              continue: true
+              group_interval: 15m
+              repeat_interval: 24h
+            - matchers: ['category = "backup"', 'alertname =~ "Longhorn.*"']
+              receiver: n8n-longhorn-backups
+              continue: true
+              group_interval: 15m
+              repeat_interval: 24h
+            # Failed Longhorn recurring jobs (backup-default, snapshot-default)
+            - matchers: ['alertname = "CronJobLastRunFailed"', 'namespace = "longhorn"']
+              receiver: n8n-longhorn-backups
+              continue: true
+              group_interval: 15m
+              repeat_interval: 24h
+            # Everything else goes to n8n's "Alert Triage Agent", which explains new alerts and opens PRs with fixes
+            - matchers: ['severity =~ "critical|warning"']
+              receiver: n8n-alert-triage
+              continue: true
+              group_interval: 15m
+              repeat_interval: 24h
             - matchers: ['severity =~ "critical|warning"']
               receiver: telegram
         receivers:
@@ -75,6 +100,28 @@ spec:
             webhook_configs:
               - url: https://n8n.${app_swarm_domain_name}/webhook/deadmans-switch-70170df733620f24
                 send_resolved: false
+          # The repository is public, so these webhooks authenticate with a token instead of a secret URL
+          - name: n8n-alert-triage
+            webhook_configs:
+              - url: https://n8n.${app_swarm_domain_name}/webhook/alertmanager-triage
+                send_resolved: false
+                http_config:
+                  authorization:
+                    credentials_file: /etc/alertmanager/secrets/alertmanager-n8n-webhook/token
+          - name: n8n-cnpg-backups
+            webhook_configs:
+              - url: https://n8n.${app_swarm_domain_name}/webhook/alertmanager-backups-cnpg
+                send_resolved: false
+                http_config:
+                  authorization:
+                    credentials_file: /etc/alertmanager/secrets/alertmanager-n8n-webhook/token
+          - name: n8n-longhorn-backups
+            webhook_configs:
+              - url: https://n8n.${app_swarm_domain_name}/webhook/alertmanager-backups-longhorn
+                send_resolved: false
+                http_config:
+                  authorization:
+                    credentials_file: /etc/alertmanager/secrets/alertmanager-n8n-webhook/token
           - name: telegram
             telegram_configs:
               - bot_token_file: /etc/alertmanager/secrets/alertmanager-telegram/bot-token

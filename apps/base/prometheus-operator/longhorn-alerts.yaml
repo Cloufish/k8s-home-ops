@@ -1,0 +1,45 @@
+---
+# Metrics and backup alerts for Longhorn (infrastructure/controllers/longhorn.yaml).
+# The ServiceMonitor lives here rather than in the Longhorn chart (metrics.serviceMonitor) because the CRD comes with
+# kube-prometheus-stack, which Flux installs after the infrastructure.
+# category=backup also sends the alerts to n8n's Longhorn Backup Failure Explainer (route in apps/production/prometheus-operator/prometheus-operator-values.yaml).
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: longhorn
+  labels:
+    release: ${prometheus_operator_app_name}  # selected by kube-prometheus-stack's serviceMonitorSelector
+spec:
+  namespaceSelector:
+    matchNames: [longhorn]
+  selector:
+    matchLabels:
+      app: longhorn-manager  # the longhorn-backend Service, one endpoint per longhorn-manager pod
+  endpoints:
+    - port: manager
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: longhorn-backups
+spec:
+  groups:
+    - name: longhorn-backups
+      rules:
+        - alert: LonghornVolumeBackupTooOld
+          # backup-default runs every 5 days (infrastructure/configs/longhorn-recurring-jobs.yaml); 6 days leaves room for a slow run.
+          # longhorn_volume_last_backup_at is 0 for a volume that was never backed up, so those fire too, but only once
+          # the PVC is older than 6 days and has missed a scheduled backup.
+          expr: |
+            time() - max by (namespace, persistentvolumeclaim) (
+              label_replace(label_replace(longhorn_volume_last_backup_at, "namespace", "$1", "pvc_namespace", "(.+)"), "persistentvolumeclaim", "$1", "pvc", "(.+)")
+            ) > 6 * 86400
+              and on (namespace, persistentvolumeclaim)
+            time() - max by (namespace, persistentvolumeclaim) (kube_persistentvolumeclaim_created{job="kube-state-metrics"}) > 6 * 86400
+          for: 1h
+          labels:
+            severity: warning
+            category: backup
+          annotations:
+            summary: 'Longhorn volume {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} has no backup from the last 6 days'
+            description: 'The volume has never been backed up or its last backup is older than 6 days. Check the backup-default jobs (kubectl -n longhorn get jobs) and the backup target (kubectl -n longhorn get backuptargets). Back it up now: kubectl -n longhorn create job --from=cronjob/backup-default backup-default-manual'
