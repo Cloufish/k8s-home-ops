@@ -14,7 +14,7 @@ spec:
       database: paperless
       owner: paperless  # password in the generated paperless-db-app Secret
   storage:
-    storageClass: longhorn
+    storageClass: longhorn-1-replica  # Postgres replicates to the other instance itself
     size: 2Gi
   resources:
     requests:

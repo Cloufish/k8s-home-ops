@@ -5,4 +5,5 @@ resources:
   - ./cluster-issuers.yaml
   - ./kube-apiserver-kubelet-client-rbac.yaml
   - ./longhorn-encrypted-storageclass.yaml
+  - ./longhorn-replica-storageclasses.yaml
   - ./longhorn-recurring-jobs.yaml

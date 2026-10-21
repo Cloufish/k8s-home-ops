@@ -11,6 +11,7 @@ spec:
     topologyKey: kubernetes.io/hostname
     podAntiAffinityType: required
   storage:
+    storageClass: longhorn-1-replica  # Postgres replicates to the other instance itself
     size: 3Gi
   # Continuous WAL archiving and base backups to S3 (ObjectStore and ScheduledBackup in commafeed-postgresql-backups.yaml)
   plugins:

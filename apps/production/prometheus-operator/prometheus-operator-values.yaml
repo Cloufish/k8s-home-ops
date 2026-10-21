@@ -105,6 +105,18 @@ spec:
           - secretName: wildcard-${default_k8s_cert_name}
             hosts: ['prometheus.${app_k8s_domain_name}']
       prometheusSpec:
+        # Keep the TSDB across restarts; with an emptyDir every restart wiped the history and reset the `for:` timers
+        # of pending alerts. ~6k samples/s needs ~0.8GB per day, so 4GB keeps 4-5 days. The volume can be grown
+        # (allowVolumeExpansion) once Longhorn has more schedulable space; raise retentionSize with it.
+        retentionSize: 4GB
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn-2-replicas  # infrastructure/configs/longhorn-replica-storageclasses.yaml
+              accessModes: [ReadWriteOnce]
+              resources:
+                requests:
+                  storage: 5Gi
         # Pick up Probes, PrometheusRules and ScrapeConfigs from any namespace without requiring the `release` label
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
