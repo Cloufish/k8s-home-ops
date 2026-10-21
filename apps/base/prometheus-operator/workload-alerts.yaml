@@ -63,11 +63,14 @@ spec:
             summary: '{{ $labels.namespace }}/{{ $labels.pod }} is in Unknown state'
             description: 'The kubelet of its node stopped reporting. Check: kubectl get nodes'
         - alert: ServiceNoReadyEndpoints
-          # Every Endpoints object without a ready address: the Service exists but has no ready pod behind it
+          # Every Endpoints object without a ready address: the Service exists but has no ready pod behind it.
+          # Namespaces without any pod are skipped: their app was scaled to 0 on purpose (e.g. replicaCount: 0).
           expr: |
             count by (namespace, endpoint) (kube_endpoint_info{job="kube-state-metrics"})
               unless on (namespace, endpoint)
             count by (namespace, endpoint) (kube_endpoint_address{job="kube-state-metrics", ready="true"})
+              and on (namespace)
+            count by (namespace) (kube_pod_info{job="kube-state-metrics"})
           for: 5m
           labels:
             severity: warning

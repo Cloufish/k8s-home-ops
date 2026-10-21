@@ -8,3 +8,6 @@ spec:
   chart:
     spec:
       version: 5.2.0
+  values:
+    # Disabled for now: no server pod, but the world volume (PVC) is kept. Remove to start it again.
+    replicaCount: 0
