@@ -14,6 +14,7 @@ spec:
       disabled:
         KubePodCrashLooping: true
         KubePodNotReady: true
+        KubeJobFailed: true
     grafana:
       additionalDataSources:
         - name: Loki

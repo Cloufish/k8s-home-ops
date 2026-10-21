@@ -92,7 +92,8 @@ spec:
           memory: 256Mi
         limits:
           memory: 512Mi
+    # NetBox 4.x removed the `housekeeping` management command (the CronJob failed with "Unknown command"):
+    # the worker now runs housekeeping itself as a daily system job
     housekeeping:
-      enabled: true
-      timezone: Europe/Warsaw
+      enabled: false
 # For more options use helm show values oci://ghcr.io/netbox-community/netbox-chart/netbox

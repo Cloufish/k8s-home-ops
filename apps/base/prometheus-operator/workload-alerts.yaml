@@ -1,7 +1,8 @@
 ---
-# Alerts for pods stuck in CrashLoopBackOff or Pending and for Services without ready backends (ingress-nginx answers 503).
-# Metrics come from kube-state-metrics. They replace the chart's KubePodCrashLooping and KubePodNotReady
-# (defaultRules.disabled in apps/production/prometheus-operator/prometheus-operator-values.yaml), which wait 15m.
+# Alerts for pods stuck in CrashLoopBackOff or Pending, for Services without ready backends (ingress-nginx answers 503)
+# and for failed Jobs. Metrics come from kube-state-metrics. They replace the chart's KubePodCrashLooping and KubePodNotReady,
+# which wait 15m, and KubeJobFailed, which keeps firing after a later CronJob run succeeded
+# (defaultRules.disabled in apps/production/prometheus-operator/prometheus-operator-values.yaml).
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -95,3 +96,36 @@ spec:
           annotations:
             summary: 'StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} has no ready replicas'
             description: 'All {{ $value }} wanted replicas are down. Check: kubectl -n {{ $labels.namespace }} get pods'
+        - alert: CronJobLastRunFailed
+          # Only the newest Job of each CronJob counts, so a failed run stops alerting once a later run succeeds
+          # (failed Jobs stay around for failedJobsHistoryLimit runs)
+          expr: |
+            max by (namespace, owner_name, job_name) (
+              kube_job_status_start_time{job="kube-state-metrics"}
+                * on (namespace, job_name) group_left (owner_name)
+              max by (namespace, job_name, owner_name) (kube_job_owner{job="kube-state-metrics", owner_kind="CronJob"})
+            )
+              == on (namespace, owner_name) group_left ()
+            max by (namespace, owner_name) (
+              kube_job_status_start_time{job="kube-state-metrics"}
+                * on (namespace, job_name) group_left (owner_name)
+              max by (namespace, job_name, owner_name) (kube_job_owner{job="kube-state-metrics", owner_kind="CronJob"})
+            )
+              and on (namespace, job_name)
+            max by (namespace, job_name) (kube_job_failed{job="kube-state-metrics", condition="true"}) == 1
+          labels:
+            severity: warning
+          annotations:
+            summary: 'The last run of CronJob {{ $labels.namespace }}/{{ $labels.owner_name }} failed'
+            description: 'Job {{ $labels.job_name }} failed. Check: kubectl -n {{ $labels.namespace }} logs job/{{ $labels.job_name }} (or Loki, once the pods are gone). Rerun it with: kubectl -n {{ $labels.namespace }} create job --from=cronjob/{{ $labels.owner_name }} {{ $labels.owner_name }}-manual'
+        - alert: JobFailed
+          # Jobs not created by a CronJob, e.g. Helm hooks or one-off migrations
+          expr: |
+            max by (namespace, job_name) (kube_job_failed{job="kube-state-metrics", condition="true"}) == 1
+              unless on (namespace, job_name)
+            kube_job_owner{job="kube-state-metrics", owner_kind="CronJob"}
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Job {{ $labels.namespace }}/{{ $labels.job_name }} failed'
+            description: 'The Job ran out of retries. Check: kubectl -n {{ $labels.namespace }} logs job/{{ $labels.job_name }}; delete the Job once handled to resolve the alert.'
