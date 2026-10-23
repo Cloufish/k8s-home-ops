@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/lissy93/dashy
-              tag: 4.8.7@sha256:689a9a88b2368cfb7646458d176edf7fa378ad02218ef0cc8ccb53e1a8a3edbf
+              tag: 4.9.0@sha256:e8725dc24acc9a1d6f09c2ed0499b596af5a1b4eac8c83e912c213da06011356
             env:
               TZ: Europe/Warsaw
               UID: 1000
