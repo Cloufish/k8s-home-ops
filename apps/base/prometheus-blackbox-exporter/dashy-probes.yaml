@@ -200,6 +200,7 @@ spec:
         - https://audiobookshelf.${app_swarm_domain_name}/
         - https://syncthing.${app_swarm_domain_name}
         - https://podgrab-de.${app_swarm_domain_name}
+        - https://podfetch.${app_swarm_domain_name}
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Probe

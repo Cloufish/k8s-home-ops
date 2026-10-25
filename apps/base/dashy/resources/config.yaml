@@ -354,6 +354,11 @@ sections:
         icon: hl-google-podcasts
         url: https://podgrab-de.${app_swarm_domain_name}
         statusCheckAllowInsecure: true
+      - title: PodFetch
+        description: Self-hosted podcast manager and downloader
+        icon: fas fa-podcast
+        url: https://podfetch.${app_swarm_domain_name}
+        statusCheckAllowInsecure: true
   - name: Other
     items:
       - title: ChatGPT
