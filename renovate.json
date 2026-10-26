@@ -4,9 +4,9 @@
     "config:recommended"
   ], 
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "managerFilePatterns": ["/\\.yaml$/"]
   },
   "helm-values": {
-    "fileMatch": ["\\.yaml$"]
+    "managerFilePatterns": ["/\\.yaml$/"]
   }
 }
