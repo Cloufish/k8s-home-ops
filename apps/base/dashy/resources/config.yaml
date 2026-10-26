@@ -349,15 +349,15 @@ sections:
         icon: hl-syncthing
         url: https://syncthing.${app_swarm_domain_name}
         statusCheckAllowInsecure: true
-      - title: Podgrab-DE
-        description: Service to download newest German Podcast episodes
-        icon: hl-google-podcasts
-        url: https://podgrab-de.${app_swarm_domain_name}
-        statusCheckAllowInsecure: true
-      - title: PodFetch
-        description: Self-hosted podcast manager and downloader
+      - title: PodFetch (DE)
+        description: Self-hosted podcast manager and downloader for German podcasts
         icon: fas fa-podcast
-        url: https://podfetch.${app_swarm_domain_name}
+        url: https://podfetch-de.${app_swarm_domain_name}/
+        statusCheckAllowInsecure: true
+      - title: PodFetch (FR)
+        description: Self-hosted podcast manager and downloader for French podcasts
+        icon: fas fa-podcast
+        url: https://podfetch-fr.${app_swarm_domain_name}/
         statusCheckAllowInsecure: true
   - name: Other
     items:
@@ -454,4 +454,9 @@ sections:
           and much more!
         icon: hl-tdarr
         url: http://192.168.1.140:8265/
+        statusCheckAllowInsecure: true
+      - title: Unpackerr
+        description: For extracting downloaded archives so the Arr apps can import them
+        icon: hl-unpackerr
+        url: https://unpackerr.${app_swarm_domain_name}/
         statusCheckAllowInsecure: true
