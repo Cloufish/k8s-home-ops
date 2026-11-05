@@ -40,6 +40,17 @@ spec:
             ports:
               - name: http
                 containerPort: &httpPort 8000
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *httpPort
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+              readiness: *probe
             resources:
               requests:
                 cpu: 25m
