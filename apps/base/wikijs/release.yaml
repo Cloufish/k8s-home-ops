@@ -36,7 +36,7 @@ spec:
           app:
             image:
               repository: ghcr.io/requarks/wiki
-              tag: 3.1.1@sha256:cd2c88eecc17362a7a8ab81c3ec9bdb4300925bfc74e1f87dc9d393a654e5944
+              tag: 3.3.0@sha256:9cd23ece11ac49d2cbdb1d75a96224c8959a35d15b5dd969fa7fa9c325dbc357
             env:
               TZ: Europe/Warsaw
               DB_TYPE: postgres
